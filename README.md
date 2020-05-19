@@ -1,5 +1,28 @@
 # BodyBand
-Java and SQL based workout recorder
+Java and SQL based workout recorder.
+
+All JavaFX and SQLite libraries are included in this repo.
+
+## Setting up the SQLite3 driver
+
+SQLite3 driver is [here](https://bitbucket.org/xerial/sqlite-jdbc/downloads/). The SQLite browser is [here](https://sqlitebrowser.org/) with installation instructions.
+
+For BodyBand, a copy is stored in /database. In IntelliJ, click File then Project Structure and then Project Settings/Libraries. Add the SQLite JAR file.
+
+## Setting up JavaFX11 for new projects
+
+JavaFX downloads are [here](https://gluonhq.com/products/javafx/). Extract the files to a known directory and through IntelliJ add all the /lib/*.jar files to the Global Libraries. Right-click the parent project folder in IntelliJ (or just click File, Project Structure) and hit 'Open Module Settings'. Right-click 'JavaFX11' found under 'Global Settings' and 'Add to Project Libraries'. Then right click the 'src' folder and create a new module-info.java file. Add the following and save:
+
+```java
+module BodyBand {
+    requires javafx.fxml;
+    requires javafx.controls;
+
+    opens sample;
+}
+```
+
+Module in this case is the project name. The folder under the src folder was set to 'sample' (as project defaults) but can be changed there and above as required.
 
 ## Database schema
 
@@ -18,6 +41,16 @@ This table details the type of band used, sometimes characterised by a colour co
 ### Populating tblSet
 
 This table links all other tables in BodyBand and provides a unique identifier to every single 'set' (one group of repetitions). Details about date and time are automatically included in this table.
+
+![MySQL workbench schema](./database/Schema.png)
+
+The above schema was designed in MySQL workbench. The creation of the tables in SQLite using the MySQL datatypes will result in the following automatic SQLite datatype casts:
+
++ INT -> INTEGER
++ VARCHAR -> TEXT
++ DATE -> NUMERIC
+
+For this project, the SQLite datatypes are passed instead of using the MySQL datatypes.
 
 # Development outline
 
