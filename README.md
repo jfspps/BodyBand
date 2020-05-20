@@ -1,7 +1,7 @@
 # BodyBand
 Java and SQL based workout recorder.
 
-All JavaFX and SQLite libraries are included in this repo.
+The SQLite 3 libraries are included in this repo. The JavaFX 11 libraries reference to a folder elsewhere.
 
 ## Setting up the SQLite3 driver
 
