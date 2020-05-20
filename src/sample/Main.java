@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.model.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -31,9 +34,9 @@ public class Main extends Application {
             //Run SQL statements (semicolon not required) by instancing a Statement object:
             Statement statement = conn.createStatement();
             if(statement.execute("SELECT * FROM tblExercise"))
-                System.out.println("Query successful");
+                System.out.println("JDBC query returned true");
             else
-                System.out.println("No records in tblExercise");
+                System.out.println("JDBC query returned false");
 
             //release resources; alternatively use try with resources to automate this necessary step
             statement.close();
@@ -41,6 +44,25 @@ public class Main extends Application {
         } catch (SQLException e) {
             System.out.println("Could not connect to BodyBand db" + e.getMessage());
         }
+
+        bbDatabase database = new bbDatabase();
+        if(!database.open()){
+            System.out.println("Problem with opening DB queries");
+            return;
+        }
+
+        List<bbExercise> exercises = database.listAllExercises();
+        if(exercises == null){
+            System.out.println("No exercises on file");
+            return;
+        }
+        for(bbExercise exercise : exercises){
+            System.out.println("ID = " + exercise.getExerciseId() + ", Name = " + exercise.getExerciseName());
+        }
+
+        database.close();
+
+        //JavaFX
         launch(args);
     }
 }
