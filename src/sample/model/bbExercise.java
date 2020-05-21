@@ -3,10 +3,20 @@ package sample.model;
 public class bbExercise {
     private Integer exerciseId;
     private String exerciseName;
-    private Boolean anchorNeeded;
+    private String anchorNeeded;
     private String anchorHeight;
     private String anchorPosition;
     private String exerciseDesc;
+    private String videoURL;
+
+    public bbExercise(String exerciseName) {
+        this.exerciseName = exerciseName;
+        this.anchorNeeded = null;
+        this.anchorHeight = null;
+        this.anchorPosition = null;
+        this.exerciseDesc = null;
+        this.videoURL = null;
+    }
 
     public Integer getExerciseId() {
         return exerciseId;
@@ -24,11 +34,11 @@ public class bbExercise {
         this.exerciseName = exerciseName;
     }
 
-    public Boolean getAnchorNeeded() {
+    public String getAnchorNeeded() {
         return anchorNeeded;
     }
 
-    public void setAnchorNeeded(Boolean anchorNeeded) {
+    public void setAnchorNeeded(String anchorNeeded) {
         this.anchorNeeded = anchorNeeded;
     }
 
@@ -54,5 +64,13 @@ public class bbExercise {
 
     public void setExerciseDesc(String exerciseDesc) {
         this.exerciseDesc = exerciseDesc;
+    }
+
+    public String getVideoURL() {
+        return videoURL;
+    }
+
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
     }
 }

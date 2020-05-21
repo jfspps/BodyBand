@@ -1,9 +1,9 @@
 package sample.model;
 
-public class bbRepetiton {
+public class bbRepetition {
     private Integer repetitionId;
     private Integer reps;
-    private bbBandStat bandStat;
+    private Integer bandStatId; //id to the corresponding bandStat
 
     public Integer getRepetitionId() {
         return repetitionId;
@@ -21,11 +21,11 @@ public class bbRepetiton {
         this.reps = reps;
     }
 
-    public bbBandStat getBandStat() {
-        return bandStat;
+    public Integer getBandStatId() {
+        return bandStatId;
     }
 
-    public void setBandStat(bbBandStat bandStat) {
-        this.bandStat = bandStat;
+    public void setBandStatId(Integer bandStatId) {
+        this.bandStatId = bandStatId;
     }
 }

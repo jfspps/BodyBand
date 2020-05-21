@@ -16,8 +16,8 @@ CREATE TABLE tblExercise (
 	AnchorNeeded TEXT, 
 	AnchorHeight TEXT, 
 	AnchorPosition TEXT, 
-	VideoURL TEXT,
-    Description TEXT
+    Description TEXT,
+    VideoURL TEXT
 );
 
 CREATE TABLE tblRepetition (
@@ -30,8 +30,12 @@ CREATE TABLE tblRepetition (
 CREATE TABLE tblBandStat (
 	idBandStat INTEGER PRIMARY KEY AUTOINCREMENT, 
 	SingleBandTension INTEGER NOT NULL, 
-	DoubledOrNot INTEGER NOT NULL
+	DoubledOrNot INTEGER NOT NULL,
+	Units TEXT
 );
 
 -- Populate with a record. Note that due to the FK contrainsts, tblExercises and tblBandStat must be populated before tblRepetition.
-INSERT INTO tblExercise(ExerciseName, Description) VALUES("Bent-over Rowing", "Develop the lats");
+INSERT INTO tblExercise (
+	ExerciseName, Description, VideoURL
+	) VALUES(
+	"Bent-over Rowing", "Develop the lats", "https://www.youtube.com/watch?v=TE3v7CgXiiI");
