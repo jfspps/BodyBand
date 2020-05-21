@@ -5,7 +5,7 @@ public class bbSet {
     private Integer exerciseId;
     private Integer repetitionId;
     private String comments;
-    private String workoutDate;
+    private String setDate;
 
     public Integer getSetId() {
         return setId;
@@ -39,11 +39,11 @@ public class bbSet {
         this.comments = comments;
     }
 
-    public String getWorkoutDate() {
-        return workoutDate;
+    public String getSetDate() {
+        return setDate;
     }
 
-    public void setWorkoutDate(String workoutDate) {
-        this.workoutDate = workoutDate;
+    public void setSetDate(String setDate) {
+        this.setDate = setDate;
     }
 }
