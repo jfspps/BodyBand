@@ -51,6 +51,7 @@ public class Main extends Application {
             return;
         }
 
+        //a few test runs...........
         List<bbExercise> exercises = database.listAllExercises();
         if(exercises == null){
             System.out.println("No exercises on file");

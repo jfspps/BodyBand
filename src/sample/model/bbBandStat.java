@@ -3,9 +3,7 @@ package sample.model;
 public class bbBandStat {
     private Integer bandStatId;
     private Integer tension;
-    private Boolean doubledOrNot;
-
-    //not implemented by the db since it is assumed users use the same unit of mass but useful for the frontend
+    private Integer doubledOrNot;
     private String units;
 
     public Integer getBandStatId() {
@@ -24,11 +22,11 @@ public class bbBandStat {
         this.tension = tension;
     }
 
-    public Boolean getDoubledOrNot() {
+    public Integer getDoubledOrNot() {
         return doubledOrNot;
     }
 
-    public void setDoubledOrNot(Boolean doubledOrNot) {
+    public void setDoubledOrNot(Integer doubledOrNot) {
         this.doubledOrNot = doubledOrNot;
     }
 

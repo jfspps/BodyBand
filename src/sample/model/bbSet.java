@@ -2,8 +2,8 @@ package sample.model;
 
 public class bbSet {
     private Integer setId;
-    private bbExercise exercise;
-    private bbRepetiton repetitions;
+    private Integer exerciseId;
+    private Integer repetitionId;
     private String comments;
     private String workoutDate;
 
@@ -15,20 +15,20 @@ public class bbSet {
         this.setId = setId;
     }
 
-    public bbExercise getExercise() {
-        return exercise;
+    public Integer getExerciseId() {
+        return exerciseId;
     }
 
-    public void setExercise(bbExercise exercise) {
-        this.exercise = exercise;
+    public void setExerciseId(Integer exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
-    public bbRepetiton getRepetitions() {
-        return repetitions;
+    public Integer getRepetitionId() {
+        return repetitionId;
     }
 
-    public void setRepetitions(bbRepetiton repetitions) {
-        this.repetitions = repetitions;
+    public void setRepetitionId(Integer repetitionId) {
+        this.repetitionId = repetitionId;
     }
 
     public String getComments() {
