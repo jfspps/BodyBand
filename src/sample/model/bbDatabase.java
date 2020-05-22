@@ -61,6 +61,17 @@ public class bbDatabase {
     public static final String querySelectExercise = "SELECT ExerciseName, AnchorNeeded, AnchorHeight, " +
             "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND" +
             " AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? AND VideoURL = ?";
+    public static final String querySelectBandStat = "SELECT SingleBandTension, DoubledOrNot, Units FROM" +
+            " tblBandStat WHERE SingleBandTension = ? AND DoubledOrNot = ? AND Units = ?";
+    public static final String querySelectRepetition = "SELECT BandStat_id, Repetitions FROM tblRepetition " +
+            "WHERE BandStat_id = ? AND Repetitions = ?";
+    public static final String querySelectSet = "SELECT Exercise_id, Rep_id, Comments, SetDate FROM tblSet WHERE " +
+            "Exercise_id = ? AND Rep_id = ? AND Comments = ? AND SetDate = ?";
+
+    //find particular records by primary key
+    public static final String queryBandStatKey = "SELECT * FROM tblBandStat WHERE idBandStat = ?";
+    public static final String queryExerciseKey = "SELECT * FROM tblExercise WHERE idExercise = ?";
+    public static final String queryRepetitionKey = "SELECT * FROM tblRepetition WHERE idRepetition = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -70,6 +81,12 @@ public class bbDatabase {
     private PreparedStatement insertRepetition;
     private PreparedStatement insertSet;
     private PreparedStatement selectExercise;
+    private PreparedStatement selectBandStat;
+    private PreparedStatement selectRepetition;
+    private PreparedStatement selectSet;
+    private PreparedStatement selectBandStatKey;
+    private PreparedStatement selectExerciseKey;
+    private PreparedStatement selectRepetitionKey;
 
     //bbDatabase admin routines -------------------------------------------------------------
     //open() is called by main() first and sets up conn
@@ -82,6 +99,12 @@ public class bbDatabase {
             insertRepetition = conn.prepareStatement(queryInsertRepetition);
             insertSet = conn.prepareStatement(queryInsertSet);
             selectExercise = conn.prepareStatement(querySelectExercise);
+            selectBandStat = conn.prepareStatement(querySelectBandStat);
+            selectRepetition = conn.prepareStatement(querySelectRepetition);
+            selectSet = conn.prepareStatement(querySelectSet);
+            selectBandStatKey = conn.prepareStatement(queryBandStatKey);
+            selectExerciseKey = conn.prepareStatement(queryExerciseKey);
+            selectRepetitionKey = conn.prepareStatement(queryRepetitionKey);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -108,6 +131,24 @@ public class bbDatabase {
             if (selectExercise != null){
                 selectExercise.close();
             }
+            if (selectBandStat != null){
+                selectBandStat.close();
+            }
+            if (selectRepetition != null){
+                selectRepetition.close();
+            }
+            if (selectSet != null){
+                selectSet.close();
+            }
+            if (selectBandStatKey != null){
+                selectBandStatKey.close();
+            }
+            if (selectExerciseKey != null){
+                selectExerciseKey.close();
+            }
+            if (selectRepetitionKey != null){
+                selectRepetitionKey.close();
+            }
             //lastly, close conn
             if (conn != null){
                 conn.close();
@@ -121,7 +162,7 @@ public class bbDatabase {
 
     // General SQL queries (SQL to Java object) --------------------------------------------------
 
-    //tblExercise
+    //tblExercise ==============================================
     public List<bbExercise> listAllExercises() {
         //note that conn is still open after this method returns
         //'statement' and 'results' are released on return
@@ -182,7 +223,77 @@ public class bbDatabase {
         }
     }
 
-    //tblRepetition
+    public ResultSet exerciseOnFileKey(int idExercise){
+        try {
+            selectExerciseKey.setInt(1, idExercise);
+            ResultSet resultSet = selectExerciseKey.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Record with the key " + idExercise + " found");
+                return resultSet;
+            } else {
+                System.out.println("No record with the key " + idExercise + " found");
+                return null;
+            }
+        } catch (SQLException e){
+            System.out.println("Problem with querying tblExercise:\n" + e.getMessage());
+            return null;
+        }
+    }
+
+    //tblBandStat ==========================================
+    public List<bbBandStat> listAllBandstats() {
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(querySelectAllBandStats)) {
+            List<bbBandStat> bandStats = new ArrayList<>();
+
+            while (results.next()) {
+                bbBandStat bandStat = new bbBandStat();
+                bandStat.setBandStatId(results.getInt(BandStatIdINDEX));
+                bandStat.setTension(results.getInt(BandStatSingleBandTensionINDEX));
+                bandStat.setDoubledOrNot(results.getString(BandStatDoubledOrNotINDEX));
+                bandStat.setUnits(results.getString(BandStatUnitsINDEX));
+                bandStats.add(bandStat);
+            }
+            return bandStats;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblBandStat://n" + e.getMessage());
+            return null;
+        }
+    }
+
+    public int bandStatOnFile(int tension, String doubledOrNot, String units){
+        try {
+            selectBandStat.setInt(1, tension);
+            selectBandStat.setString(2, doubledOrNot);
+            selectBandStat.setString(3, units);
+
+            //returns the rows with this record
+            ResultSet resultSet = selectBandStat.executeQuery();
+            int rowCount = 0;
+            while (resultSet.next()) {
+                rowCount++;
+            }
+            System.out.println(rowCount + " records found");
+
+            if(rowCount > 0){
+                System.out.println("Band stat already on file");
+                resultSet.close();
+                return rowCount;
+            } else if(rowCount == 0)
+            {
+                System.out.println("Band stat not on file");
+                resultSet.close();
+                return 0;
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("Problem with querying tblBandStat:\n" + e.getMessage());
+            return -1;
+        }
+    }
+
+    //tblRepetition ===========================================
     public List<bbRepetition> listAllRepetitions() {
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(querySelectAllRepetitions)) {
@@ -202,24 +313,36 @@ public class bbDatabase {
         }
     }
 
-    //tblBandStat
-    public List<bbBandStat> listAllBandstats() {
-        try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(querySelectAllBandStats)) {
-            List<bbBandStat> bandStats = new ArrayList<>();
+    public int repetitionOnFile(int bandStatId, int repetitions){
+        //compared to other query methods, repetitionOnFile also checks tblBandStat
 
-            while (results.next()) {
-                bbBandStat bandStat = new bbBandStat();
-                bandStat.setBandStatId(results.getInt(BandStatIdINDEX));
-                bandStat.setTension(results.getInt(BandStatSingleBandTensionINDEX));
-                bandStat.setDoubledOrNot(results.getInt(BandStatDoubledOrNotINDEX));
-                bandStat.setUnits(results.getString(BandStatUnitsINDEX));
-                bandStats.add(bandStat);
+
+        try {
+            selectRepetition.setInt(1, bandStatId);
+            selectRepetition.setInt(2, repetitions);
+
+            //returns the rows with this record
+            ResultSet resultSet = selectRepetition.executeQuery();
+            int rowCount = 0;
+            while (resultSet.next()) {
+                rowCount++;
             }
-            return bandStats;
+            System.out.println(rowCount + " records found");
+
+            if(rowCount > 0){
+                System.out.println("Repetitions already on file");
+                resultSet.close();
+                return rowCount;
+            } else if(rowCount == 0)
+            {
+                System.out.println("Repetitions not on file");
+                resultSet.close();
+                return 0;
+            }
+            return -1;
         } catch (SQLException e) {
-            System.out.println("JDBC connection error to tblBandStat://n" + e.getMessage());
-            return null;
+            System.out.println("Problem with querying tblRepetitions:\n" + e.getMessage());
+            return -1;
         }
     }
 
@@ -243,6 +366,38 @@ public class bbDatabase {
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblSet:\n" + e.getMessage());
             return null;
+        }
+    }
+
+    public int setOnFile(int exerciseId, int repId, String comments, String setDate){
+        try {
+            selectSet.setInt(1, exerciseId);
+            selectSet.setInt(2, repId);
+            selectSet.setString(3, comments);
+            selectSet.setString(4, setDate);
+
+            //returns the rows with this record
+            ResultSet resultSet = selectSet.executeQuery();
+            int rowCount = 0;
+            while (resultSet.next()) {
+                rowCount++;
+            }
+            System.out.println(rowCount + " records found");
+
+            if(rowCount > 0){
+                System.out.println("Set is already on file");
+                resultSet.close();
+                return rowCount;
+            } else if(rowCount == 0)
+            {
+                System.out.println("Set not on file");
+                resultSet.close();
+                return 0;
+            }
+            return -1;
+        } catch (SQLException e) {
+            System.out.println("Problem with querying tblSet:\n" + e.getMessage());
+            return -1;
         }
     }
 

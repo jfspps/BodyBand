@@ -3,7 +3,7 @@ package sample.model;
 public class bbBandStat {
     private Integer bandStatId;
     private Integer tension;
-    private Integer doubledOrNot;
+    private String doubledOrNot;
     private String units;
 
     public Integer getBandStatId() {
@@ -22,11 +22,11 @@ public class bbBandStat {
         this.tension = tension;
     }
 
-    public Integer getDoubledOrNot() {
+    public String getDoubledOrNot() {
         return doubledOrNot;
     }
 
-    public void setDoubledOrNot(Integer doubledOrNot) {
+    public void setDoubledOrNot(String doubledOrNot) {
         this.doubledOrNot = doubledOrNot;
     }
 
