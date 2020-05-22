@@ -129,29 +129,29 @@ public class bbDatabase {
             if (insertSet != null) {
                 insertSet.close();
             }
-            if (selectExercise != null){
+            if (selectExercise != null) {
                 selectExercise.close();
             }
-            if (selectBandStat != null){
+            if (selectBandStat != null) {
                 selectBandStat.close();
             }
-            if (selectRepetition != null){
+            if (selectRepetition != null) {
                 selectRepetition.close();
             }
-            if (selectSet != null){
+            if (selectSet != null) {
                 selectSet.close();
             }
-            if (selectBandStatKey != null){
+            if (selectBandStatKey != null) {
                 selectBandStatKey.close();
             }
-            if (selectExerciseKey != null){
+            if (selectExerciseKey != null) {
                 selectExerciseKey.close();
             }
-            if (selectRepetitionKey != null){
+            if (selectRepetitionKey != null) {
                 selectRepetitionKey.close();
             }
             //lastly, close conn
-            if (conn != null){
+            if (conn != null) {
                 conn.close();
             }
             return true;
@@ -190,7 +190,7 @@ public class bbDatabase {
     }
 
     public int exerciseOnFile(String name, String anchorNeeded, String anchorHeight, String anchorPosition,
-                                  String desc, String videoURL){
+                              String desc, String videoURL) {
         try {
             selectExercise.setString(1, name);
             selectExercise.setString(2, anchorNeeded);
@@ -206,11 +206,11 @@ public class bbDatabase {
                 rowCount++;
             }
 
-            if(rowCount > 0){
+            if (rowCount > 0) {
 //                System.out.println(name + " is already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0) {
+            } else if (rowCount == 0) {
 //                System.out.println(name + " not on file");
                 resultSet.close();
                 return 0;
@@ -222,7 +222,7 @@ public class bbDatabase {
         }
     }
 
-    public ResultSet exerciseOnFileKey(int idExercise){
+    public ResultSet exerciseOnFileKey(int idExercise) {
 //        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
             selectExerciseKey.setInt(1, idExercise);
@@ -235,7 +235,7 @@ public class bbDatabase {
                 System.out.println("No record with the key " + idExercise + " found");
                 return null;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Problem with querying tblExercise:\n" + e.getMessage());
             return null;
         }
@@ -262,7 +262,7 @@ public class bbDatabase {
         }
     }
 
-    public int bandStatOnFile(int tension, String doubledOrNot, String units){
+    public int bandStatOnFile(int tension, String doubledOrNot, String units) {
         try {
             selectBandStat.setInt(1, tension);
             selectBandStat.setString(2, doubledOrNot);
@@ -275,11 +275,11 @@ public class bbDatabase {
                 rowCount++;
             }
 
-            if(rowCount > 0){
+            if (rowCount > 0) {
 //                System.out.println("Band stat already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0) {
+            } else if (rowCount == 0) {
 //                System.out.println("Band stat not on file");
                 resultSet.close();
                 return 0;
@@ -291,7 +291,7 @@ public class bbDatabase {
         }
     }
 
-    public ResultSet bandStatOnFileKey(int idBandStat){
+    public ResultSet bandStatOnFileKey(int idBandStat) {
 //        System.out.println("Trying to find exercise with id = " + idBandStat);
         try {
             selectBandStatKey.setInt(1, idBandStat);
@@ -304,7 +304,7 @@ public class bbDatabase {
                 System.out.println("No record with the key " + idBandStat + " found");
                 return null;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Problem with querying tblBandStat:\n" + e.getMessage());
             return null;
         }
@@ -330,14 +330,14 @@ public class bbDatabase {
         }
     }
 
-    public int repetitionOnFile(int bandStatId, int repetitions){
+    public int repetitionOnFile(int bandStatId, int repetitions) {
         //compared to other query methods, repetitionOnFile also checks tblBandStat using bandStatOnFileKey(int idBandStat)
-        try (ResultSet bandStatPack = bandStatOnFileKey(bandStatId)){
-            if (bandStatPack == null){
+        try (ResultSet bandStatPack = bandStatOnFileKey(bandStatId)) {
+            if (bandStatPack == null) {
                 System.out.println("The given bandStatId, " + bandStatId + ", is not found");
                 return -1;
             }
-        } catch (SQLException err){
+        } catch (SQLException err) {
             System.out.println("Error with bandStatId in repetition parameter list\n" + err.getMessage());
         }
 
@@ -352,11 +352,11 @@ public class bbDatabase {
                 rowCount++;
             }
 
-            if(rowCount > 0){
+            if (rowCount > 0) {
 //                System.out.println("Repetitions already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0) {
+            } else if (rowCount == 0) {
 //                System.out.println("Repetitions not on file");
                 resultSet.close();
                 return 0;
@@ -368,7 +368,7 @@ public class bbDatabase {
         }
     }
 
-    public ResultSet repetitionOnFileKey(int idRepetition){
+    public ResultSet repetitionOnFileKey(int idRepetition) {
 //        System.out.println("Trying to find exercise with id = " + idRepetition);
         try {
             selectRepetitionKey.setInt(1, idRepetition);
@@ -381,7 +381,7 @@ public class bbDatabase {
                 System.out.println("No record with the key " + idRepetition + " found");
                 return null;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Problem with querying tblRepetition:\n" + e.getMessage());
             return null;
         }
@@ -410,7 +410,7 @@ public class bbDatabase {
         }
     }
 
-    public int setOnFile(int exerciseId, int repId, String comments, String setDate){
+    public int setOnFile(int exerciseId, int repId, String comments, String setDate) {
         try {
             selectSet.setInt(1, exerciseId);
             selectSet.setInt(2, repId);
@@ -424,11 +424,11 @@ public class bbDatabase {
                 rowCount++;
             }
 
-            if(rowCount > 0){
+            if (rowCount > 0) {
 //                System.out.println("Set is already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0) {
+            } else if (rowCount == 0) {
 //                System.out.println("Set not on file");
                 resultSet.close();
                 return 0;
@@ -445,10 +445,10 @@ public class bbDatabase {
     //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
 
     public int insertNewExercise(String name, String anchorNeeded, String anchorHeight, String anchorPosition,
-                                  String desc, String videoURL) {
+                                 String desc, String videoURL) {
         //check if the exercise already exists (returns 0 if none, and 1 if present)
-        int index = exerciseOnFile(name, anchorNeeded,anchorHeight, anchorPosition, desc, videoURL);
-        if (index == 1){
+        int index = exerciseOnFile(name, anchorNeeded, anchorHeight, anchorPosition, desc, videoURL);
+        if (index == 1) {
             System.out.println(name + " already exists on file. No further changes made.");
             return -1;
         }
@@ -471,7 +471,7 @@ public class bbDatabase {
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertExercise.executeUpdate();
 
-            if(insertedRecord != 1){
+            if (insertedRecord != 1) {
                 throw new SQLException("Could not insert exercise");
             }
 
@@ -479,7 +479,7 @@ public class bbDatabase {
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertExercise.getGeneratedKeys();
-            if(generatedKeys.next()) {
+            if (generatedKeys.next()) {
                 System.out.println(name + " id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
@@ -495,14 +495,14 @@ public class bbDatabase {
     public int insertNewBandStat(int singleBandTension, String doubledOrNot, String units) {
         //check if the BandStat already exists (returns 0 if none, and 1 if present)
         int index = bandStatOnFile(singleBandTension, doubledOrNot, units);
-        if (index == 1){
+        if (index == 1) {
             System.out.println(singleBandTension + " " + units + ", doubled:" + doubledOrNot + ", already on" +
                     " file, no further changes made.");
             return -1;
         }
 
         //testing for null is eventually handled by the controller and used here for test purposes
-        if (singleBandTension <=0) {
+        if (singleBandTension <= 0) {
             System.out.println("Band tension needed");
             return -1;
         }
@@ -516,14 +516,14 @@ public class bbDatabase {
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertBandStat.executeUpdate();
 
-            if(insertedRecord != 1){
+            if (insertedRecord != 1) {
                 throw new SQLException("Could not insert Band stat");
             }
 //            System.out.println("New band stat added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertBandStat.getGeneratedKeys();
-            if(generatedKeys.next()) {
+            if (generatedKeys.next()) {
                 System.out.println("New band stat id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
@@ -538,18 +538,18 @@ public class bbDatabase {
 
     public int insertNewRepetition(int bandStatId, int repetitions) {
         //check if band stat from tblBandStat actually exists
-        try (ResultSet band = bandStatOnFileKey(bandStatId)){
-            if(band == null){
+        try (ResultSet band = bandStatOnFileKey(bandStatId)) {
+            if (band == null) {
                 System.out.println("The bandStat with id " + bandStatId + " is not in its table");
                 return -1;
             }
-        } catch (SQLException err){
+        } catch (SQLException err) {
             System.out.println("Problem finding bandStat in tblBandStat with given ID\n" + err.getMessage());
         }
 
         //check if the Repetition already exists in tblRepetition (returns 0 if none, and 1 if present)
         int index = repetitionOnFile(bandStatId, repetitions);
-        if (index == 1){
+        if (index == 1) {
             System.out.println(repetitions + " with band stat " + bandStatId + " already exists on " +
                     "file, no further changes made.");
             return -1;
@@ -573,14 +573,14 @@ public class bbDatabase {
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertRepetition.executeUpdate();
 
-            if(insertedRecord != 1){
+            if (insertedRecord != 1) {
                 throw new SQLException("Could not insert rep record");
             }
 //            System.out.println("New rep added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertRepetition.getGeneratedKeys();
-            if(generatedKeys.next()) {
+            if (generatedKeys.next()) {
                 System.out.println("New rep id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
@@ -595,28 +595,28 @@ public class bbDatabase {
 
     public int insertNewSet(int exerciseId, int repId, String comments, String setDate) {
         //check if exercise from tblExercise actually exists
-        try (ResultSet exercise = exerciseOnFileKey(exerciseId)){
-            if(exercise == null){
+        try (ResultSet exercise = exerciseOnFileKey(exerciseId)) {
+            if (exercise == null) {
                 System.out.println("The exercise with id " + exerciseId + " is not in its table");
                 return -1;
             }
-        } catch (SQLException err){
+        } catch (SQLException err) {
             System.out.println("Problem finding exercise in tblExercise with given ID\n" + err.getMessage());
         }
 
         //check if repetition from tblRepetition actually exists
-        try (ResultSet repetition = repetitionOnFileKey(repId)){
-            if(repetition == null){
+        try (ResultSet repetition = repetitionOnFileKey(repId)) {
+            if (repetition == null) {
                 System.out.println("The repetition with id " + repId + " is not in its table");
                 return -1;
             }
-        } catch (SQLException err){
+        } catch (SQLException err) {
             System.out.println("Problem finding repetition in tblRepetition with given ID\n" + err.getMessage());
         }
 
         //check if the set already exists in tblSet (returns 0 if none, and 1 if present)
         int index = setOnFile(exerciseId, repId, comments, setDate);
-        if (index == 1){
+        if (index == 1) {
             System.out.println("This set dated " + setDate + " already on file, no further changes made.");
             return -1;
         }
@@ -645,14 +645,14 @@ public class bbDatabase {
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertSet.executeUpdate();
 
-            if(insertedRecord != 1){
+            if (insertedRecord != 1) {
                 throw new SQLException("Could not insert set record");
             }
 //            System.out.println("New set added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertSet.getGeneratedKeys();
-            if(generatedKeys.next()) {
+            if (generatedKeys.next()) {
                 System.out.println("New set id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {

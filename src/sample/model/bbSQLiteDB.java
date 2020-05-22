@@ -58,5 +58,4 @@ public class bbSQLiteDB {
             return false;
         }
     }
-
 }
