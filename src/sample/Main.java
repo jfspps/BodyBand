@@ -24,7 +24,6 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
 
         //connect to SQLite via JDBC
@@ -65,9 +64,7 @@ public class Main extends Application {
                     "DoubledOrNot INTEGER NOT NULL," +
                     "Units TEXT" +
                     ")");
-
-            statement.execute("DELETE FROM tblExercise");
-
+            
             statement.execute("INSERT INTO tblExercise (" +
                     "ExerciseName, Description, VideoURL" +
                     ") VALUES(" +
@@ -100,11 +97,17 @@ public class Main extends Application {
             + " video: " + exercise.getVideoURL());
         }
 
-        //try inserting data
-        System.out.println("Attempting to insert new exercise");
-        int index = database.insertNewExercise("Chest Press", null, null, null, null, "someURL");
-        if(index > 0)
-            System.out.println("New exercise uploaded, at index " + index);
+        //check a record does not already exist
+        int newExercise = database.exerciseOnFile("Chest Press", "", "", "", "", "someURL");
+        System.out.println("Found " + newExercise);
+        if(newExercise == 0){
+            System.out.println("Attempting to insert new record");
+            int index = database.insertNewExercise("Chest Press", "", "", "", "", "someURL");
+            if(index > 0)
+                System.out.println("New exercise uploaded, at index " + index);
+        } else if (newExercise == -1) {
+            System.out.println("Error with querying the database");
+        }
 
         //print them out again:
         System.out.println("Here is the latest list of exercises available:");
