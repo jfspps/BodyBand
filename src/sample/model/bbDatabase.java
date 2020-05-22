@@ -1,5 +1,6 @@
 package sample.model;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -204,26 +205,25 @@ public class bbDatabase {
             while (resultSet.next()) {
                 rowCount++;
             }
-            System.out.println(rowCount + " records found");
 
             if(rowCount > 0){
-                System.out.println("Exercise is already on file");
+//                System.out.println(name + " is already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0)
-            {
-                System.out.println("Exercise not on file");
+            } else if(rowCount == 0) {
+//                System.out.println(name + " not on file");
                 resultSet.close();
                 return 0;
             }
             return -1;
         } catch (SQLException e) {
-            System.out.println("Problem with querying tblExercise:\n" + e.getMessage());
+            System.out.println("onFile problem querying tblExercise:\n" + e.getMessage());
             return -1;
         }
     }
 
     public ResultSet exerciseOnFileKey(int idExercise){
+//        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
             selectExerciseKey.setInt(1, idExercise);
             ResultSet resultSet = selectExerciseKey.executeQuery();
@@ -257,7 +257,7 @@ public class bbDatabase {
             }
             return bandStats;
         } catch (SQLException e) {
-            System.out.println("JDBC connection error to tblBandStat://n" + e.getMessage());
+            System.out.println("JDBC connection error to tblBandStat:\n" + e.getMessage());
             return null;
         }
     }
@@ -274,22 +274,39 @@ public class bbDatabase {
             while (resultSet.next()) {
                 rowCount++;
             }
-            System.out.println(rowCount + " records found");
 
             if(rowCount > 0){
-                System.out.println("Band stat already on file");
+//                System.out.println("Band stat already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0)
-            {
-                System.out.println("Band stat not on file");
+            } else if(rowCount == 0) {
+//                System.out.println("Band stat not on file");
                 resultSet.close();
                 return 0;
             }
             return -1;
         } catch (SQLException e) {
-            System.out.println("Problem with querying tblBandStat:\n" + e.getMessage());
+            System.out.println("onFile problem querying tblBandStat:\n" + e.getMessage());
             return -1;
+        }
+    }
+
+    public ResultSet bandStatOnFileKey(int idBandStat){
+//        System.out.println("Trying to find exercise with id = " + idBandStat);
+        try {
+            selectBandStatKey.setInt(1, idBandStat);
+            ResultSet resultSet = selectBandStatKey.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Record with the key " + idBandStat + " found");
+                return resultSet;
+            } else {
+                System.out.println("No record with the key " + idBandStat + " found");
+                return null;
+            }
+        } catch (SQLException e){
+            System.out.println("Problem with querying tblBandStat:\n" + e.getMessage());
+            return null;
         }
     }
 
@@ -314,8 +331,15 @@ public class bbDatabase {
     }
 
     public int repetitionOnFile(int bandStatId, int repetitions){
-        //compared to other query methods, repetitionOnFile also checks tblBandStat
-
+        //compared to other query methods, repetitionOnFile also checks tblBandStat using bandStatOnFileKey(int idBandStat)
+        try (ResultSet bandStatPack = bandStatOnFileKey(bandStatId)){
+            if (bandStatPack == null){
+                System.out.println("The given bandStatId, " + bandStatId + ", is not found");
+                return -1;
+            }
+        } catch (SQLException err){
+            System.out.println("Error with bandStatId in repetition parameter list\n" + err.getMessage());
+        }
 
         try {
             selectRepetition.setInt(1, bandStatId);
@@ -327,22 +351,39 @@ public class bbDatabase {
             while (resultSet.next()) {
                 rowCount++;
             }
-            System.out.println(rowCount + " records found");
 
             if(rowCount > 0){
-                System.out.println("Repetitions already on file");
+//                System.out.println("Repetitions already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0)
-            {
-                System.out.println("Repetitions not on file");
+            } else if(rowCount == 0) {
+//                System.out.println("Repetitions not on file");
                 resultSet.close();
                 return 0;
             }
             return -1;
         } catch (SQLException e) {
-            System.out.println("Problem with querying tblRepetitions:\n" + e.getMessage());
+            System.out.println("on File problem querying tblRepetitions:\n" + e.getMessage());
             return -1;
+        }
+    }
+
+    public ResultSet repetitionOnFileKey(int idRepetition){
+//        System.out.println("Trying to find exercise with id = " + idRepetition);
+        try {
+            selectRepetitionKey.setInt(1, idRepetition);
+            ResultSet resultSet = selectRepetitionKey.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Record with the key " + idRepetition + " found");
+                return resultSet;
+            } else {
+                System.out.println("No record with the key " + idRepetition + " found");
+                return null;
+            }
+        } catch (SQLException e){
+            System.out.println("Problem with querying tblRepetition:\n" + e.getMessage());
+            return null;
         }
     }
 
@@ -382,31 +423,36 @@ public class bbDatabase {
             while (resultSet.next()) {
                 rowCount++;
             }
-            System.out.println(rowCount + " records found");
 
             if(rowCount > 0){
-                System.out.println("Set is already on file");
+//                System.out.println("Set is already on file");
                 resultSet.close();
                 return rowCount;
-            } else if(rowCount == 0)
-            {
-                System.out.println("Set not on file");
+            } else if(rowCount == 0) {
+//                System.out.println("Set not on file");
                 resultSet.close();
                 return 0;
             }
             return -1;
         } catch (SQLException e) {
-            System.out.println("Problem with querying tblSet:\n" + e.getMessage());
+            System.out.println("on File problem querying tblSet:\n" + e.getMessage());
             return -1;
         }
     }
 
-    // Insertion methods -------------return value is the index of the inserted record---------------------
+    // Insertion methods -------------return value is the index of the inserted record---------------------------------
 
-    //the GUI would read all given values on a form, verify the correct Java type and then assign null to blank entries
+    //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
 
     public int insertNewExercise(String name, String anchorNeeded, String anchorHeight, String anchorPosition,
                                   String desc, String videoURL) {
+        //check if the exercise already exists (returns 0 if none, and 1 if present)
+        int index = exerciseOnFile(name, anchorNeeded,anchorHeight, anchorPosition, desc, videoURL);
+        if (index == 1){
+            System.out.println(name + " already exists on file. No further changes made.");
+            return -1;
+        }
+
         //testing for null is eventually handled by the controller and used here for test purposes
         if (name == null) {
             System.out.println("Name of exercise needed");
@@ -429,37 +475,42 @@ public class bbDatabase {
                 throw new SQLException("Could not insert exercise");
             }
 
+//            System.out.println("New exercise added, getting the ID...");
+
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertExercise.getGeneratedKeys();
             if(generatedKeys.next()) {
+                System.out.println(name + " id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
-                throw new SQLException("Could not get ID for new exercise");
+                throw new SQLException("Could not get ID for new exercise, " + name);
             }
         } catch (SQLException err) {
-            System.out.println("Error with inserting record");
+            System.out.println("Error with inserting exercise\n" + err.getMessage());
             //one can conn.rollback() in another try-catch block
             return -1;
         }
     }
 
-    public int insertNewBandStat(Integer singleBandTension, Integer doubledOrNot, String units) {
-        //testing for null is eventually handled by the controller and used here for test purposes
-        if (singleBandTension == null) {
-            System.out.println("Band tension needed");
-            return -1;
-        }
-        if (doubledOrNot == 0) {
-            System.out.println("Doubling info needed");
+    public int insertNewBandStat(int singleBandTension, String doubledOrNot, String units) {
+        //check if the BandStat already exists (returns 0 if none, and 1 if present)
+        int index = bandStatOnFile(singleBandTension, doubledOrNot, units);
+        if (index == 1){
+            System.out.println(singleBandTension + " " + units + ", doubled:" + doubledOrNot + ", already on" +
+                    " file, no further changes made.");
             return -1;
         }
 
-        //include code to check if the record already exists
+        //testing for null is eventually handled by the controller and used here for test purposes
+        if (singleBandTension <=0) {
+            System.out.println("Band tension needed");
+            return -1;
+        }
 
         try {
             //PreparedStatements only allow for one value per placeholder ?
             insertBandStat.setInt(1, singleBandTension);
-            insertBandStat.setInt(2, doubledOrNot);
+            insertBandStat.setString(2, doubledOrNot);
             insertBandStat.setString(3, units);
 
             //store the expected return (1) if one row was inserted
@@ -468,35 +519,51 @@ public class bbDatabase {
             if(insertedRecord != 1){
                 throw new SQLException("Could not insert Band stat");
             }
+//            System.out.println("New band stat added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertBandStat.getGeneratedKeys();
             if(generatedKeys.next()) {
+                System.out.println("New band stat id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
                 throw new SQLException("Could not get ID for new band stat");
             }
         } catch (SQLException err) {
-            System.out.println("Error with inserting record");
+            System.out.println("Error with inserting new BandStat\n" + err.getMessage());
             //one can conn.rollback() in another try-catch block
             return -1;
         }
     }
 
-    public int insertNewRepetition(Integer bandStatId, Integer repetitions) {
+    public int insertNewRepetition(int bandStatId, int repetitions) {
+        //check if band stat from tblBandStat actually exists
+        try (ResultSet band = bandStatOnFileKey(bandStatId)){
+            if(band == null){
+                System.out.println("The bandStat with id " + bandStatId + " is not in its table");
+                return -1;
+            }
+        } catch (SQLException err){
+            System.out.println("Problem finding bandStat in tblBandStat with given ID\n" + err.getMessage());
+        }
+
+        //check if the Repetition already exists in tblRepetition (returns 0 if none, and 1 if present)
+        int index = repetitionOnFile(bandStatId, repetitions);
+        if (index == 1){
+            System.out.println(repetitions + " with band stat " + bandStatId + " already exists on " +
+                    "file, no further changes made.");
+            return -1;
+        }
+
         //testing for null is eventually handled by the controller and used here for test purposes
-        if (bandStatId == null) {
-            System.out.println("Band stat info needed");
+        if (bandStatId == 0) {
+            System.out.println("Band stat info needed ( >=1 )");
             return -1;
         }
         if (repetitions == 0) {
-            System.out.println("Rep count needed");
+            System.out.println("Rep count needed ( >=1 )");
             return -1;
         }
-
-        //include code to check if the record already exists
-
-        //include code which looks up the correct BandStat
 
         try {
             //PreparedStatements only allow for one value per placeholder ?
@@ -509,29 +576,58 @@ public class bbDatabase {
             if(insertedRecord != 1){
                 throw new SQLException("Could not insert rep record");
             }
+//            System.out.println("New rep added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertRepetition.getGeneratedKeys();
             if(generatedKeys.next()) {
+                System.out.println("New rep id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
                 throw new SQLException("Could not get ID for new rep record");
             }
         } catch (SQLException err) {
-            System.out.println("Error with inserting record");
+            System.out.println("Error with inserting repetition\n" + err.getMessage());
             //one can conn.rollback() in another try-catch block
             return -1;
         }
     }
 
-    public int insertNewSet(Integer exerciseId, Integer repId, String comments, String setDate) {
+    public int insertNewSet(int exerciseId, int repId, String comments, String setDate) {
+        //check if exercise from tblExercise actually exists
+        try (ResultSet exercise = exerciseOnFileKey(exerciseId)){
+            if(exercise == null){
+                System.out.println("The exercise with id " + exerciseId + " is not in its table");
+                return -1;
+            }
+        } catch (SQLException err){
+            System.out.println("Problem finding exercise in tblExercise with given ID\n" + err.getMessage());
+        }
+
+        //check if repetition from tblRepetition actually exists
+        try (ResultSet repetition = repetitionOnFileKey(repId)){
+            if(repetition == null){
+                System.out.println("The repetition with id " + repId + " is not in its table");
+                return -1;
+            }
+        } catch (SQLException err){
+            System.out.println("Problem finding repetition in tblRepetition with given ID\n" + err.getMessage());
+        }
+
+        //check if the set already exists in tblSet (returns 0 if none, and 1 if present)
+        int index = setOnFile(exerciseId, repId, comments, setDate);
+        if (index == 1){
+            System.out.println("This set dated " + setDate + " already on file, no further changes made.");
+            return -1;
+        }
+
         //testing for null is eventually handled by the controller and used here for test purposes
-        if (exerciseId == null) {
-            System.out.println("Exercise info needed");
+        if (exerciseId == 0) {
+            System.out.println("Exercise info needed ( >0 )");
             return -1;
         }
         if (repId == 0) {
-            System.out.println("Rep info needed");
+            System.out.println("Rep info needed ( >0 )");
             return -1;
         }
         if (setDate == null) {
@@ -539,33 +635,31 @@ public class bbDatabase {
             return -1;
         }
 
-        //include code to check if the record already exists
-
-        //include code which looks up the correct IDs for exercises and reps
-
         try {
             //PreparedStatements only allow for one value per placeholder ?
             insertSet.setInt(1, exerciseId);
             insertSet.setInt(2, repId);
-            insertSet.setString(1, comments);
-            insertSet.setString(2, setDate);
+            insertSet.setString(3, comments);
+            insertSet.setString(4, setDate);
 
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertSet.executeUpdate();
 
             if(insertedRecord != 1){
-                throw new SQLException("Could not insert rep record");
+                throw new SQLException("Could not insert set record");
             }
+//            System.out.println("New set added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertSet.getGeneratedKeys();
             if(generatedKeys.next()) {
+                System.out.println("New set id: " + generatedKeys.getInt(1));
                 return generatedKeys.getInt(1);
             } else {
                 throw new SQLException("Could not get ID for new set record");
             }
         } catch (SQLException err) {
-            System.out.println("Error with inserting record");
+            System.out.println("Error with inserting set\n" + err.getMessage());
             //one can conn.rollback() in another try-catch block
             return -1;
         }

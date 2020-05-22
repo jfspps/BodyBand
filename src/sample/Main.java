@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.model.bbDatabase;
 import sample.model.bbExercise;
+import sample.model.bbSQLiteDB;
 
 import java.sql.*;
 import java.util.List;
@@ -23,60 +24,18 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        //connect to SQLite via JDBC
-        try {
-            //we use DriverManager instead of DataSource objects (DataSource is more apt for Enterprise apps)
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:./bodyband.db");
-            //Run SQL statements (semicolon not required) by instancing a Statement object:
-            Statement statement = conn.createStatement();
+        //build the SQLite db (comment out if needed)
+        bbSQLiteDB sqlLiteDB = new bbSQLiteDB();
+        sqlLiteDB.buildDB();
 
-            //use IF NOT EXISTS to retain previous table + data
-            statement.execute("CREATE TABLE IF NOT EXISTS tblSet (" +
-                    "idSet INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "Exercise_id INTEGER NOT NULL, " +
-                    "Rep_id INTEGER NOT NULL, " +
-                    "Comments TEXT, " +
-                    "SetDate NUMERIC NOT NULL," +
-                    "FOREIGN KEY(Exercise_id) REFERENCES tblExercise(idExercise)," +
-                    "FOREIGN KEY(Rep_id) REFERENCES tblRepetition(idRepetition)" +
-                    ")");
-            statement.execute("CREATE TABLE IF NOT EXISTS tblExercise (" +
-                    "idExercise INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "    ExerciseName TEXT NOT NULL, " +
-                    "AnchorNeeded TEXT, " +
-                    "AnchorHeight TEXT, " +
-                    "AnchorPosition TEXT, " +
-                    "    Description TEXT," +
-                    "    VideoURL TEXT" +
-                    ")");
-            statement.execute("CREATE TABLE IF NOT EXISTS tblRepetition (" +
-                    "idRepetition INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "BandStat_id INTEGER NOT NULL, " +
-                    "Repetitions INTEGER NOT NULL," +
-                    "FOREIGN KEY(BandStat_id) REFERENCES tblBandStat(idBandStat)" +
-                    ")");
-            statement.execute("CREATE TABLE IF NOT EXISTS tblBandStat (" +
-                    "idBandStat INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "SingleBandTension INTEGER NOT NULL, " +
-                    "DoubledOrNot TEXT NOT NULL," +
-                    "Units TEXT" +
-                    ")");
-
-            //release resources; alternatively use try with resources to automate this necessary step
-            statement.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println("Could not connect to BodyBand db" + e.getMessage());
-        }
-
+        //attempt to connect to and verify PreparedStatements of "database"
         bbDatabase database = new bbDatabase();
-        //attempt to connect to the database
         if (!database.open()) {
             System.out.println("Problem with opening DB queries");
             return;
         }
 
-        //work with "database" ------------------------------------------------------------------
+        //work with "database" -------------------------------------------------------------------------------
 
         //view all exercises
         List<bbExercise> initialExercises = database.listAllExercises();
@@ -89,25 +48,24 @@ public class Main extends Application {
             }
         }
 
-        //add an exercise without checking
+        //add an exercise without checking (note the order: exercise, band stat, repetition then set
         database.insertNewExercise("Bent-over Rowing", "", "", "", "Develop the lats", "https://www.youtube.com/watch?v=TE3v7CgXiiI");
+        database.insertNewBandStat(18, "n", "pounds");
+        database.insertNewBandStat(13, "n", "pounds");
+        database.insertNewRepetition(1, 8);
+        database.insertNewRepetition(1, 7);
+        database.insertNewRepetition(2, 9);
+        database.insertNewSet(1, 1, "Need to work on form", "10.3.20");
+        database.insertNewSet(1, 2, "", "10.3.20");
+        database.insertNewSet(1, 3, "", "10.3.20");
 
-        //check a record does not already exist
-        int newExercise = database.exerciseOnFile("Chest Press", "", "", "", "", "someURL");
-        System.out.println("Found " + newExercise);
-        if(newExercise == 0){
-            System.out.println("Attempting to insert new record");
-            int index = database.insertNewExercise("Chest Press", "", "", "", "", "someURL");
-            if(index > 0)
-                System.out.println("New exercise uploaded, at index " + index);
-        } else if (newExercise == -1) {
-            System.out.println("Error with querying the database");
-        }
+        //try to insert a new exercise record (automatically checks if one exists)
+        database.insertNewExercise("Chest Press", "", "", "", "", "someURL");
 
         //check a record exists by ID (key)
-        int primaryKey = 1; //change as required
+        int primaryKey = 99; //change as required
         try(ResultSet exerciseID = database.exerciseOnFileKey(primaryKey)) {
-            if (exerciseID.getInt("idExercise") > 0){
+            if (exerciseID != null) {
                 System.out.println("Record with id = " + primaryKey + " found.");
                 System.out.println("Exercise name: " + exerciseID.getString("ExerciseName"));
                 System.out.println("Anchor needed: " + exerciseID.getString("AnchorNeeded"));
@@ -116,12 +74,9 @@ public class Main extends Application {
                 System.out.println("Description: " + exerciseID.getString("Description"));
                 System.out.println("Video URL: " + exerciseID.getString("VideoURL"));
                 exerciseID.close();
-            } else {
-                System.out.println("No record with the id = " + primaryKey + " found");
-                exerciseID.close();
             }
         } catch (SQLException error){
-            System.out.println("Problem with reading record, by ID");
+            System.out.println("Problem with locating exercise record id = " + primaryKey + "\n" + error.getMessage());
         }
 
         //print them out again:
