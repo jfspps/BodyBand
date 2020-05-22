@@ -11,11 +11,11 @@ public class bbExercise {
 
     public bbExercise(String exerciseName) {
         this.exerciseName = exerciseName;
-        this.anchorNeeded = null;
-        this.anchorHeight = null;
-        this.anchorPosition = null;
-        this.exerciseDesc = null;
-        this.videoURL = null;
+        this.anchorNeeded = "";
+        this.anchorHeight = "";
+        this.anchorPosition = "";
+        this.exerciseDesc = "";
+        this.videoURL = "";
     }
 
     public Integer getExerciseId() {

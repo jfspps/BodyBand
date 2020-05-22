@@ -8,10 +8,7 @@ import javafx.stage.Stage;
 import sample.model.bbDatabase;
 import sample.model.bbExercise;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class Main extends Application {
@@ -23,7 +20,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
 
@@ -62,16 +58,9 @@ public class Main extends Application {
             statement.execute("CREATE TABLE IF NOT EXISTS tblBandStat (" +
                     "idBandStat INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "SingleBandTension INTEGER NOT NULL, " +
-                    "DoubledOrNot INTEGER NOT NULL," +
+                    "DoubledOrNot TEXT NOT NULL," +
                     "Units TEXT" +
                     ")");
-
-            statement.execute("DELETE FROM tblExercise");
-
-            statement.execute("INSERT INTO tblExercise (" +
-                    "ExerciseName, Description, VideoURL" +
-                    ") VALUES(" +
-                    "\"Bent-over Rowing\", \"Develop the lats\", \"https://www.youtube.com/watch?v=TE3v7CgXiiI\")");
 
             //release resources; alternatively use try with resources to automate this necessary step
             statement.close();
@@ -91,20 +80,49 @@ public class Main extends Application {
 
         //view all exercises
         List<bbExercise> initialExercises = database.listAllExercises();
-        if (initialExercises == null) {
+        if (initialExercises.isEmpty()) {
             System.out.println("No exercises on file");
-            return;
-        }
-        for (bbExercise exercise : initialExercises) {
-            System.out.println("ID = " + exercise.getExerciseId() + ", Name = " + exercise.getExerciseName()
-            + " video: " + exercise.getVideoURL());
+        } else {
+            for (bbExercise exercise : initialExercises) {
+                System.out.println("ID = " + exercise.getExerciseId() + ", Name = " + exercise.getExerciseName()
+                        + " video: " + exercise.getVideoURL());
+            }
         }
 
-        //try inserting data
-        System.out.println("Attempting to insert new exercise");
-        int index = database.insertNewExercise("Chest Press", null, null, null, null, "someURL");
-        if(index > 0)
-            System.out.println("New exercise uploaded, at index " + index);
+        //add an exercise without checking
+        database.insertNewExercise("Bent-over Rowing", "", "", "", "Develop the lats", "https://www.youtube.com/watch?v=TE3v7CgXiiI");
+
+        //check a record does not already exist
+        int newExercise = database.exerciseOnFile("Chest Press", "", "", "", "", "someURL");
+        System.out.println("Found " + newExercise);
+        if(newExercise == 0){
+            System.out.println("Attempting to insert new record");
+            int index = database.insertNewExercise("Chest Press", "", "", "", "", "someURL");
+            if(index > 0)
+                System.out.println("New exercise uploaded, at index " + index);
+        } else if (newExercise == -1) {
+            System.out.println("Error with querying the database");
+        }
+
+        //check a record exists by ID (key)
+        int primaryKey = 1; //change as required
+        try(ResultSet exerciseID = database.exerciseOnFileKey(primaryKey)) {
+            if (exerciseID.getInt("idExercise") > 0){
+                System.out.println("Record with id = " + primaryKey + " found.");
+                System.out.println("Exercise name: " + exerciseID.getString("ExerciseName"));
+                System.out.println("Anchor needed: " + exerciseID.getString("AnchorNeeded"));
+                System.out.println("Anchor height: " + exerciseID.getString("AnchorHeight"));
+                System.out.println("Anchor position: " + exerciseID.getString("AnchorPosition"));
+                System.out.println("Description: " + exerciseID.getString("Description"));
+                System.out.println("Video URL: " + exerciseID.getString("VideoURL"));
+                exerciseID.close();
+            } else {
+                System.out.println("No record with the id = " + primaryKey + " found");
+                exerciseID.close();
+            }
+        } catch (SQLException error){
+            System.out.println("Problem with reading record, by ID");
+        }
 
         //print them out again:
         System.out.println("Here is the latest list of exercises available:");
