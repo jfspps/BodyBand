@@ -4,26 +4,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="600.0"
-             prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <top>
       <MenuBar>
          <Menu text="Options">
             <items>
-               <MenuItem onAction="#showDialog" text="Add more stuff"></MenuItem>
-               <MenuItem text="Option 2"></MenuItem>
+               <MenuItem onAction="#showDialog" text="Add more stuff" />
+               <MenuItem text="Option 2" />
                <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem text="Exit"></MenuItem>
+               <MenuItem text="Exit" />
             </items></Menu>
          <Menu text="Database">
             <items>
-               <MenuItem text="Exercise DB"></MenuItem>
-               <MenuItem text="Band stat DB"></MenuItem>
+               <MenuItem text="Exercise DB" />
+               <MenuItem text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem text="Repetition DB"></MenuItem>
-               <MenuItem text="Set DB"></MenuItem>
+               <MenuItem text="Repetition DB" />
+               <MenuItem text="Set DB" />
             </items></Menu>
       </MenuBar>
    </top>
@@ -84,11 +81,11 @@
    <bottom>
       <HBox prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#onPreviousClicked" text="Previous">
+             <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#onPreviousClicked" text="Previous">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>
-            </Button>
+             </Button>
             <Pane prefHeight="200.0" prefWidth="200.0" />
             <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#onNextClicked" text="Next">
                <HBox.margin>
