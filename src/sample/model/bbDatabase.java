@@ -161,6 +161,20 @@ public class bbDatabase {
         }
     }
 
+    // Object instance which provides JavaFX access to bbDatabase methods ----------------------------------------
+
+    private static bbDatabase bbDB = new bbDatabase();
+
+    private bbDatabase(){
+        //empty constructor
+    }
+
+    public static bbDatabase getBbDB(){
+        return bbDB;
+    }
+
+    //call any of the methods below from an external class (JavaFX controller) using bbDatabase.getBbDB.methodName()
+
     // General SQL queries (SQL to Java object) --------------------------------------------------
 
     //tblExercise ==============================================

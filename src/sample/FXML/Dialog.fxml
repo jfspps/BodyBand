@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.DialogController">
+    <headerText>
+        There is really no need to continue clicking "Next", there isn't much else to see from this point...Add more
+        to the database here:
+    </headerText>
+    <content>
+        <GridPane vgap="10" hgap="10">
+            <Label text="Type something here and see the console respond" GridPane.rowIndex="0"
+                   GridPane.columnIndex="0"></Label>
+            <TextField fx:id="someDesc" GridPane.rowIndex="0"
+                       GridPane.columnIndex="1"></TextField>
+            <Label text="Some description" GridPane.rowIndex="1" GridPane.columnIndex="0"></Label>
+            <TextArea text="Insert something random" GridPane.rowIndex="1" GridPane.columnIndex="1"></TextArea>
+        </GridPane>
+    </content>
+</DialogPane>
