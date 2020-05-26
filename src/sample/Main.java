@@ -7,13 +7,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.model.bbDatabase;
-//import sample.model.bbExercise;
-//import sample.model.bbSQLiteDB;
-//
-//import java.sql.*;
-//import java.util.List;
 
 public class Main extends Application {
+
+    // Initialise everything when the JavaFX dialog box loads (init() runs before start(); init() and stop() are
+    // abstract by default)
+    @Override
+    public void init() throws Exception {
+        super.init();       // fundamentally abstract, init() does nothing in JavaFX8 at least (leave it here in case
+        // later versions change init())
+
+        //attempt to connect to and verify PreparedStatements of "database"
+        if (!bbDatabase.getInstance().open()) {
+            System.out.println("Problem with opening DB queries");
+
+            //force the UI to terminate if the DB does not load
+            Platform.exit();
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,24 +34,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    //Initialise everything when the JavaFX dialog box loads
-    @Override
-    public void init() throws Exception {
-        super.init();
-
-        //attempt to connect to and verify PreparedStatements of "database"
-        if (!bbDatabase.getBbDB().open()) {
-            System.out.println("Problem with opening DB queries");
-            Platform.exit();
-        }
-    }
-
     //clear everything up on closing
     @Override
     public void stop() throws Exception {
-        super.stop();
+        super.stop();   // fundamentally abstract, stop() does nothing in JavaFX8 at least
+
         //when done, close the database and all its resources...
-        bbDatabase.getBbDB().close();
+        bbDatabase.getInstance().close();
     }
 
     public static void main(String[] args) {

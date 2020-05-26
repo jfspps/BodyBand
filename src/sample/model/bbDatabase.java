@@ -1,5 +1,7 @@
 package sample.model;
 
+import javafx.collections.ObservableList;
+
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
@@ -162,18 +164,29 @@ public class bbDatabase {
     }
 
     // Object instance which provides JavaFX access to bbDatabase methods ----------------------------------------
+    // call any of the methods below from an external class (JavaFX controller) using bbDatabase.getInstance
+    // .methodName()
+    // this is a Singleton Pattern (static is needed), where multiple JavaFX Controllers can only access one instance
+    // of bbDatabase
 
-    private static bbDatabase bbDB = new bbDatabase();
-
+    // create the instance here instead of in the getter (this approach is more thread-safe than instantiating in
+    // getInstance())
+    private static bbDatabase instance = new bbDatabase();
     private bbDatabase(){
         //empty constructor
     }
-
-    public static bbDatabase getBbDB(){
-        return bbDB;
+    public static bbDatabase getInstance(){
+        return instance;
     }
 
-    //call any of the methods below from an external class (JavaFX controller) using bbDatabase.getBbDB.methodName()
+    // Object exercises which provides JavaFX access to all exercises on file
+//    private ObservableList<bbExercise> exercises;
+//    public  ObservableList<bbExercise> getExercises(){
+//        return exercises;
+//    }
+    //can also implement add and remove exercises similarly
+
+
 
     // General SQL queries (SQL to Java object) --------------------------------------------------
 
@@ -187,8 +200,9 @@ public class bbDatabase {
 
             while (results.next()) {
                 //build up each object bbExercise, transfer values from DB then add to the ArrayList
-                bbExercise exercise = new bbExercise(results.getString(ExerciseNameINDEX));
+                bbExercise exercise = new bbExercise();
                 exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
+                exercise.setExerciseName(results.getString(ExerciseNameINDEX));
                 exercise.setAnchorNeeded(results.getString(ExerciseAnchorNeededINDEX));
                 exercise.setAnchorHeight(results.getString(ExerciseAnchorHeightINDEX));
                 exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
@@ -249,6 +263,33 @@ public class bbDatabase {
                 System.out.println("No record with the key " + idExercise + " found");
                 return null;
             }
+        } catch (SQLException e) {
+            System.out.println("Problem with querying tblExercise:\n" + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<bbExercise> exerciseOnFileKeyList(int idExercise){
+        try {
+            selectExerciseKey.setInt(1, idExercise);
+            ResultSet resultSet = selectExerciseKey.executeQuery();
+
+            List<bbExercise> exerciseArray = new ArrayList<>();
+            if (resultSet.next()) {
+                bbExercise tempEx = new bbExercise();
+                tempEx.setExerciseId(resultSet.getInt(1)); //records and their PKs may get deleted over time
+                tempEx.setExerciseName(resultSet.getString(2));
+                tempEx.setAnchorNeeded(resultSet.getString(3));
+                tempEx.setAnchorHeight(resultSet.getString(4));
+                tempEx.setAnchorPosition(resultSet.getString(5));
+                tempEx.setExerciseDesc(resultSet.getString(6));
+                tempEx.setVideoURL(resultSet.getString(7));
+                exerciseArray.add(tempEx);
+            } else {
+                System.out.println("No record with the key " + idExercise + " found");
+                return null;
+            }
+            return exerciseArray;
         } catch (SQLException e) {
             System.out.println("Problem with querying tblExercise:\n" + e.getMessage());
             return null;
