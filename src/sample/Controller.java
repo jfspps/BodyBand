@@ -8,8 +8,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import sample.model.bbDatabase;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,15 +19,14 @@ import java.util.Optional;
 
 public class Controller {
 
+    //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
-
-    //declare arrays intended to store DB data here
 
     @FXML
     public void initialize() {
-        //initialize any of the fields (and initialise arrays from the DB ready for use) on the JavaFX form
-        exerciseNameText.setText("Click the arrow buttons below to cycle through records");
+        //initialize any of the fields on the JavaFX form
         record = 0;
+        exerciseIDText.setText(String.valueOf(record));
         buttonPrevious.setDisable(true);
         buttonNext.setDisable(false);
     }
@@ -56,9 +57,18 @@ public class Controller {
     @FXML
     private void onNextClicked() {
         record++;
-        if (record > 0) {
+        exerciseIDText.setText(String.valueOf(record));
+        if (record > 1) {
             buttonPrevious.setDisable(false);
-            videoURLText.clear();
+        }
+        if(bbDatabase.getInstance().exerciseOnFileKey(record) == null){
+            exerciseNameText.setText("No exercise with id: " + record);
+        } else {
+            try {
+                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            } catch (SQLException error){
+                System.out.println("Problem with pairing db to UI\n" + error.getMessage());
+            }
         }
 
         //example of running "background" processes on the JavaFX "UI thread" (separate, single thread) when Next is
@@ -75,7 +85,7 @@ public class Controller {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            descriptionText.setText("10 seconds have elapsed");
+                            System.out.println("10 seconds have elapsed");
                         }
                     });
                 } catch (InterruptedException event) {
@@ -91,16 +101,26 @@ public class Controller {
         String date = localDate.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
         LocalTime localTime = LocalTime.now();
         String time = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        exerciseIDText.setText(date + " at " + time);
+        System.out.println(date + " at " + time);
 
     }
 
     @FXML
     private void onPreviousClicked() {
         record--;
-        if (record == 0) {
+        exerciseIDText.setText(String.valueOf(record));
+        if (record == 1) {
             buttonPrevious.setDisable(true);
             videoURLText.setText("Back at the beginning");
+        }
+        if(bbDatabase.getInstance().exerciseOnFileKey(record) == null){
+            exerciseNameText.setText("No exercise with id: " + record);
+        } else {
+            try {
+                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            } catch (SQLException error){
+                System.out.println("Problem with pairing db to UI\n" + error.getMessage());
+            }
         }
     }
 
@@ -121,7 +141,8 @@ public class Controller {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-
+        dialog.setTitle("Add new exercise");
+        dialog.setHeaderText("Add new exercise (header)");
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
@@ -132,3 +153,15 @@ public class Controller {
         }
     }
 }
+
+//// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
+//// and runs as a background thread independent of the UI thread
+//class GetAllExercises extends Task {
+//
+//    @Override
+//    public ObservableList<bbExercise> call() {
+//        // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
+//        // purposes (bbExercises are defined as Simple Properties to enable data binding)
+//        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
+//    }
+//}

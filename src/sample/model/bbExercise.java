@@ -1,76 +1,82 @@
 package sample.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class bbExercise {
-    private Integer exerciseId;
-    private String exerciseName;
-    private String anchorNeeded;
-    private String anchorHeight;
-    private String anchorPosition;
-    private String exerciseDesc;
-    private String videoURL;
+    private SimpleIntegerProperty exerciseId;
+    private SimpleStringProperty exerciseName;
+    private SimpleStringProperty anchorNeeded;
+    private SimpleStringProperty anchorHeight;
+    private SimpleStringProperty anchorPosition;
+    private SimpleStringProperty exerciseDesc;
+    private SimpleStringProperty videoURL;
 
-    public bbExercise(String exerciseName) {
-        this.exerciseName = exerciseName;
-        this.anchorNeeded = "";
-        this.anchorHeight = "";
-        this.anchorPosition = "";
-        this.exerciseDesc = "";
-        this.videoURL = "";
+    public bbExercise() {
+        this.exerciseId = new SimpleIntegerProperty();
+        this.exerciseName = new SimpleStringProperty();
+        this.anchorNeeded = new SimpleStringProperty();
+        this.anchorHeight = new SimpleStringProperty();
+        this.anchorPosition = new SimpleStringProperty();
+        this.exerciseDesc = new SimpleStringProperty();
+        this.videoURL = new SimpleStringProperty();
     }
 
-    public Integer getExerciseId() {
-        return exerciseId;
+    //implement data-binding by implementing Simple_Property (this does not affect what exerciseDB sets/requests)
+
+    public int getExerciseId() {
+        return this.exerciseId.get();
     }
 
-    public void setExerciseId(Integer exerciseId) {
-        this.exerciseId = exerciseId;
+    public void setExerciseId(int exerciseId) {
+        this.exerciseId.set(exerciseId);
     }
 
     public String getExerciseName() {
-        return exerciseName;
+        return this.exerciseName.get();
     }
 
     public void setExerciseName(String exerciseName) {
-        this.exerciseName = exerciseName;
+        this.exerciseName.set(exerciseName);
     }
 
     public String getAnchorNeeded() {
-        return anchorNeeded;
+        return this.anchorNeeded.get();
     }
 
     public void setAnchorNeeded(String anchorNeeded) {
-        this.anchorNeeded = anchorNeeded;
+        this.anchorNeeded.set(anchorNeeded);
     }
 
     public String getAnchorHeight() {
-        return anchorHeight;
+        return this.anchorHeight.get();
     }
 
     public void setAnchorHeight(String anchorHeight) {
-        this.anchorHeight = anchorHeight;
+        this.anchorHeight.set(anchorHeight);
     }
 
     public String getAnchorPosition() {
-        return anchorPosition;
+        return this.anchorPosition.get();
     }
 
     public void setAnchorPosition(String anchorPosition) {
-        this.anchorPosition = anchorPosition;
+        this.anchorPosition.set(anchorPosition);
     }
 
     public String getExerciseDesc() {
-        return exerciseDesc;
+        return this.exerciseDesc.get();
     }
 
     public void setExerciseDesc(String exerciseDesc) {
-        this.exerciseDesc = exerciseDesc;
+        this.exerciseDesc.set(exerciseDesc);
     }
 
     public String getVideoURL() {
-        return videoURL;
+        return this.videoURL.get();
     }
 
     public void setVideoURL(String videoURL) {
-        this.videoURL = videoURL;
+        this.videoURL.set(videoURL);
     }
 }

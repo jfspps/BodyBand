@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <top>
       <MenuBar>
@@ -35,14 +36,14 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Anchor needed" />
-                  <TextArea fx:id="anchorNeededText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Exercise name" />
+                  <TextArea fx:id="exerciseNameText" prefHeight="200.0" wrapText="true"/>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Exercise name" />
-                  <TextArea fx:id="exerciseNameText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Anchor needed" />
+                  <TextArea fx:id="anchorNeededText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
