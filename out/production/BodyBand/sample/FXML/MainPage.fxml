@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <center>
+      <VBox prefHeight="342.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="200.0" text="Exercise page">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></Label>
+                  <Button fx:id="buttonShowExercises" onAction="#showExercises" mnemonicParsing="false"
+                          text="Exercise page" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="200.0" text="Band stat page" />
+                  <Button mnemonicParsing="false" text="Band stat page" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="200.0" text="Repetitions page" />
+                  <Button mnemonicParsing="false" text="Repetitions page" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="200.0" text="Set page" />
+                  <Button mnemonicParsing="false" text="Set page" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <Label text="BodyBand main page" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </top>
+</BorderPane>
