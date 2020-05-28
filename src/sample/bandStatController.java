@@ -100,6 +100,42 @@ public class bandStatController implements Initializable {
         Platform.exit();
     }
 
+    @FXML
+    private void repScene(){
+        try {
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Main.mainWindow.setTitle("BodyBand reps");
+            Main.mainWindow.setScene(new Scene(setPage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading rep scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void setScene(){
+        try {
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
+            Main.mainWindow.setTitle("BodyBand sets");
+            Main.mainWindow.setScene(new Scene(setPage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading set scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void exerciseScene(){
+        try {
+            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
+            Main.mainWindow.setTitle("BodyBand exercises");
+            Main.mainWindow.setScene(new Scene(exercisePage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
+        }
+    }
+
     // Previous and Next buttons --------------------------------------------------------------------------------
 
     @FXML

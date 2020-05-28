@@ -19,11 +19,11 @@
             </items></Menu>
          <Menu text="Database">
             <items>
-               <MenuItem text="Exercise DB" />
+               <MenuItem onAction="#exerciseScene" text="Exercise DB" />
                <MenuItem disable="true" text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem text="Repetition DB" />
-               <MenuItem text="Set DB" />
+               <MenuItem onAction="#repScene" text="Repetition DB" />
+               <MenuItem onAction="#setScene" text="Set DB" />
             </items></Menu>
       </MenuBar>
    </top>

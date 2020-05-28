@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class exerciseController implements Initializable {
+public class setController implements Initializable {
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
@@ -27,9 +27,9 @@ public class exerciseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         record = 1;
-        exerciseIDText.setText(String.valueOf(record));
+        setIDText.setText(String.valueOf(record));
         try {
-            exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing db to UI\n" + error.getMessage());
         }
@@ -37,19 +37,16 @@ public class exerciseController implements Initializable {
     }
 
     @FXML
+    private TextArea setIDText;
+    @FXML
     private TextArea exerciseIDText;
     @FXML
-    private TextArea anchorNeededText;
+    private TextArea repIDText;
     @FXML
-    private TextArea exerciseNameText;
+    private TextArea commentsText;
     @FXML
-    private TextArea anchorHeightText;
-    @FXML
-    private TextArea anchorPositionText;
-    @FXML
-    private TextArea descriptionText;
-    @FXML
-    private TextArea videoURLText;
+    private TextArea setDateText;
+
     @FXML
     private Button buttonPrevious;
     @FXML
@@ -88,8 +85,8 @@ public class exerciseController implements Initializable {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.setTitle("Add new exercise");
-        dialog.setHeaderText("Add new exercise (header)");
+        dialog.setTitle("Add new set");
+        dialog.setHeaderText("Add new set (header)");
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
@@ -130,14 +127,14 @@ public class exerciseController implements Initializable {
     }
 
     @FXML
-    private void setScene(){
+    private void exerciseScene(){
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand sets");
-            Main.mainWindow.setScene(new Scene(setPage));
+            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
+            Main.mainWindow.setTitle("BodyBand exercises");
+            Main.mainWindow.setScene(new Scene(exercisePage));
         } catch (
                 IOException e) {
-            System.out.println("Problem loading set scene:\n" + e.getMessage());
+            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
         }
     }
 
@@ -146,18 +143,18 @@ public class exerciseController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        exerciseIDText.setText(String.valueOf(record));
+        setIDText.setText(String.valueOf(record));
         if (record > 1) {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("");
+            commentsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().setOnFileKey(record) == null) {
+            exerciseIDText.setText("No set with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }
@@ -200,19 +197,19 @@ public class exerciseController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        exerciseIDText.setText(String.valueOf(record));
+        setIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("Back at the beginning");
+            commentsText.setText("Back at the beginning");
         } else {
             buttonPrevious.setDisable(false);
-            videoURLText.setText("");
+            commentsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().setOnFileKey(record) == null) {
+            exerciseIDText.setText("No set with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }

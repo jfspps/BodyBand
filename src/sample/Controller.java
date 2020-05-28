@@ -5,29 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Button;
 import sample.model.bbDatabase;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
-
-    //record is the index of each record in bbExercise, the PK of which is one-based
-    private int record;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        record = 0;
-    }
-
+public class Controller {
 
     @FXML
     private Button buttonShowExercises;
@@ -37,7 +22,7 @@ public class Controller implements Initializable {
     // scene navigation --------------------------------------------------------------------------------
 
     @FXML
-    private void showExercises() {
+    public void showExercises() {
         try {
             Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
             Main.mainWindow.setTitle("BodyBand exercises");
@@ -49,7 +34,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void showBandStats() {
+    public void showBandStats() {
         try {
             Parent bandStatPage = FXMLLoader.load(getClass().getResource("FXML/BandStatPage.fxml"));
             Main.mainWindow.setTitle("BodyBand band stats");
@@ -57,6 +42,30 @@ public class Controller implements Initializable {
         } catch (
                 IOException e) {
             System.out.println("Problem loading band stat scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void showSets() {
+        try {
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
+            Main.mainWindow.setTitle("BodyBand sets");
+            Main.mainWindow.setScene(new Scene(setPage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading set scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void showReps() {
+        try {
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Main.mainWindow.setTitle("BodyBand reps");
+            Main.mainWindow.setScene(new Scene(setPage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading rep scene:\n" + e.getMessage());
         }
     }
 }

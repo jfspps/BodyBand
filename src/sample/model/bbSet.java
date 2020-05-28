@@ -1,49 +1,50 @@
 package sample.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class bbSet {
-    private Integer setId;
-    private Integer exerciseId;
-    private Integer repetitionId;
-    private String comments;
-    private String setDate;
+    private SimpleIntegerProperty setId;
+    private SimpleIntegerProperty exerciseId;
+    private SimpleIntegerProperty repetitionId;
+    private SimpleStringProperty comments;
+    private SimpleStringProperty setDate;
 
     public Integer getSetId() {
-        return setId;
+        return this.setId.get();
     }
 
     public void setSetId(Integer setId) {
-        this.setId = setId;
+        this.setId.set(setId);
     }
 
     public Integer getExerciseId() {
-        return exerciseId;
+        return this.exerciseId.get();
     }
 
     public void setExerciseId(Integer exerciseId) {
-        this.exerciseId = exerciseId;
+        this.exerciseId.set(exerciseId);
     }
 
-    public Integer getRepetitionId() {
-        return repetitionId;
-    }
+    public Integer getRepetitionId() { return this.repetitionId.get(); }
 
     public void setRepetitionId(Integer repetitionId) {
-        this.repetitionId = repetitionId;
+        this.repetitionId.set(repetitionId);
     }
 
     public String getComments() {
-        return comments;
+        return this.comments.get();
     }
 
     public void setComments(String comments) {
-        this.comments = comments;
+        this.comments.set(comments);
     }
 
     public String getSetDate() {
-        return setDate;
+        return this.setDate.get();
     }
 
     public void setSetDate(String setDate) {
-        this.setDate = setDate;
+        this.setDate.set(setDate);
     }
 }

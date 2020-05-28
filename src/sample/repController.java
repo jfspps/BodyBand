@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class exerciseController implements Initializable {
+public class repController implements Initializable {
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
@@ -27,9 +27,9 @@ public class exerciseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         record = 1;
-        exerciseIDText.setText(String.valueOf(record));
+        repIDText.setText(String.valueOf(record));
         try {
-            exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing db to UI\n" + error.getMessage());
         }
@@ -37,19 +37,12 @@ public class exerciseController implements Initializable {
     }
 
     @FXML
-    private TextArea exerciseIDText;
+    private TextArea repIDText;
     @FXML
-    private TextArea anchorNeededText;
+    private TextArea bandStatIDText;
     @FXML
-    private TextArea exerciseNameText;
-    @FXML
-    private TextArea anchorHeightText;
-    @FXML
-    private TextArea anchorPositionText;
-    @FXML
-    private TextArea descriptionText;
-    @FXML
-    private TextArea videoURLText;
+    private TextArea repetitionsText;
+
     @FXML
     private Button buttonPrevious;
     @FXML
@@ -88,8 +81,8 @@ public class exerciseController implements Initializable {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.setTitle("Add new exercise");
-        dialog.setHeaderText("Add new exercise (header)");
+        dialog.setTitle("Add new repetition");
+        dialog.setHeaderText("Add new repetition (header)");
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
@@ -118,18 +111,6 @@ public class exerciseController implements Initializable {
     }
 
     @FXML
-    private void repScene(){
-        try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(setPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading rep scene:\n" + e.getMessage());
-        }
-    }
-
-    @FXML
     private void setScene(){
         try {
             Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
@@ -141,23 +122,35 @@ public class exerciseController implements Initializable {
         }
     }
 
+    @FXML
+    private void exerciseScene(){
+        try {
+            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
+            Main.mainWindow.setTitle("BodyBand exercises");
+            Main.mainWindow.setScene(new Scene(exercisePage));
+        } catch (
+                IOException e) {
+            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
+        }
+    }
+
     // Previous and Next buttons --------------------------------------------------------------------------------
 
     @FXML
     private void onNextClicked() {
         record++;
-        exerciseIDText.setText(String.valueOf(record));
+        repIDText.setText(String.valueOf(record));
         if (record > 1) {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("");
+            repetitionsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
+            bandStatIDText.setText("No rep with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }
@@ -200,19 +193,19 @@ public class exerciseController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        exerciseIDText.setText(String.valueOf(record));
+        repIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("Back at the beginning");
+            repetitionsText.setText("Back at the beginning");
         } else {
             buttonPrevious.setDisable(false);
-            videoURLText.setText("");
+            repetitionsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
+            bandStatIDText.setText("No rep with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }

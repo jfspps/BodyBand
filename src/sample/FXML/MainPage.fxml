@@ -29,7 +29,8 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                      <Button mnemonicParsing="false" text="Repetition page" textAlignment="CENTER">
+                      <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps"
+                              prefHeight="40" text="Repetition page" textAlignment="CENTER">
                           <font>
                               <Font size="18.0" />
                           </font>
@@ -38,7 +39,8 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                      <Button mnemonicParsing="false" text="Set page" textAlignment="CENTER">
+                      <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets"
+                              prefHeight="40" text="Set page" textAlignment="CENTER">
                           <font>
                               <Font size="18.0" />
                           </font>

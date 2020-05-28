@@ -1,40 +1,41 @@
 package sample.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class bbBandStat {
-    private Integer bandStatId;
-    private Integer tension;
-    private String doubledOrNot;
-    private String units;
+    private SimpleIntegerProperty bandStatId;
+    private SimpleIntegerProperty tension;
+    private SimpleStringProperty doubledOrNot;
+    private SimpleStringProperty units;
 
     public Integer getBandStatId() {
-        return bandStatId;
+        return this.bandStatId.get();
     }
 
     public void setBandStatId(Integer bandStatId) {
-        this.bandStatId = bandStatId;
+        this.bandStatId.set(bandStatId);
     }
 
     public Integer getTension() {
-        return tension;
+        return this.tension.get();
     }
 
     public void setTension(Integer tension) {
-        this.tension = tension;
+        this.tension.set(tension);
     }
 
     public String getDoubledOrNot() {
-        return doubledOrNot;
+        return this.doubledOrNot.get();
     }
 
     public void setDoubledOrNot(String doubledOrNot) {
-        this.doubledOrNot = doubledOrNot;
+        this.doubledOrNot.set(doubledOrNot);
     }
 
-    public String getUnits() {
-        return units;
-    }
+    public String getUnits() { return this.units.get(); }
 
     public void setUnits(String units) {
-        this.units = units;
+        this.units.set(units);
     }
 }

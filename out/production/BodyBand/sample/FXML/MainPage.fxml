@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <center>
         <VBox BorderPane.alignment="CENTER">
             <children>
@@ -29,7 +30,8 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                      <Button mnemonicParsing="false" text="Repetition page" textAlignment="CENTER">
+                      <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps"
+                              prefHeight="40" text="Repetition page" textAlignment="CENTER">
                           <font>
                               <Font size="18.0" />
                           </font>
@@ -38,7 +40,8 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                      <Button mnemonicParsing="false" text="Set page" textAlignment="CENTER">
+                      <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets"
+                              prefHeight="40" text="Set page" textAlignment="CENTER">
                           <font>
                               <Font size="18.0" />
                           </font>
