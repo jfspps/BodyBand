@@ -10,6 +10,9 @@ import sample.model.bbDatabase;
 
 public class Main extends Application {
 
+    //give access to the mainPage Stage
+    static Stage mainWindow;
+
     // Initialise everything when the JavaFX dialog box loads (init() runs before start(); init() and stop() are
     // abstract by default)
     @Override
@@ -28,10 +31,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
-        primaryStage.setTitle("BodyBand");
-        primaryStage.setScene(new Scene(root, 335, 600));
-        primaryStage.show();
+        //assign whatever primaryStage has to mainWindow
+        this.mainWindow = primaryStage;
+        Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));
+        mainWindow.setTitle("BodyBand");
+        mainWindow.setScene(new Scene(mainPage, 335, 600));
+        mainWindow.show();
     }
 
     //clear everything up on closing
