@@ -12,13 +12,13 @@
          <Menu text="Options">
             <items>
                <MenuItem onAction="#showDialog" text="Add more stuff" />
-               <MenuItem fx:id="menuItemMainPage" onAction="#showMainPage" text="Main page" />
+               <MenuItem onAction="#showMainPage" text="Main page" />
                <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem text="Exit" />
+               <MenuItem onAction="#exitBB" text="Exit" />
             </items></Menu>
          <Menu text="Database">
             <items>
-               <MenuItem text="Exercise DB" />
+               <MenuItem disable="true" text="Exercise DB" />
                <MenuItem text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem text="Repetition DB" />
@@ -29,43 +29,43 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Exercise ID" />
                   <TextArea fx:id="exerciseIDText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Exercise name" />
                   <TextArea fx:id="exerciseNameText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor needed" />
                   <TextArea fx:id="anchorNeededText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor height" />
                   <TextArea fx:id="anchorHeightText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor position" />
                   <TextArea fx:id="anchorPositionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Description" />
                   <TextArea fx:id="descriptionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Video URL" />
                   <TextArea fx:id="videoURLText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />

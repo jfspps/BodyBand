@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class exerciseController implements Initializable {
+public class bandStatController implements Initializable {
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
@@ -27,9 +27,9 @@ public class exerciseController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         record = 1;
-        exerciseIDText.setText(String.valueOf(record));
+        bandStatIDText.setText(String.valueOf(record));
         try {
-            exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing db to UI\n" + error.getMessage());
         }
@@ -37,19 +37,14 @@ public class exerciseController implements Initializable {
     }
 
     @FXML
-    private TextArea exerciseIDText;
+    private TextArea bandStatIDText;
     @FXML
-    private TextArea anchorNeededText;
+    private TextArea singleBandTensionText;
     @FXML
-    private TextArea exerciseNameText;
+    private TextArea DoubledOrNotText;
     @FXML
-    private TextArea anchorHeightText;
-    @FXML
-    private TextArea anchorPositionText;
-    @FXML
-    private TextArea descriptionText;
-    @FXML
-    private TextArea videoURLText;
+    private TextArea unitsText;
+
     @FXML
     private Button buttonPrevious;
     @FXML
@@ -88,8 +83,8 @@ public class exerciseController implements Initializable {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.setTitle("Add new exercise");
-        dialog.setHeaderText("Add new exercise (header)");
+        dialog.setTitle("Add new band stat");
+        dialog.setHeaderText("Add new band stat (header)");
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
@@ -110,18 +105,18 @@ public class exerciseController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        exerciseIDText.setText(String.valueOf(record));
+        bandStatIDText.setText(String.valueOf(record));
         if (record > 1) {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("");
+            unitsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
+            singleBandTensionText.setText("No band stat with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }
@@ -164,19 +159,19 @@ public class exerciseController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        exerciseIDText.setText(String.valueOf(record));
+        bandStatIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            videoURLText.setText("Back at the beginning");
+            unitsText.setText("Back at the beginning");
         } else {
             buttonPrevious.setDisable(false);
-            videoURLText.setText("");
+            unitsText.setText("");
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+        if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
+            singleBandTensionText.setText("No band stat with id: " + record);
         } else {
             try {
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+                singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing db to UI\n" + error.getMessage());
             }
