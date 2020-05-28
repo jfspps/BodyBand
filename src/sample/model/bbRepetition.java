@@ -1,31 +1,33 @@
 package sample.model;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class bbRepetition {
-    private Integer repetitionId;
-    private Integer reps;
-    private Integer bandStatId; //id to the corresponding bandStat
+    private SimpleIntegerProperty repetitionId;
+    private SimpleIntegerProperty reps;
+    private SimpleIntegerProperty bandStatId; //id to the corresponding bandStat
 
     public Integer getRepetitionId() {
-        return repetitionId;
+        return this.repetitionId.get();
     }
 
     public void setRepetitionId(Integer repetitionId) {
-        this.repetitionId = repetitionId;
+        this.repetitionId.set(repetitionId);
     }
 
     public Integer getReps() {
-        return reps;
+        return this.reps.get();
     }
 
     public void setReps(Integer reps) {
-        this.reps = reps;
+        this.reps.set(reps);
     }
 
     public Integer getBandStatId() {
-        return bandStatId;
+        return this.bandStatId.get();
     }
 
     public void setBandStatId(Integer bandStatId) {
-        this.bandStatId = bandStatId;
+        this.bandStatId.set(bandStatId);
     }
 }

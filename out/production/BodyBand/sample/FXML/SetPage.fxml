@@ -6,7 +6,7 @@
 
 <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.exerciseController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.setController">
    <top>
       <MenuBar>
          <Menu text="Options">
@@ -18,11 +18,11 @@
             </items></Menu>
          <Menu text="Database">
             <items>
-               <MenuItem disable="true" text="Exercise DB" />
+               <MenuItem onAction="#exerciseScene" text="Exercise DB" />
                <MenuItem onAction="#bandStatScene" text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem onAction="#repScene" text="Repetition DB" />
-               <MenuItem onAction="#setScene" text="Set DB" />
+               <MenuItem disable="true"  text="Set DB" />
             </items></Menu>
       </MenuBar>
    </top>
@@ -31,44 +31,32 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Exercise ID" />
+                  <Label minWidth="125.0" text="Set ID" />
+                  <TextArea fx:id="setIDText" prefHeight="200.0" wrapText="true" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="125.0" text="Exercise Id" />
                   <TextArea fx:id="exerciseIDText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Exercise name" />
-                  <TextArea fx:id="exerciseNameText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Rep Id" />
+                  <TextArea fx:id="repIDText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Anchor needed" />
-                  <TextArea fx:id="anchorNeededText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Comments" />
+                  <TextArea fx:id="commentsText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Anchor height" />
-                  <TextArea fx:id="anchorHeightText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="125.0" text="Anchor position" />
-                  <TextArea fx:id="anchorPositionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="125.0" text="Description" />
-                  <TextArea fx:id="descriptionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="125.0" text="Video URL" />
-                  <TextArea fx:id="videoURLText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Set Date" />
+                  <TextArea fx:id="setDateText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
          </children>

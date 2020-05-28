@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <center>
-      <VBox prefHeight="342.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <center>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <Pane prefHeight="70.0" prefWidth="335.0" />
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                    <Button fx:id="buttonShowExercises" mnemonicParsing="false" onAction="#showExercises"
+                            prefHeight="40" text="Exercise page" textAlignment="CENTER">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Button>
+                </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label minWidth="200.0" text="Exercise page">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets></Label>
-                  <Button fx:id="buttonShowExercises" onAction="#showExercises" mnemonicParsing="false"
-                          text="Exercise page" />
+                      <Button fx:id="buttonShowBandStats" mnemonicParsing="false" onAction="#showBandStats"
+                              prefHeight="40" text="Band Stat page" textAlignment="CENTER">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                      </Button>
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label minWidth="200.0" text="Band stat page" />
-                  <Button mnemonicParsing="false" text="Band stat page" />
+                      <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps"
+                              prefHeight="40" text="Repetition page" textAlignment="CENTER">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                      </Button>
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label minWidth="200.0" text="Repetitions page" />
-                  <Button mnemonicParsing="false" text="Repetitions page" />
+                      <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets"
+                              prefHeight="40" text="Set page" textAlignment="CENTER">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                      </Button>
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="200.0" text="Set page" />
-                  <Button mnemonicParsing="false" text="Set page" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <Label text="BodyBand main page" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-   </top>
+            </VBox>
+                <Pane prefHeight="70.0" prefWidth="335.0" />
+            </children>
+        </VBox>
+    </center>
+    <top>
+        <Label minHeight="60.0" text="BodyBand" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+    </top>
 </BorderPane>

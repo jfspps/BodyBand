@@ -75,6 +75,7 @@ public class bbDatabase {
     public static final String queryBandStatKey = "SELECT * FROM tblBandStat WHERE idBandStat = ?";
     public static final String queryExerciseKey = "SELECT * FROM tblExercise WHERE idExercise = ?";
     public static final String queryRepetitionKey = "SELECT * FROM tblRepetition WHERE idRepetition = ?";
+    public static final String querySetKey = "SELECT * FROM tblSet WHERE idSet = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -90,6 +91,7 @@ public class bbDatabase {
     private PreparedStatement selectBandStatKey;
     private PreparedStatement selectExerciseKey;
     private PreparedStatement selectRepetitionKey;
+    private PreparedStatement selectSetKey;
 
     //bbDatabase admin routines -------------------------------------------------------------
     //open() is called by main() first and sets up conn
@@ -108,6 +110,7 @@ public class bbDatabase {
             selectBandStatKey = conn.prepareStatement(queryBandStatKey);
             selectExerciseKey = conn.prepareStatement(queryExerciseKey);
             selectRepetitionKey = conn.prepareStatement(queryRepetitionKey);
+            selectSetKey = conn.prepareStatement(querySetKey);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -151,6 +154,9 @@ public class bbDatabase {
             }
             if (selectRepetitionKey != null) {
                 selectRepetitionKey.close();
+            }
+            if (selectSetKey != null) {
+                selectSetKey.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -386,10 +392,11 @@ public class bbDatabase {
     }
 
     public int repetitionOnFile(int bandStatId, int repetitions) {
-        //compared to other query methods, repetitionOnFile also checks tblBandStat using bandStatOnFileKey(int idBandStat)
+        //compared to most of the other query methods, repetitionOnFile also checks tblBandStat using bandStatOnFileKey
+        // (int idBandStat)
         try (ResultSet bandStatPack = bandStatOnFileKey(bandStatId)) {
             if (bandStatPack == null) {
-                System.out.println("The given bandStatId, " + bandStatId + ", is not found");
+                System.out.println("The given bandStatId, " + bandStatId + ", was not found");
                 return -1;
             }
         } catch (SQLException err) {
@@ -466,6 +473,27 @@ public class bbDatabase {
     }
 
     public int setOnFile(int exerciseId, int repId, String comments, String setDate) {
+        //compared to most of the other query methods, setOnFile also checks tblRepetition and tblExercise using
+        // repetitionOnFileKey and exerciseOnFileKey, respectively
+
+        try (ResultSet exercisePack = exerciseOnFileKey(exerciseId)) {
+            if (exercisePack == null) {
+                System.out.println("The given exerciseId, " + exerciseId + ", was not found");
+                return -1;
+            }
+        } catch (SQLException err) {
+            System.out.println("Error with exerciseId in set parameter list\n" + err.getMessage());
+        }
+
+        try (ResultSet repetitionPack = repetitionOnFileKey(repId)) {
+            if (repetitionPack == null) {
+                System.out.println("The given repetition, " + repId + ", was not found");
+                return -1;
+            }
+        } catch (SQLException err) {
+            System.out.println("Error with repetitionId in set parameter list\n" + err.getMessage());
+        }
+
         try {
             selectSet.setInt(1, exerciseId);
             selectSet.setInt(2, repId);
@@ -492,6 +520,25 @@ public class bbDatabase {
         } catch (SQLException e) {
             System.out.println("on File problem querying tblSet:\n" + e.getMessage());
             return -1;
+        }
+    }
+
+    public ResultSet setOnFileKey(int idSet) {
+//        System.out.println("Trying to find set with id = " + idSet);
+        try {
+            selectSetKey.setInt(1, idSet);
+            ResultSet resultSet = selectSetKey.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Record with the key " + idSet + " found");
+                return resultSet;
+            } else {
+                System.out.println("No record with the key " + idSet + " found");
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Problem with querying tblSet:\n" + e.getMessage());
+            return null;
         }
     }
 
