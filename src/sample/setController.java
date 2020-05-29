@@ -70,6 +70,17 @@ public class setController implements Initializable {
     }
 
     @FXML
+    private void addSet() {
+        try {
+            Parent setDialog = FXMLLoader.load(getClass().getResource("FXML/setDialog.fxml"));
+            Main.mainWindow.setTitle("BodyBand - add new set");
+            Main.mainWindow.setScene(new Scene(setDialog));
+        } catch (IOException e) {
+            System.out.println("Problem loading new set scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
     private void exitBB(){
         Platform.exit();
     }
@@ -89,9 +100,9 @@ public class setController implements Initializable {
     @FXML
     private void repScene(){
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(setPage));
+            Main.mainWindow.setScene(new Scene(repPage));
         } catch (
                 IOException e) {
             System.out.println("Problem loading rep scene:\n" + e.getMessage());

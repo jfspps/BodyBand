@@ -12,7 +12,7 @@
       <MenuBar>
          <Menu text="Options">
             <items>
-               <MenuItem text="Add new band stat" />
+               <MenuItem onAction="#addBandStat" text="Add new band stat" />
                <MenuItem onAction="#showMainPage" text="Main page" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem onAction="#exitBB" text="Exit" />

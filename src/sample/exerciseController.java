@@ -80,9 +80,9 @@ public class exerciseController implements Initializable {
     @FXML
     private void addExercise() {
         try {
-            Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/exerciseDialog.fxml"));
+            Parent exerciseDialog = FXMLLoader.load(getClass().getResource("FXML/exerciseDialog.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new exercise");
-            Main.mainWindow.setScene(new Scene(mainPage));
+            Main.mainWindow.setScene(new Scene(exerciseDialog));
         } catch (IOException e) {
             System.out.println("Problem loading new exercise scene:\n" + e.getMessage());
         }
@@ -109,9 +109,9 @@ public class exerciseController implements Initializable {
     @FXML
     private void repScene(){
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(setPage));
+            Main.mainWindow.setScene(new Scene(repPage));
         } catch (
                 IOException e) {
             System.out.println("Problem loading rep scene:\n" + e.getMessage());

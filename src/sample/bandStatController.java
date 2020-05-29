@@ -68,6 +68,17 @@ public class bandStatController implements Initializable {
     }
 
     @FXML
+    private void addBandStat() {
+        try {
+            Parent addBandStat = FXMLLoader.load(getClass().getResource("FXML/bandStatDialog.fxml"));
+            Main.mainWindow.setTitle("BodyBand - add new band stat");
+            Main.mainWindow.setScene(new Scene(addBandStat));
+        } catch (IOException e) {
+            System.out.println("Problem loading new band stat scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
     private void exitBB(){
         Platform.exit();
     }
@@ -75,9 +86,9 @@ public class bandStatController implements Initializable {
     @FXML
     private void repScene(){
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(setPage));
+            Main.mainWindow.setScene(new Scene(repPage));
         } catch (
                 IOException e) {
             System.out.println("Problem loading rep scene:\n" + e.getMessage());

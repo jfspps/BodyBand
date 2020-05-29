@@ -66,6 +66,17 @@ public class repController implements Initializable {
     }
 
     @FXML
+    private void addRep() {
+        try {
+            Parent repDialog = FXMLLoader.load(getClass().getResource("FXML/repDialog.fxml"));
+            Main.mainWindow.setTitle("BodyBand - add new rep");
+            Main.mainWindow.setScene(new Scene(repDialog));
+        } catch (IOException e) {
+            System.out.println("Problem loading new rep scene:\n" + e.getMessage());
+        }
+    }
+
+    @FXML
     private void exitBB(){
         Platform.exit();
     }
