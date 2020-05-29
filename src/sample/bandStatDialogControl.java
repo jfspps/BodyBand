@@ -34,14 +34,7 @@ public class bandStatDialogControl implements Initializable {
 
     @FXML
     private void showBandStats() {
-        try {
-            Parent bandStatPage = FXMLLoader.load(getClass().getResource("FXML/BandStatPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand band stats");
-            Main.mainWindow.setScene(new Scene(bandStatPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading band stat scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().bandStatPage();
     }
 
     @FXML
