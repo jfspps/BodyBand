@@ -66,30 +66,13 @@ public class repController implements Initializable {
     }
 
     @FXML
-    private void showDialog() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        //dialog boxes are automatically MODAL
-        dialog.initOwner(mainBorderPane.getScene().getWindow());
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Dialog.fxml"));
-
+    private void addRep() {
         try {
-            dialog.getDialogPane().setContent(fxmlLoader.load());
-        } catch (IOException err) {
-            System.out.println("Dialog not loading: " + err.getMessage());
-        }
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.setTitle("Add new repetition");
-        dialog.setHeaderText("Add new repetition (header)");
-        Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            DialogController controller = fxmlLoader.getController();
-            controller.processData();
-            System.out.println("Okay");
-        } else {
-            System.out.println("Cancelled");
+            Parent repDialog = FXMLLoader.load(getClass().getResource("FXML/repDialog.fxml"));
+            Main.mainWindow.setTitle("BodyBand - add new rep");
+            Main.mainWindow.setScene(new Scene(repDialog));
+        } catch (IOException e) {
+            System.out.println("Problem loading new rep scene:\n" + e.getMessage());
         }
     }
 

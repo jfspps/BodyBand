@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sample.repDialogControl">
+
+    <top>
+        <Label text="Enter new band stats here (required*):" BorderPane.alignment="CENTER" />
+    </top>
+    <left>
+        <Pane prefHeight="10.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <Pane prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Pane prefHeight="10.0" prefWidth="200.0" />
+                <Label text="Band stat ID*" />
+                <TextField fx:id="bandStatID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
+                <Label text="Repetitions*" />
+                <TextField fx:id="repetitions" minHeight="60.0" onKeyReleased="#requiredFieldsCheck"/>
+
+                <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></TextArea>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveData" text="Save">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#showReps" text="Close">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

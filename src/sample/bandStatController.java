@@ -68,30 +68,13 @@ public class bandStatController implements Initializable {
     }
 
     @FXML
-    private void showDialog() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        //dialog boxes are automatically MODAL
-        dialog.initOwner(mainBorderPane.getScene().getWindow());
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Dialog.fxml"));
-
+    private void addBandStat() {
         try {
-            dialog.getDialogPane().setContent(fxmlLoader.load());
-        } catch (IOException err) {
-            System.out.println("Dialog not loading: " + err.getMessage());
-        }
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.setTitle("Add new band stat");
-        dialog.setHeaderText("Add new band stat (header)");
-        Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            DialogController controller = fxmlLoader.getController();
-            controller.processData();
-            System.out.println("Okay");
-        } else {
-            System.out.println("Cancelled");
+            Parent addBandStat = FXMLLoader.load(getClass().getResource("FXML/bandStatDialog.fxml"));
+            Main.mainWindow.setTitle("BodyBand - add new band stat");
+            Main.mainWindow.setScene(new Scene(addBandStat));
+        } catch (IOException e) {
+            System.out.println("Problem loading new band stat scene:\n" + e.getMessage());
         }
     }
 
@@ -103,9 +86,9 @@ public class bandStatController implements Initializable {
     @FXML
     private void repScene(){
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(setPage));
+            Main.mainWindow.setScene(new Scene(repPage));
         } catch (
                 IOException e) {
             System.out.println("Problem loading rep scene:\n" + e.getMessage());
