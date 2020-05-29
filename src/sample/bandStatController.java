@@ -1,22 +1,18 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class bandStatController implements Initializable {
@@ -57,66 +53,33 @@ public class bandStatController implements Initializable {
     // scene navigation --------------------------------------------------------------------------------
 
     @FXML
-    private void showMainPage() {
-        try {
-            Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand");
-            Main.mainWindow.setScene(new Scene(mainPage));
-        } catch (IOException e) {
-            System.out.println("Problem loading main scene:\n" + e.getMessage());
-        }
+    public void showMainPage() {
+        sceneNavigation.getInstance().mainPage();
     }
 
     @FXML
     private void addBandStat() {
-        try {
-            Parent addBandStat = FXMLLoader.load(getClass().getResource("FXML/bandStatDialog.fxml"));
-            Main.mainWindow.setTitle("BodyBand - add new band stat");
-            Main.mainWindow.setScene(new Scene(addBandStat));
-        } catch (IOException e) {
-            System.out.println("Problem loading new band stat scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().addBandStat();
     }
 
     @FXML
     private void exitBB(){
-        Platform.exit();
+        sceneNavigation.getInstance().exitBB();
     }
 
     @FXML
     private void repScene(){
-        try {
-            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(repPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading rep scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().repPage();
     }
 
     @FXML
     private void setScene(){
-        try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand sets");
-            Main.mainWindow.setScene(new Scene(setPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading set scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().setPage();
     }
 
     @FXML
     private void exerciseScene(){
-        try {
-            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
-            Main.mainWindow.setTitle("BodyBand exercises");
-            Main.mainWindow.setScene(new Scene(exercisePage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().exercisePage();
     }
 
     // Previous and Next buttons --------------------------------------------------------------------------------

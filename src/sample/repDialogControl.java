@@ -1,16 +1,12 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,14 +28,7 @@ public class repDialogControl implements Initializable {
 
     @FXML
     private void showReps() {
-        try {
-            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand reps");
-            Main.mainWindow.setScene(new Scene(repPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading rep scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().repPage();
     }
 
     @FXML

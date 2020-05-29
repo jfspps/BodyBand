@@ -1,14 +1,12 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -30,14 +28,7 @@ public class exerciseDialogControl implements Initializable {
 
     @FXML
     private void showExercises() {
-        try {
-            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
-            Main.mainWindow.setTitle("BodyBand exercises");
-            Main.mainWindow.setScene(new Scene(exercisePage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
-        }
+        sceneNavigation.getInstance().exercisePage();
     }
 
     @FXML
