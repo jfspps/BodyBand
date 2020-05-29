@@ -11,7 +11,7 @@
       <MenuBar>
          <Menu text="Options">
             <items>
-               <MenuItem onAction="#showDialog" text="Add more stuff" />
+               <MenuItem onAction="#addExercise" text="Add new exercise" />
                <MenuItem onAction="#showMainPage" text="Main page" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem onAction="#exitBB" text="Exit" />

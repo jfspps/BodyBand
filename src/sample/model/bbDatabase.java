@@ -555,11 +555,11 @@ public class bbDatabase {
             return -1;
         }
 
-        //testing for null is eventually handled by the controller and used here for test purposes
-        if (name == null) {
-            System.out.println("Name of exercise needed");
-            return -1;
-        }
+//        //testing for null is eventually handled by the controller and used here for test purposes
+//        if (name == null) {
+//            System.out.println("Name of exercise needed");
+//            return -1;
+//        }
 
         try {
             //PreparedStatements only allow for one value per placeholder ?
