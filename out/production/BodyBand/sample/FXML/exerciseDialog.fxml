@@ -20,17 +20,19 @@
             <children>
                 <Pane prefHeight="10.0" prefWidth="200.0" />
                 <Label text="Exercise name*" />
-                <TextField fx:id="exerciseName" minHeight="60.0" onKeyReleased="#nameFieldCheck" />
+                <TextField fx:id="exerciseName" minHeight="50.0" onKeyReleased="#nameFieldCheck" />
+                <Label text="Muscle group" />
+                <TextField fx:id="muscleGroup" minHeight="50.0" />
                 <Label text="Anchor needed" />
-                <TextField fx:id="anchorNeeded" minHeight="60.0" />
+                <TextField fx:id="anchorNeeded" minHeight="50.0" />
                 <Label text="Anchor height" />
-                <TextField fx:id="anchorHeight" minHeight="60.0" />
+                <TextField fx:id="anchorHeight" minHeight="50.0" />
                 <Label text="Anchor position" />
-                <TextField fx:id="anchorPosition" minHeight="60.0" />
+                <TextField fx:id="anchorPosition" minHeight="50.0" />
                 <Label text="Description" />
-                <TextField fx:id="description" minHeight="60.0" />
+                <TextField fx:id="description" minHeight="50.0" />
                 <Label text="Video URL" />
-                <TextField fx:id="videoURL" minHeight="60.0" />
+                <TextField fx:id="videoURL" minHeight="50.0" />
                 <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
                <VBox.margin>
                   <Insets top="5.0" />

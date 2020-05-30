@@ -118,4 +118,16 @@ public class sceneNavigation {
             System.out.println("Problem loading new set scene:\n" + e.getMessage());
         }
     }
+
+    // Testing and debugging only -----------------------------------------------------------------------
+
+    public void testPage(){
+        try {
+            Parent setDialog = FXMLLoader.load(getClass().getResource("testPage.fxml"));
+            Main.mainWindow.setTitle("BodyBand - test page");
+            Main.mainWindow.setScene(new Scene(setDialog));
+        } catch (IOException e) {
+            System.out.println("Problem loading test scene:\n" + e.getMessage());
+        }
+    }
 }

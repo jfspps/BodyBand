@@ -12,7 +12,8 @@ CREATE TABLE tblSet (
 
 CREATE TABLE tblExercise (
 	idExercise INTEGER PRIMARY KEY AUTOINCREMENT,
-    ExerciseName TEXT NOT NULL, 
+    ExerciseName TEXT NOT NULL,
+    MuscleGroup TEXT,
 	AnchorNeeded TEXT, 
 	AnchorHeight TEXT, 
 	AnchorPosition TEXT, 

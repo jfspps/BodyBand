@@ -31,6 +31,11 @@ public class Controller {
     public void showReps() {
         sceneNavigation.getInstance().repPage();
     }
+
+    @FXML
+    public void showTestPage(){
+        sceneNavigation.getInstance().testPage();
+    }
 }
 
 

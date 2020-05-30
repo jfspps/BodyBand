@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.testController">
+   <left>
+      <Button fx:id="buttonLeft" onAction="#clickLeft" mnemonicParsing="false" text="ButtonLeft"
+              BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Button fx:id="buttonRight" onAction="#clickRight" mnemonicParsing="false" text="ButtonRight"
+              BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <TextArea fx:id="centralTextArea" prefHeight="200.0" prefWidth="200.0" promptText="App input"
+                BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <TextArea fx:id="bottomTextArea" prefHeight="200.0" prefWidth="200.0" promptText="App output messages"
+                BorderPane.alignment="CENTER" />
+   </bottom>
+   <top>
+      <Button mnemonicParsing="false" onAction="#showMainPage" text="Return to main page" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

@@ -20,9 +20,6 @@ public class exerciseController implements Initializable {
     //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
 
-    //stores current state of the dialog box state
-    private boolean firstAttempt = true;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         record = 1;
@@ -38,9 +35,11 @@ public class exerciseController implements Initializable {
     @FXML
     private TextArea exerciseIDText;
     @FXML
-    private TextArea anchorNeededText;
-    @FXML
     private TextArea exerciseNameText;
+    @FXML
+    private TextArea muscleGroupText;
+    @FXML
+    private TextArea anchorNeededText;
     @FXML
     private TextArea anchorHeightText;
     @FXML
