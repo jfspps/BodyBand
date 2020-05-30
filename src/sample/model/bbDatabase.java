@@ -1,8 +1,5 @@
 package sample.model;
 
-import javafx.collections.ObservableList;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +14,12 @@ public class bbDatabase {
     //tblExercise indices
     public static final int ExerciseIdINDEX = 1;
     public static final int ExerciseNameINDEX = 2;
-    public static final int ExerciseAnchorNeededINDEX = 3;
-    public static final int ExerciseAnchorHeightINDEX = 4;
-    public static final int ExerciseAnchorPositionINDEX = 5;
-    public static final int ExerciseDescINDEX = 6;
-    public static final int ExerciseVideoURLINDEX = 7;
+    public static final int ExerciseMuscleGroupINDEX = 3;
+    public static final int ExerciseAnchorNeededINDEX = 4;
+    public static final int ExerciseAnchorHeightINDEX = 5;
+    public static final int ExerciseAnchorPositionINDEX = 6;
+    public static final int ExerciseDescINDEX = 7;
+    public static final int ExerciseVideoURLINDEX = 8;
 
     //tblRepetition indices
     public static final int RepetitionIdINDEX = 1;
@@ -50,8 +48,8 @@ public class bbDatabase {
 
     //INSERT queries
     public static final String queryInsertExercise = "INSERT INTO tblExercise " +
-            "(ExerciseName, AnchorNeeded, AnchorHeight, AnchorPosition, Description, VideoURL) " +
-            "VALUES(?, ?, ?, ?, ?, ?)";
+            "(ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, AnchorPosition, Description, VideoURL) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String queryInsertBandStat = "INSERT INTO tblBandStat " +
             "(SingleBandTension, DoubledOrNot, Units) " +
             "VALUES(?, ?, ?)";
@@ -61,7 +59,7 @@ public class bbDatabase {
             "(Exercise_id, Rep_id, Comments, SetDate) VALUES(?, ?, ?, ?)";
 
     //find particular records
-    public static final String querySelectExercise = "SELECT ExerciseName, AnchorNeeded, AnchorHeight, " +
+    public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, " +
             "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND" +
             " AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? AND VideoURL = ?";
     public static final String querySelectBandStat = "SELECT SingleBandTension, DoubledOrNot, Units FROM" +
@@ -209,6 +207,7 @@ public class bbDatabase {
                 bbExercise exercise = new bbExercise();
                 exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
                 exercise.setExerciseName(results.getString(ExerciseNameINDEX));
+                exercise.setMuscleGroup(results.getString(ExerciseMuscleGroupINDEX));
                 exercise.setAnchorNeeded(results.getString(ExerciseAnchorNeededINDEX));
                 exercise.setAnchorHeight(results.getString(ExerciseAnchorHeightINDEX));
                 exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
@@ -223,15 +222,17 @@ public class bbDatabase {
         }
     }
 
-    public int exerciseOnFile(String name, String anchorNeeded, String anchorHeight, String anchorPosition,
+    public int exerciseOnFile(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+                              String anchorPosition,
                               String desc, String videoURL) {
         try {
             selectExercise.setString(1, name);
-            selectExercise.setString(2, anchorNeeded);
-            selectExercise.setString(3, anchorHeight);
-            selectExercise.setString(4, anchorPosition);
-            selectExercise.setString(5, desc);
-            selectExercise.setString(6, videoURL);
+            selectExercise.setString(2, muscleGroup);
+            selectExercise.setString(3, anchorNeeded);
+            selectExercise.setString(4, anchorHeight);
+            selectExercise.setString(5, anchorPosition);
+            selectExercise.setString(6, desc);
+            selectExercise.setString(7, videoURL);
 
             //returns the rows with this record
             ResultSet resultSet = selectExercise.executeQuery();
@@ -259,7 +260,7 @@ public class bbDatabase {
     public ResultSet exerciseOnFileKey(int idExercise) {
 //        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
-            selectExerciseKey.setInt(1, idExercise);
+            selectExerciseKey.setInt(ExerciseIdINDEX, idExercise);
             ResultSet resultSet = selectExerciseKey.executeQuery();
 
             if (resultSet.next()) {
@@ -277,19 +278,20 @@ public class bbDatabase {
 
     public List<bbExercise> exerciseOnFileKeyList(int idExercise){
         try {
-            selectExerciseKey.setInt(1, idExercise);
+            selectExerciseKey.setInt(ExerciseIdINDEX, idExercise);
             ResultSet resultSet = selectExerciseKey.executeQuery();
 
             List<bbExercise> exerciseArray = new ArrayList<>();
             if (resultSet.next()) {
                 bbExercise tempEx = new bbExercise();
-                tempEx.setExerciseId(resultSet.getInt(1)); //records and their PKs may get deleted over time
-                tempEx.setExerciseName(resultSet.getString(2));
-                tempEx.setAnchorNeeded(resultSet.getString(3));
-                tempEx.setAnchorHeight(resultSet.getString(4));
-                tempEx.setAnchorPosition(resultSet.getString(5));
-                tempEx.setExerciseDesc(resultSet.getString(6));
-                tempEx.setVideoURL(resultSet.getString(7));
+                tempEx.setExerciseId(resultSet.getInt(ExerciseIdINDEX)); //records and their PKs may get deleted over time
+                tempEx.setExerciseName(resultSet.getString(ExerciseNameINDEX));
+                tempEx.setMuscleGroup(resultSet.getString(ExerciseMuscleGroupINDEX));
+                tempEx.setAnchorNeeded(resultSet.getString(ExerciseAnchorNeededINDEX));
+                tempEx.setAnchorHeight(resultSet.getString(ExerciseAnchorHeightINDEX));
+                tempEx.setAnchorPosition(resultSet.getString(ExerciseAnchorPositionINDEX));
+                tempEx.setExerciseDesc(resultSet.getString(ExerciseDescINDEX));
+                tempEx.setVideoURL(resultSet.getString(ExerciseVideoURLINDEX));
                 exerciseArray.add(tempEx);
             } else {
                 System.out.println("No record with the key " + idExercise + " found");
@@ -546,10 +548,11 @@ public class bbDatabase {
 
     //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
 
-    public int insertNewExercise(String name, String anchorNeeded, String anchorHeight, String anchorPosition,
+    public int insertNewExercise(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+                                 String anchorPosition,
                                  String desc, String videoURL) {
         //check if the exercise already exists (returns 0 if none, and 1 if present)
-        int index = exerciseOnFile(name, anchorNeeded, anchorHeight, anchorPosition, desc, videoURL);
+        int index = exerciseOnFile(name, muscleGroup, anchorNeeded, anchorHeight, anchorPosition, desc, videoURL);
         if (index == 1) {
             System.out.println(name + " already exists on file. No further changes made.");
             return -1;
@@ -564,11 +567,12 @@ public class bbDatabase {
         try {
             //PreparedStatements only allow for one value per placeholder ?
             insertExercise.setString(1, name);
-            insertExercise.setString(2, anchorNeeded);
-            insertExercise.setString(3, anchorHeight);
-            insertExercise.setString(4, anchorPosition);
-            insertExercise.setString(5, desc);
-            insertExercise.setString(6, videoURL);
+            insertExercise.setString(2, muscleGroup);
+            insertExercise.setString(3, anchorNeeded);
+            insertExercise.setString(4, anchorHeight);
+            insertExercise.setString(5, anchorPosition);
+            insertExercise.setString(6, desc);
+            insertExercise.setString(7, videoURL);
 
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertExercise.executeUpdate();

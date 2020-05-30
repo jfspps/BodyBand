@@ -32,43 +32,49 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Exercise ID" />
-                  <TextArea fx:id="exerciseIDText" prefHeight="200.0" wrapText="true" />
+                  <TextArea fx:id="exerciseIDText" prefHeight="150.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Exercise name" />
-                  <TextArea fx:id="exerciseNameText" prefHeight="200.0" wrapText="true" />
+                  <TextArea fx:id="exerciseNameText" prefHeight="150.0" wrapText="true" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label minWidth="125.0" text="Muscle group" />
+                  <TextArea fx:id="muscleGroupText" prefHeight="150.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor needed" />
-                  <TextArea fx:id="anchorNeededText" prefHeight="200.0" wrapText="true" />
+                  <TextArea fx:id="anchorNeededText" prefHeight="150.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor height" />
-                  <TextArea fx:id="anchorHeightText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <TextArea fx:id="anchorHeightText" prefHeight="150.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Anchor position" />
-                  <TextArea fx:id="anchorPositionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <TextArea fx:id="anchorPositionText" prefHeight="150.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Description" />
-                  <TextArea fx:id="descriptionText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <TextArea fx:id="descriptionText" prefHeight="150.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Video URL" />
-                  <TextArea fx:id="videoURLText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <TextArea fx:id="videoURLText" prefHeight="150.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
          </children>

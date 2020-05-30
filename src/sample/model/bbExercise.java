@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class bbExercise {
     private SimpleIntegerProperty exerciseId;
     private SimpleStringProperty exerciseName;
+    private SimpleStringProperty muscleGroup;
     private SimpleStringProperty anchorNeeded;
     private SimpleStringProperty anchorHeight;
     private SimpleStringProperty anchorPosition;
@@ -15,6 +16,7 @@ public class bbExercise {
     public bbExercise() {
         this.exerciseId = new SimpleIntegerProperty();
         this.exerciseName = new SimpleStringProperty();
+        this.muscleGroup = new SimpleStringProperty();
         this.anchorNeeded = new SimpleStringProperty();
         this.anchorHeight = new SimpleStringProperty();
         this.anchorPosition = new SimpleStringProperty();
@@ -38,6 +40,14 @@ public class bbExercise {
 
     public void setExerciseName(String exerciseName) {
         this.exerciseName.set(exerciseName);
+    }
+
+    public String getMuscleGroup() {
+        return this.muscleGroup.get();
+    }
+
+    public void setMuscleGroup(String muscleGroup) {
+        this.muscleGroup.set(muscleGroup);
     }
 
     public String getAnchorNeeded() {
