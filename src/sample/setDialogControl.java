@@ -8,12 +8,18 @@ import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class setDialogControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        LocalDateTime dateTime = LocalDateTime.now();
+        String timeDate = dateTime.format(DateTimeFormatter.ofPattern("HH:mm, dd LLL yyyy"));
+        System.out.println(timeDate);
+        setDate.setText(timeDate);
         saveButton.setDisable(true);
     }
 

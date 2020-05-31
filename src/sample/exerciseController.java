@@ -10,27 +10,9 @@ import sample.model.bbDatabase;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class exerciseController implements Initializable {
-
-    //record is the index of each record in bbExercise, the PK of which is one-based
-    private int record;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        record = 1;
-        exerciseIDText.setText(String.valueOf(record));
-        try {
-            exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
-        } catch (SQLException error) {
-            System.out.println("Problem with pairing db to UI\n" + error.getMessage());
-        }
-        buttonPrevious.setDisable(true);
-    }
 
     @FXML
     private TextArea exerciseIDText;
@@ -56,6 +38,26 @@ public class exerciseController implements Initializable {
     private BorderPane mainBorderPane;
     @FXML
     private MenuItem menuItemMainPage;
+
+    //record is the index of each record in bbExercise, the PK of which is one-based
+    private int record;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Note that this page does not load is the table is empty (giving NullPointerException)!
+        record = 1;
+        exerciseIDText.setText(String.valueOf(record));
+        try {
+            exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+        } catch (SQLException error) {
+            System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
+        } catch (NullPointerException nullError){
+            System.out.println("ExercisePage NullPointerException: tblExercise empty?\n" + nullError.getLocalizedMessage());
+        }
+        buttonPrevious.setDisable(true);
+    }
+
+
 
     // scene navigation --------------------------------------------------------------------------------
 
@@ -108,22 +110,18 @@ public class exerciseController implements Initializable {
             try {
                 exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
             } catch (SQLException error) {
-                System.out.println("Problem with pairing db to UI\n" + error.getMessage());
+                System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
         }
 
-//        //example of running "background" processes on the JavaFX "UI thread" (separate, single thread) when Next is
-//        // clicked
+//        //example of running "background" processes on the JavaFX "UI thread" (separate, single thread)
 //        Runnable background = new Runnable() {
 //            @Override
 //            public void run() {
 //                try {
 //                    Thread.sleep(10000);
-//                    //the UI is still operable since this is running on a thread separate to
-//                    // UI thread, for now...(could be used as a countdown between sets)
+//                    //background thread pauses for 10 seconds and ten runs runLater()
 //
-//                    //once the background thread has passed, control is then assigned to UI thread by runLater() to
-//                    run this:
 //                    Platform.runLater(new Runnable() {
 //                        @Override
 //                        public void run() {
@@ -138,12 +136,6 @@ public class exerciseController implements Initializable {
 //        };
 //        new Thread(background).start();
 
-        //print current date and time
-        LocalDate localDate = LocalDate.now();
-        String date = localDate.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
-        LocalTime localTime = LocalTime.now();
-        String time = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        System.out.println(date + " at " + time);
     }
 
     @FXML
@@ -163,7 +155,7 @@ public class exerciseController implements Initializable {
             try {
                 exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
             } catch (SQLException error) {
-                System.out.println("Problem with pairing db to UI\n" + error.getMessage());
+                System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
         }
     }
