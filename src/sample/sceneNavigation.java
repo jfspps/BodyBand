@@ -25,7 +25,7 @@ public class sceneNavigation {
             Main.mainWindow.setTitle("BodyBand");
             Main.mainWindow.setScene(new Scene(mainPage));
         } catch (IOException e) {
-            System.out.println("Problem loading main scene:\n" + e.getMessage());
+            System.out.println("Problem loading main scene:\n" + e.getCause());
         }
     }
 
@@ -36,7 +36,7 @@ public class sceneNavigation {
             Main.mainWindow.setScene(new Scene(exercisePage));
         } catch (
                 IOException e) {
-            System.out.println("Problem loading exercise scene:\n" + e.getMessage());
+            System.out.println("Problem loading exercise scene:\n" + e.getCause());
         }
     }
 
@@ -47,7 +47,8 @@ public class sceneNavigation {
             Main.mainWindow.setScene(new Scene(bandStatPage));
         } catch (
                 IOException e) {
-            System.out.println("Problem loading band stat scene:\n" + e.getMessage());
+            System.out.println("Problem loading band stat scene:\n");
+            e.printStackTrace();
         }
     }
 
@@ -58,7 +59,7 @@ public class sceneNavigation {
             Main.mainWindow.setScene(new Scene(setPage));
         } catch (
                 IOException e) {
-            System.out.println("Problem loading set scene:\n" + e.getMessage());
+            System.out.println("Problem loading set scene:\n" + e.getCause());
         }
     }
 
@@ -69,7 +70,7 @@ public class sceneNavigation {
             Main.mainWindow.setScene(new Scene(repPage));
         } catch (
                 IOException e) {
-            System.out.println("Problem loading rep scene:\n" + e.getMessage());
+            System.out.println("Problem loading rep scene:\n" + e.getCause());
         }
     }
 
@@ -85,37 +86,37 @@ public class sceneNavigation {
             Main.mainWindow.setTitle("BodyBand - add new band stat");
             Main.mainWindow.setScene(new Scene(addBandStat));
         } catch (IOException e) {
-            System.out.println("Problem loading new band stat scene:\n" + e.getMessage());
+            System.out.println("Problem loading new band stat scene:\n" + e.getCause());
         }
     }
 
     public void addExercise() {
         try {
-            Parent exerciseDialog = FXMLLoader.load(getClass().getResource("FXML/exerciseDialog.fxml"));
+            Parent addExercise = FXMLLoader.load(getClass().getResource("FXML/exerciseDialog.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new exercise");
-            Main.mainWindow.setScene(new Scene(exerciseDialog));
+            Main.mainWindow.setScene(new Scene(addExercise));
         } catch (IOException e) {
-            System.out.println("Problem loading new exercise scene:\n" + e.getMessage());
+            System.out.println("Problem loading new exercise scene:\n" + e.getCause());
         }
     }
 
     public void addRep() {
         try {
-            Parent repDialog = FXMLLoader.load(getClass().getResource("FXML/repDialog.fxml"));
+            Parent addRep = FXMLLoader.load(getClass().getResource("FXML/repDialog.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new rep");
-            Main.mainWindow.setScene(new Scene(repDialog));
+            Main.mainWindow.setScene(new Scene(addRep));
         } catch (IOException e) {
-            System.out.println("Problem loading new rep scene:\n" + e.getMessage());
+            System.out.println("Problem loading new rep scene:\n" + e.getCause());
         }
     }
 
     public void addSet() {
         try {
-            Parent setDialog = FXMLLoader.load(getClass().getResource("FXML/setDialog.fxml"));
+            Parent addSet = FXMLLoader.load(getClass().getResource("FXML/setDialog.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new set");
-            Main.mainWindow.setScene(new Scene(setDialog));
+            Main.mainWindow.setScene(new Scene(addSet));
         } catch (IOException e) {
-            System.out.println("Problem loading new set scene:\n" + e.getMessage());
+            System.out.println("Problem loading new set scene:\n" + e.getCause());
         }
     }
 
@@ -123,11 +124,11 @@ public class sceneNavigation {
 
     public void testPage(){
         try {
-            Parent setDialog = FXMLLoader.load(getClass().getResource("testPage.fxml"));
+            Parent testDialog = FXMLLoader.load(getClass().getResource("testPage.fxml"));
             Main.mainWindow.setTitle("BodyBand - test page");
-            Main.mainWindow.setScene(new Scene(setDialog));
+            Main.mainWindow.setScene(new Scene(testDialog));
         } catch (IOException e) {
-            System.out.println("Problem loading test scene:\n" + e.getMessage());
+            System.out.println("Problem loading test scene:\n" + e.getCause());
         }
     }
 }
