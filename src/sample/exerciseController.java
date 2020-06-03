@@ -38,6 +38,10 @@ public class exerciseController implements Initializable {
     private BorderPane mainBorderPane;
     @FXML
     private MenuItem menuItemMainPage;
+    @FXML
+    private Button buttonUpdate;
+    @FXML
+    private Button buttonDelete;
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private int record;
@@ -49,6 +53,12 @@ public class exerciseController implements Initializable {
         exerciseIDText.setText(String.valueOf(record));
         try {
             exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
+            muscleGroupText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseMuscleGroupINDEX));
+            anchorNeededText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorNeededINDEX));
+            anchorHeightText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorHeightINDEX));
+            anchorPositionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorPositionINDEX));
+            descriptionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseDescINDEX));
+            videoURLText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseVideoURLINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
         } catch (NullPointerException nullError){
@@ -158,6 +168,28 @@ public class exerciseController implements Initializable {
                 System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void onUpdateClicked(){
+        //clear up any empty strings and prepare for exerciseOnFileId()
+
+
+        int exerciseId = 0;
+        exerciseId = bbDatabase.getInstance().exerciseOnFileId(
+                exerciseNameText.getText(),
+                muscleGroupText.getText(),
+                anchorNeededText.getText(),
+                anchorHeightText.getText(),
+                anchorPositionText.getText(),
+                descriptionText.getText(),
+                videoURLText.getText()
+        );
+    }
+
+    @FXML
+    private void onDeleteClicked(){
+
     }
 }
 

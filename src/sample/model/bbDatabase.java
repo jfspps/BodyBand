@@ -60,7 +60,7 @@ public class bbDatabase {
 
     //find particular records
     public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, " +
-            "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND" +
+            "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND MuscleGroup = ? AND" +
             " AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? AND VideoURL = ?";
     public static final String querySelectBandStat = "SELECT SingleBandTension, DoubledOrNot, Units FROM" +
             " tblBandStat WHERE SingleBandTension = ? AND DoubledOrNot = ? AND Units = ?";
@@ -74,6 +74,17 @@ public class bbDatabase {
     public static final String queryExerciseKey = "SELECT * FROM tblExercise WHERE idExercise = ?";
     public static final String queryRepetitionKey = "SELECT * FROM tblRepetition WHERE idRepetition = ?";
     public static final String querySetKey = "SELECT * FROM tblSet WHERE idSet = ?";
+
+    //find record id
+    public static final String querySelectExerciseId = "SELECT idExercise FROM tblExercise WHERE ExerciseName = ? AND" +
+            " MuscleGroup = ? AND AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? " +
+            "AND VideoURL = ?";
+    public static final String querySelectBandStatId = "SELECT idBandStat FROM tblBandStat WHERE SingleBandTension = " +
+            "? AND DoubledOrNot = ? AND Units = ?";
+    public static final String querySelectRepetitionId = "SELECT idRepetition FROM tblRepetition WHERE BandStat_id = " +
+            "? AND Repetitions = ?";
+    public static final String querySelectSetId = "SELECT idSet FROM tblSet WHERE Exercise_id = ? AND Rep_id = ? AND " +
+            "Comments = ? AND SetDate = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -90,6 +101,10 @@ public class bbDatabase {
     private PreparedStatement selectExerciseKey;
     private PreparedStatement selectRepetitionKey;
     private PreparedStatement selectSetKey;
+    private PreparedStatement selectExerciseId;
+    private PreparedStatement selectBandStatId;
+    private PreparedStatement selectRepetitionId;
+    private PreparedStatement selectSetId;
 
     //bbDatabase admin routines -------------------------------------------------------------
     //open() is called by main() first and sets up conn
@@ -109,6 +124,10 @@ public class bbDatabase {
             selectExerciseKey = conn.prepareStatement(queryExerciseKey);
             selectRepetitionKey = conn.prepareStatement(queryRepetitionKey);
             selectSetKey = conn.prepareStatement(querySetKey);
+            selectExerciseId = conn.prepareStatement(querySelectExerciseId);
+            selectBandStatId = conn.prepareStatement(querySelectBandStatId);
+            selectRepetitionId = conn.prepareStatement(querySelectRepetitionId);
+            selectSetId = conn.prepareStatement(querySelectSetId);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -155,6 +174,18 @@ public class bbDatabase {
             }
             if (selectSetKey != null) {
                 selectSetKey.close();
+            }
+            if (selectExerciseId != null) {
+                selectExerciseId.close();
+            }
+            if (selectBandStatId != null) {
+                selectBandStatId.close();
+            }
+            if (selectRepetitionId != null) {
+                selectRepetitionId.close();
+            }
+            if (selectSetId != null) {
+                selectSetId.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -257,6 +288,35 @@ public class bbDatabase {
         }
     }
 
+    public int exerciseOnFileId(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+                              String anchorPosition,
+                              String desc, String videoURL) {
+        try {
+            selectExerciseId.setString(1, name);
+            selectExerciseId.setString(2, muscleGroup);
+            selectExerciseId.setString(3, anchorNeeded);
+            selectExerciseId.setString(4, anchorHeight);
+            selectExerciseId.setString(5, anchorPosition);
+            selectExerciseId.setString(6, desc);
+            selectExerciseId.setString(7, videoURL);
+
+            //this returns a ResultSet with one field, idExercise
+            ResultSet resultSet = selectExerciseId.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Exercise found with id " + resultSet.getString(1));
+                return resultSet.getInt(1);
+            } else {
+                System.out.println("Exercise not found");
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("onFileId problem querying tblExercise:\n" + e.getMessage());
+            return -1;
+        }
+    }
+
     public ResultSet exerciseOnFileKey(int idExercise) {
 //        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
@@ -305,7 +365,7 @@ public class bbDatabase {
     }
 
     //tblBandStat ==========================================
-    public List<bbBandStat> listAllBandstats() {
+    public List<bbBandStat> listAllBandStats() {
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(querySelectAllBandStats)) {
             List<bbBandStat> bandStats = new ArrayList<>();

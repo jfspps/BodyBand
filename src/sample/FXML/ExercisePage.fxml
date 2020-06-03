@@ -4,9 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.exerciseController">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.exerciseController">
    <top>
       <MenuBar>
          <Menu text="Options">
@@ -94,7 +92,11 @@
                   <Insets left="5.0" />
                </HBox.margin>
              </Button>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="buttonUpdate" layoutX="23.0" mnemonicParsing="false" onAction="#onUpdateClicked" text="Update" />
+                  <Button fx:id="buttonDelete" layoutX="115.0" mnemonicParsing="false" onAction="#onDeleteClicked" text="Delete" />
+               </children></Pane>
             <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#onNextClicked" text="Next">
                <HBox.margin>
                   <Insets right="5.0" />
