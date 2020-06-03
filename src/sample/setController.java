@@ -19,11 +19,14 @@ public class setController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Note that this page does not load is the table is empty (giving NullPointerException)!
-        record = 1;
-        setIDText.setText(String.valueOf(record));
+        //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
+        record = bbDatabase.getInstance().getFirstSet();
             try {
+                setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
+                setIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             } catch (NullPointerException nullError){
@@ -94,13 +97,19 @@ public class setController implements Initializable {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            commentsText.setText("");
         }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
             exerciseIDText.setText("No set with id: " + record);
+            repIDText.setText("");
+            commentsText.setText("");
+            setDateText.setText("");
         } else {
             try {
+                setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
+                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -136,20 +145,33 @@ public class setController implements Initializable {
         setIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            commentsText.setText("Back at the beginning");
         } else {
-            buttonPrevious.setDisable(false);
-            commentsText.setText("");
-        }
+            buttonPrevious.setDisable(false); }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
             exerciseIDText.setText("No set with id: " + record);
+            repIDText.setText("");
+            commentsText.setText("");
+            setDateText.setText("");
         } else {
             try {
+                setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
+                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void onUpdateClicked() {
+    }
+
+    @FXML
+    private void onDeleteClicked(){
+
     }
 }
 

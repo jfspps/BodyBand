@@ -4,9 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.repDialogControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.repDialogControl">
 
     <top>
         <Label text="Enter new band stats here (required*):" BorderPane.alignment="CENTER" />
@@ -24,7 +22,7 @@
                 <Label text="Band stat ID*" />
                 <TextField fx:id="bandStatID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
                 <Label text="Repetitions*" />
-                <TextField fx:id="repetitions" minHeight="60.0" onKeyReleased="#requiredFieldsCheck"/>
+                <TextField fx:id="repetitions" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
 
                 <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
                <VBox.margin>

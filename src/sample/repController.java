@@ -19,11 +19,13 @@ public class repController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Note that this page does not load is the table is empty (giving NullPointerException)!
-        record = 1;
-        repIDText.setText(String.valueOf(record));
+        //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
+        record = bbDatabase.getInstance().getFirstRepetition();
+
         try {
+            repIDText.setText(String.valueOf(record));
             bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
+            repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
         } catch (NullPointerException nullError){
@@ -90,13 +92,15 @@ public class repController implements Initializable {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            repetitionsText.setText("");
         }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             bandStatIDText.setText("No rep with id: " + record);
+            repetitionsText.setText("");
         } else {
             try {
+                repIDText.setText(String.valueOf(record));
                 bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
+                repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
             }
@@ -132,20 +136,30 @@ public class repController implements Initializable {
         repIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            repetitionsText.setText("Back at the beginning");
         } else {
             buttonPrevious.setDisable(false);
-            repetitionsText.setText("");
         }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             bandStatIDText.setText("No rep with id: " + record);
+            repetitionsText.setText("");
         } else {
             try {
+                repIDText.setText(String.valueOf(record));
                 bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
+                repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void onUpdateClicked() {
+    }
+
+    @FXML
+    private void onDeleteClicked(){
+
     }
 }
 

@@ -4,8 +4,8 @@ CREATE TABLE tblSet (
 	idSet INTEGER PRIMARY KEY AUTOINCREMENT, 
 	Exercise_id INTEGER NOT NULL, 
 	Rep_id INTEGER NOT NULL, 
-	Comments TEXT, 
-	SetDate NUMERIC NOT NULL,
+	Comments TEXT DEFAULT "", 
+	SetDate TEXT NOT NULL DEFAULT "",
 	FOREIGN KEY(Exercise_id) REFERENCES tblExercise(idExercise),
 	FOREIGN KEY(Rep_id) REFERENCES tblRepetition(idRepetition)
 );
@@ -13,12 +13,12 @@ CREATE TABLE tblSet (
 CREATE TABLE tblExercise (
 	idExercise INTEGER PRIMARY KEY AUTOINCREMENT,
     ExerciseName TEXT NOT NULL,
-    MuscleGroup TEXT,
-	AnchorNeeded TEXT, 
-	AnchorHeight TEXT, 
-	AnchorPosition TEXT, 
-    Description TEXT,
-    VideoURL TEXT
+    MuscleGroup TEXT DEFAULT "",
+	AnchorNeeded TEXT DEFAULT "", 
+	AnchorHeight TEXT DEFAULT "", 
+	AnchorPosition TEXT DEFAULT "", 
+    Description TEXT DEFAULT "",
+    VideoURL TEXT DEFAULT ""
 );
 
 CREATE TABLE tblRepetition (
@@ -31,8 +31,8 @@ CREATE TABLE tblRepetition (
 CREATE TABLE tblBandStat (
 	idBandStat INTEGER PRIMARY KEY AUTOINCREMENT, 
 	SingleBandTension INTEGER NOT NULL, 
-	DoubledOrNot INTEGER NOT NULL,
-	Units TEXT
+	DoubledOrNot TEXT NOT NULL DEFAULT "single",
+	Units TEXT DEFAULT ""
 );
 
 -- Populate with a record. Note that due to the FK contrainsts, tblExercises and tblBandStat must be populated before tblRepetition.
