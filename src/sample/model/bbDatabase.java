@@ -46,6 +46,12 @@ public class bbDatabase {
     public static final String querySelectAllBandStats = "SELECT * FROM tblBandStat";
     public static final String querySelectAllSets = "SELECT * FROM tblSet";
 
+    //SELECT the first entry
+    public static final String querySelectFirstExercise = "SELECT * FROM tblExercise LIMIT 1";
+    public static final String querySelectFirstRepetition = "SELECT * FROM tblRepetition LIMIT 1";
+    public static final String querySelectFirstBandStat = "SELECT * FROM tblBandStat LIMIT 1";
+    public static final String querySelectFirstSet = "SELECT * FROM tblSet LIMIT 1";
+
     //INSERT queries
     public static final String queryInsertExercise = "INSERT INTO tblExercise " +
             "(ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, AnchorPosition, Description, VideoURL) " +
@@ -253,6 +259,21 @@ public class bbDatabase {
         }
     }
 
+    public int getFirstExercise(){
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(querySelectFirstExercise)) {
+
+            if(results.next()) {
+                return results.getInt(1);
+            }
+            System.out.println("No exercises on record");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblExercises:\n" + e.getMessage());
+            return 1;
+        }
+    }
+
     public int exerciseOnFile(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
                               String anchorPosition,
                               String desc, String videoURL) {
@@ -288,6 +309,7 @@ public class bbDatabase {
         }
     }
 
+    //this method returns the first id found and ignores all others
     public int exerciseOnFileId(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
                               String anchorPosition,
                               String desc, String videoURL) {
@@ -324,7 +346,7 @@ public class bbDatabase {
             ResultSet resultSet = selectExerciseKey.executeQuery();
 
             if (resultSet.next()) {
-                System.out.println("Record with the key " + idExercise + " found");
+//                System.out.println("Record with the key " + idExercise + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idExercise + " found");
@@ -385,6 +407,21 @@ public class bbDatabase {
         }
     }
 
+    public int getFirstBandStat(){
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(querySelectFirstBandStat)) {
+
+            if(results.next()) {
+                return results.getInt(1);
+            }
+            System.out.println("No band stats on record");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblBandStats:\n" + e.getMessage());
+            return 1;
+        }
+    }
+
     public int bandStatOnFile(int tension, String doubledOrNot, String units) {
         try {
             selectBandStat.setInt(1, tension);
@@ -414,6 +451,30 @@ public class bbDatabase {
         }
     }
 
+    //this method returns the first id found and ignores all others
+    public int bandStatOnFileId(Integer tension, String doubled, String units) {
+        try {
+            selectBandStatId.setInt(1, tension);
+            selectBandStatId.setString(2, doubled);
+            selectBandStatId.setString(3, units);
+
+            //this returns a ResultSet with one field, idExercise
+            ResultSet resultSet = selectBandStatId.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Band stat found with id " + resultSet.getString(1));
+                return resultSet.getInt(1);
+            } else {
+                System.out.println("Band stat not found");
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("onFileId problem querying tblBandStat:\n" + e.getMessage());
+            return -1;
+        }
+    }
+
     public ResultSet bandStatOnFileKey(int idBandStat) {
 //        System.out.println("Trying to find exercise with id = " + idBandStat);
         try {
@@ -421,7 +482,7 @@ public class bbDatabase {
             ResultSet resultSet = selectBandStatKey.executeQuery();
 
             if (resultSet.next()) {
-                System.out.println("Record with the key " + idBandStat + " found");
+//                System.out.println("Record with the key " + idBandStat + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idBandStat + " found");
@@ -450,6 +511,44 @@ public class bbDatabase {
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblRepetition:\n" + e.getMessage());
             return null;
+        }
+    }
+
+    public int getFirstRepetition(){
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(querySelectFirstRepetition)) {
+
+            if(results.next()) {
+                return results.getInt(1);
+            }
+            System.out.println("No repetitions on record");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblRepetitions:\n" + e.getMessage());
+            return 1;
+        }
+    }
+
+    //this method returns the first id found and ignores all others
+    public int repetitionOnFileId(Integer bandStatID, Integer reps) {
+        try {
+            selectRepetitionId.setInt(1, bandStatID);
+            selectRepetitionId.setInt(2, reps);
+
+            //this returns a ResultSet with one field, idExercise
+            ResultSet resultSet = selectRepetitionId.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Repetition found with id " + resultSet.getString(1));
+                return resultSet.getInt(1);
+            } else {
+                System.out.println("Repetition not found");
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("onFileId problem querying tblRepetition:\n" + e.getMessage());
+            return -1;
         }
     }
 
@@ -499,7 +598,7 @@ public class bbDatabase {
             ResultSet resultSet = selectRepetitionKey.executeQuery();
 
             if (resultSet.next()) {
-                System.out.println("Record with the key " + idRepetition + " found");
+//                System.out.println("Record with the key " + idRepetition + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idRepetition + " found");
@@ -531,6 +630,46 @@ public class bbDatabase {
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblSet:\n" + e.getMessage());
             return null;
+        }
+    }
+
+    public int getFirstSet(){
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(querySelectFirstSet)) {
+
+            if(results.next()) {
+                return results.getInt(1);
+            }
+            System.out.println("No sets on record");
+            return 1;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblSets:\n" + e.getMessage());
+            return 1;
+        }
+    }
+
+    //this method returns the first id found and ignores all others
+    public int setOnFileId(Integer exerciseID, Integer repID, String comments, String setDate) {
+        try {
+            selectSetId.setInt(1, exerciseID);
+            selectSetId.setInt(2, repID);
+            selectSetId.setString(3, comments);
+            selectSetId.setString(4, setDate);
+
+            //this returns a ResultSet with one field, idExercise
+            ResultSet resultSet = selectSetId.executeQuery();
+
+            if (resultSet.next()) {
+                System.out.println("Set found with id " + resultSet.getString(1));
+                return resultSet.getInt(1);
+            } else {
+                System.out.println("Set not found");
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("onFileId problem querying tblSet:\n" + e.getMessage());
+            return -1;
         }
     }
 
@@ -592,7 +731,7 @@ public class bbDatabase {
             ResultSet resultSet = selectSetKey.executeQuery();
 
             if (resultSet.next()) {
-                System.out.println("Record with the key " + idSet + " found");
+//                System.out.println("Record with the key " + idSet + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idSet + " found");

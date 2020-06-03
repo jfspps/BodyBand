@@ -19,7 +19,7 @@ public class bandStatController implements Initializable {
     @FXML
     private TextArea singleBandTensionText;
     @FXML
-    private TextArea DoubledOrNotText;
+    private TextArea doubledOrNotText;
     @FXML
     private TextArea unitsText;
 
@@ -37,11 +37,13 @@ public class bandStatController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //Note that this page does not load is the table is empty (giving NullPointerException)!
-        record = 1;
-        bandStatIDText.setText(String.valueOf(record));
+        //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
+        record = bbDatabase.getInstance().getFirstBandStat();
         try {
+            bandStatIDText.setText(String.valueOf(record));
             singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
+            doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
+            unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
         } catch (SQLException error) {
             System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
         } catch (NullPointerException nullError){
@@ -92,13 +94,17 @@ public class bandStatController implements Initializable {
             buttonPrevious.setDisable(false);
         } else {
             buttonPrevious.setDisable(true);
-            unitsText.setText("");
         }
         if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
             singleBandTensionText.setText("No band stat with id: " + record);
+            doubledOrNotText.setText("");
+            unitsText.setText("");
         } else {
             try {
+                bandStatIDText.setText(String.valueOf(record));
                 singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
+                doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
+                unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
             }
@@ -134,20 +140,32 @@ public class bandStatController implements Initializable {
         bandStatIDText.setText(String.valueOf(record));
         if (record <= 1) {
             buttonPrevious.setDisable(true);
-            unitsText.setText("Back at the beginning");
         } else {
             buttonPrevious.setDisable(false);
-            unitsText.setText("");
         }
         if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
             singleBandTensionText.setText("No band stat with id: " + record);
+            doubledOrNotText.setText("");
+            unitsText.setText("");
         } else {
             try {
+                bandStatIDText.setText(String.valueOf(record));
                 singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
+                doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
+                unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void onUpdateClicked() {
+    }
+
+    @FXML
+    private void onDeleteClicked(){
+
     }
 }
 

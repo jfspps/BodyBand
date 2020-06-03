@@ -31,7 +31,7 @@ CREATE TABLE tblRepetition (
 CREATE TABLE tblBandStat (
 	idBandStat INTEGER PRIMARY KEY AUTOINCREMENT, 
 	SingleBandTension INTEGER NOT NULL, 
-	DoubledOrNot INTEGER NOT NULL DEFAULT 0,
+	DoubledOrNot TEXT NOT NULL DEFAULT "single",
 	Units TEXT DEFAULT ""
 );
 
