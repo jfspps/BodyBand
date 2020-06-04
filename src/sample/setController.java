@@ -99,7 +99,7 @@ public class setController implements Initializable {
             buttonPrevious.setDisable(true);
         }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
-            exerciseIDText.setText("No set with id: " + record);
+            System.out.println("No set with id: " + record);
             repIDText.setText("");
             commentsText.setText("");
             setDateText.setText("");
@@ -148,7 +148,7 @@ public class setController implements Initializable {
         } else {
             buttonPrevious.setDisable(false); }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
-            exerciseIDText.setText("No set with id: " + record);
+            System.out.println("No set with id: " + record);
             repIDText.setText("");
             commentsText.setText("");
             setDateText.setText("");
@@ -167,6 +167,12 @@ public class setController implements Initializable {
 
     @FXML
     private void onUpdateClicked() {
+        int outputInt = bbDatabase.getInstance().updateSet(
+                record,
+                commentsText.getText().trim(),
+                setDateText.getText().trim()
+        );
+        System.out.println("Update code: " + outputInt);
     }
 
     @FXML

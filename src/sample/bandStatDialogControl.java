@@ -1,25 +1,20 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static java.lang.String.valueOf;
 
 public class bandStatDialogControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        singleBandTension.setText("single");
         saveButton.setDisable(true);
     }
 

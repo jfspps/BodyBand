@@ -112,7 +112,7 @@ public class exerciseController implements Initializable {
             buttonPrevious.setDisable(true);
         }
         if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+            System.out.println("No exercise with id: " + record);
             muscleGroupText.setText("");
             anchorNeededText.setText("");
             anchorHeightText.setText("");
@@ -168,7 +168,7 @@ public class exerciseController implements Initializable {
             buttonPrevious.setDisable(false);
         }
         if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
-            exerciseNameText.setText("No exercise with id: " + record);
+            System.out.println("No exercise with id: " + record);
             muscleGroupText.setText("");
             anchorNeededText.setText("");
             anchorHeightText.setText("");
@@ -193,16 +193,17 @@ public class exerciseController implements Initializable {
 
     @FXML
     private void onUpdateClicked(){
-        //get and confirm ID of record on display and populate a
-        int exerciseId = bbDatabase.getInstance().exerciseOnFileId(
-                exerciseNameText.getText(),
-                muscleGroupText.getText(),
-                anchorNeededText.getText(),
-                anchorHeightText.getText(),
-                anchorPositionText.getText(),
-                descriptionText.getText(),
-                videoURLText.getText()
+        int outputInt = bbDatabase.getInstance().updateExercise(
+                record,
+                exerciseNameText.getText().trim(),
+                muscleGroupText.getText().trim(),
+                anchorNeededText.getText().trim(),
+                anchorHeightText.getText().trim(),
+                anchorPositionText.getText().trim(),
+                descriptionText.getText().trim(),
+                videoURLText.getText().trim()
         );
+        System.out.println("Update code: " + outputInt);
     }
 
     @FXML
