@@ -94,7 +94,7 @@ public class repController implements Initializable {
             buttonPrevious.setDisable(true);
         }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
-            bandStatIDText.setText("No rep with id: " + record);
+            System.out.println("No rep with id: " + record);
             repetitionsText.setText("");
         } else {
             try {
@@ -140,7 +140,7 @@ public class repController implements Initializable {
             buttonPrevious.setDisable(false);
         }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
-            bandStatIDText.setText("No rep with id: " + record);
+            System.out.println("No rep with id: " + record);
             repetitionsText.setText("");
         } else {
             try {
@@ -155,6 +155,11 @@ public class repController implements Initializable {
 
     @FXML
     private void onUpdateClicked() {
+        int outputInt = bbDatabase.getInstance().updateRepetition(
+                record,
+                Integer.valueOf(repetitionsText.getText())
+        );
+        System.out.println("Update code: " + outputInt);
     }
 
     @FXML

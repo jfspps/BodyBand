@@ -96,7 +96,7 @@ public class bandStatController implements Initializable {
             buttonPrevious.setDisable(true);
         }
         if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
-            singleBandTensionText.setText("No band stat with id: " + record);
+            System.out.println("No band stat with id: " + record);
             doubledOrNotText.setText("");
             unitsText.setText("");
         } else {
@@ -144,7 +144,7 @@ public class bandStatController implements Initializable {
             buttonPrevious.setDisable(false);
         }
         if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
-            singleBandTensionText.setText("No band stat with id: " + record);
+            System.out.println("No band stat with id: " + record);
             doubledOrNotText.setText("");
             unitsText.setText("");
         } else {
@@ -161,6 +161,13 @@ public class bandStatController implements Initializable {
 
     @FXML
     private void onUpdateClicked() {
+        int outputInt = bbDatabase.getInstance().updateBandStat(
+                record,
+                Integer.valueOf(singleBandTensionText.getText()),
+                doubledOrNotText.getText().trim(),
+                unitsText.getText().trim()
+        );
+        System.out.println("Update code: " + outputInt);
     }
 
     @FXML

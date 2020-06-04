@@ -64,6 +64,16 @@ public class bbDatabase {
     public static final String queryInsertSet = "INSERT INTO tblSet " +
             "(Exercise_id, Rep_id, Comments, SetDate) VALUES(?, ?, ?, ?)";
 
+    //UPDATE queries (foreign keys cannot be updated)
+    public static final String queryUpdateExercise = "UPDATE tblExercise SET ExerciseName = ?, MuscleGroup = ?, " +
+            "AnchorNeeded = ?, AnchorHeight = ?, AnchorPosition = ?, Description = ?, VideoURL = ? WHERE " +
+            "idExercise = ?";
+    public static final String queryUpdateBandStat = "UPDATE tblBandStat SET SingleBandTension = ?, DoubledOrNot =" +
+            " ?, Units = ? WHERE idBandStat = ?";
+    public static final String queryUpdateRepetition = "UPDATE tblRepetition SET Repetitions = ? WHERE idRepetition =" +
+            " ?";
+    public static final String queryUpdateSet = "UPDATE tblSet SET Comments = ?, SetDate = ? WHERE idSet = ?";
+
     //find particular records
     public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, " +
             "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND MuscleGroup = ? AND" +
@@ -111,6 +121,10 @@ public class bbDatabase {
     private PreparedStatement selectBandStatId;
     private PreparedStatement selectRepetitionId;
     private PreparedStatement selectSetId;
+    private PreparedStatement updateExercise;
+    private PreparedStatement updateBandStat;
+    private PreparedStatement updateRepetition;
+    private PreparedStatement updateSet;
 
     //bbDatabase admin routines -------------------------------------------------------------
     //open() is called by main() first and sets up conn
@@ -134,6 +148,10 @@ public class bbDatabase {
             selectBandStatId = conn.prepareStatement(querySelectBandStatId);
             selectRepetitionId = conn.prepareStatement(querySelectRepetitionId);
             selectSetId = conn.prepareStatement(querySelectSetId);
+            updateExercise = conn.prepareStatement(queryUpdateExercise);
+            updateBandStat = conn.prepareStatement(queryUpdateBandStat);
+            updateRepetition = conn.prepareStatement(queryUpdateRepetition);
+            updateSet = conn.prepareStatement(queryUpdateSet);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -192,6 +210,18 @@ public class bbDatabase {
             }
             if (selectSetId != null) {
                 selectSetId.close();
+            }
+            if (updateExercise != null) {
+                updateExercise.close();
+            }
+            if (updateBandStat != null) {
+                updateBandStat.close();
+            }
+            if (updateRepetition != null) {
+                updateRepetition.close();
+            }
+            if (updateSet != null) {
+                updateSet.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -967,6 +997,127 @@ public class bbDatabase {
             System.out.println("Error with inserting set\n" + err.getMessage());
             //one can conn.rollback() in another try-catch block
             return -1;
+        }
+    }
+
+    // update methods ------------------return value is the index of the updated record ------------------------
+
+    public int updateExercise(Integer exerciseID, String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+                              String anchorPosition,
+                              String desc, String videoURL){
+        // check the index is already on the DB, return 0 if not
+        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
+        // check would prevent the passing of NULL)
+        if (exerciseOnFileKey(exerciseID) == null) {
+            System.out.println("Record with ID " + exerciseID + " not found. No changes made.");
+            return 0;
+        } else {
+            try {
+                updateExercise.setString(1, name);
+                updateExercise.setString(2, muscleGroup);
+                updateExercise.setString(3, anchorNeeded);
+                updateExercise.setString(4, anchorHeight);
+                updateExercise.setString(5, anchorPosition);
+                updateExercise.setString(6, desc);
+                updateExercise.setString(7, videoURL);
+                updateExercise.setInt(8, exerciseID);
+
+                //should only return 1 row update (index = 1)
+                int index = updateExercise.executeUpdate();
+
+                if (index != 1) {
+                    System.out.println("No records updated");
+                    return 0;
+                }
+                return exerciseID;
+            } catch (SQLException error) {
+                System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
+        }
+    }
+
+    public int updateBandStat(Integer bandStatID, int singleBandTension, String doubledOrNot, String units){
+        // check the index is already on the DB, return 0 if not
+        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
+        // check would prevent the passing of NULL)
+        if (bandStatOnFileKey(bandStatID) == null) {
+            System.out.println("Record with ID " + bandStatID + " not found. No changes made.");
+            return 0;
+        } else {
+            try {
+                updateBandStat.setInt(1, singleBandTension);
+                updateBandStat.setString(2, doubledOrNot);
+                updateBandStat.setString(3, units);
+                updateBandStat.setInt(4, bandStatID);
+
+                //should only return 1 row update (index = 1)
+                int index = updateBandStat.executeUpdate();
+
+                if (index != 1) {
+                    System.out.println("No records updated");
+                    return 0;
+                }
+                return bandStatID;
+            } catch (SQLException error) {
+                System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
+        }
+    }
+
+    public int updateRepetition(Integer repID, Integer reps){
+        // check the index is already on the DB, return 0 if not
+        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
+        // check would prevent the passing of NULL)
+        if (repetitionOnFileKey(repID) == null) {
+            System.out.println("Record with ID " + repID + " not found. No changes made.");
+            return 0;
+        } else {
+            try {
+                updateRepetition.setInt(1, reps);
+                updateRepetition.setInt(2, repID);
+
+                //should only return 1 row update (index = 1)
+                int index = updateRepetition.executeUpdate();
+
+                if (index != 1) {
+                    System.out.println("No records updated");
+                    return 0;
+                }
+                return repID;
+            } catch (SQLException error) {
+                System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
+        }
+    }
+
+    public int updateSet(Integer setID, String comments, String setDate){
+        // check the index is already on the DB, return 0 if not
+        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
+        // check would prevent the passing of NULL)
+        if (setOnFileKey(setID) == null) {
+            System.out.println("Record with ID " + setID + " not found. No changes made.");
+            return 0;
+        } else {
+            try {
+                updateSet.setString(1, comments);
+                updateSet.setString(2, setDate);
+                updateSet.setInt(3, setID);
+
+                //should only return 1 row update (index = 1)
+                int index = updateSet.executeUpdate();
+
+                if (index != 1) {
+                    System.out.println("No records updated");
+                    return 0;
+                }
+                return setID;
+            } catch (SQLException error) {
+                System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
         }
     }
 }
