@@ -297,10 +297,10 @@ public class bbDatabase {
                 return results.getInt(1);
             }
             System.out.println("No exercises on record");
-            return 1;
+            return 0;
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblExercises:\n" + e.getMessage());
-            return 1;
+            return -1;
         }
     }
 
@@ -445,10 +445,10 @@ public class bbDatabase {
                 return results.getInt(1);
             }
             System.out.println("No band stats on record");
-            return 1;
+            return 0;
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblBandStats:\n" + e.getMessage());
-            return 1;
+            return -1;
         }
     }
 
@@ -552,10 +552,10 @@ public class bbDatabase {
                 return results.getInt(1);
             }
             System.out.println("No repetitions on record");
-            return 1;
+            return 0;
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblRepetitions:\n" + e.getMessage());
-            return 1;
+            return -1;
         }
     }
 
@@ -671,10 +671,10 @@ public class bbDatabase {
                 return results.getInt(1);
             }
             System.out.println("No sets on record");
-            return 1;
+            return 0;
         } catch (SQLException e) {
             System.out.println("JDBC connection error to tblSets:\n" + e.getMessage());
-            return 1;
+            return -1;
         }
     }
 

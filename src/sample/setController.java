@@ -21,18 +21,37 @@ public class setController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstSet();
+        if (record == 0) {
+            sceneNavigation.getInstance().showInfoAlert("Set", "Set DB empty", "Please add a new set " +
+                    "to proceed");
+            //prevent user access to each field
+            setIDText.setDisable(true);
+            exerciseIDText.setDisable(true);
+            repIDText.setDisable(true);
+            commentsText.setDisable(true);
+            setDateText.setDisable(true);
+
+            buttonNext.setDisable(true);
+            buttonPrevious.setDisable(true);
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
+        } else if (record > 0) {
             try {
+                buttonPrevious.setDisable(true);
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
                 repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
                 commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
-                setIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
+                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             } catch (NullPointerException nullError){
                 System.out.println("SetPage NullPointerException: tblSet empty?\n" + nullError.getLocalizedMessage());
             }
-        buttonPrevious.setDisable(true);
+        } else {
+            sceneNavigation.getInstance().showInfoAlert("Set", "Problem with accessing Set DB", "");
+            showMainPage();
+        }
     }
 
     @FXML
@@ -54,6 +73,10 @@ public class setController implements Initializable {
     private BorderPane mainBorderPane;
     @FXML
     private MenuItem menuItemMainPage;
+    @FXML
+    private Button buttonUpdate;
+    @FXML
+    private Button buttonDelete;
 
     // scene navigation --------------------------------------------------------------------------------
 
@@ -92,19 +115,25 @@ public class setController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        setIDText.setText(String.valueOf(record));
-        if (record > 1) {
-            buttonPrevious.setDisable(false);
-        } else {
-            buttonPrevious.setDisable(true);
-        }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
             System.out.println("No set with id: " + record);
+            setIDText.setText(String.valueOf(record));
+            exerciseIDText.setText("");
             repIDText.setText("");
             commentsText.setText("");
             setDateText.setText("");
+
+            setIDText.setDisable(true);
+            repIDText.setDisable(true);
+            commentsText.setDisable(true);
+            setDateText.setDisable(true);
+
+            buttonPrevious.setDisable(false);
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
         } else {
             try {
+                buttonPrevious.setDisable(false);
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
                 repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
@@ -142,18 +171,34 @@ public class setController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        setIDText.setText(String.valueOf(record));
-        if (record <= 1) {
+        if(record == 1){
             buttonPrevious.setDisable(true);
-        } else {
-            buttonPrevious.setDisable(false); }
+        }
         if (bbDatabase.getInstance().setOnFileKey(record) == null) {
             System.out.println("No set with id: " + record);
+            setIDText.setText(String.valueOf(record));
+            exerciseIDText.setText("");
             repIDText.setText("");
             commentsText.setText("");
             setDateText.setText("");
+
+            setIDText.setDisable(true);
+            repIDText.setDisable(true);
+            commentsText.setDisable(true);
+            setDateText.setDisable(true);
+
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
         } else {
             try {
+                setIDText.setDisable(false);
+                repIDText.setDisable(false);
+                commentsText.setDisable(false);
+                setDateText.setDisable(false);
+
+                buttonUpdate.setDisable(false);
+                buttonDelete.setDisable(false);
+
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
                 repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));

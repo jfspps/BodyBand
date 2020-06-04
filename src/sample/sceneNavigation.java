@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
@@ -118,6 +119,16 @@ public class sceneNavigation {
         } catch (IOException e) {
             System.out.println("Problem loading new set scene:\n" + e.getCause());
         }
+    }
+
+    // Dialog (alert) boxes
+
+    public void showInfoAlert(String title, String header, String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.show();
     }
 
     // Testing and debugging only -----------------------------------------------------------------------
