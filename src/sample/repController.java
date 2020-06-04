@@ -21,17 +21,33 @@ public class repController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstRepetition();
+        if (record == 0) {
+            sceneNavigation.getInstance().showInfoAlert("Repetition", "Repetition DB empty", "Please add a new rep " +
+                    "to proceed");
+            //prevent user access to each field
+            repIDText.setDisable(true);
+            bandStatIDText.setDisable(true);
+            repetitionsText.setDisable(true);
 
-        try {
-            repIDText.setText(String.valueOf(record));
-            bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
-            repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
-        } catch (SQLException error) {
-            System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
-        } catch (NullPointerException nullError){
-            System.out.println("RepPage NullPointerException: tblRep empty?\n" + nullError.getLocalizedMessage());
+            buttonNext.setDisable(true);
+            buttonPrevious.setDisable(true);
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
+        } else if (record > 0) {
+            try {
+                buttonPrevious.setDisable(true);
+                repIDText.setText(String.valueOf(record));
+                bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
+                repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
+            } catch (SQLException error) {
+                System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
+            } catch (NullPointerException nullError){
+                System.out.println("RepPage NullPointerException: tblRep empty?\n" + nullError.getLocalizedMessage());
+            }
+        } else {
+            sceneNavigation.getInstance().showInfoAlert("Repetitions", "Problem with accessing Repetition DB", "");
+            showMainPage();
         }
-        buttonPrevious.setDisable(true);
     }
 
     @FXML
@@ -49,6 +65,10 @@ public class repController implements Initializable {
     private BorderPane mainBorderPane;
     @FXML
     private MenuItem menuItemMainPage;
+    @FXML
+    private Button buttonUpdate;
+    @FXML
+    private Button buttonDelete;
 
     // scene navigation --------------------------------------------------------------------------------
 
@@ -87,17 +107,22 @@ public class repController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        repIDText.setText(String.valueOf(record));
-        if (record > 1) {
-            buttonPrevious.setDisable(false);
-        } else {
-            buttonPrevious.setDisable(true);
-        }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             System.out.println("No rep with id: " + record);
+            repIDText.setText(String.valueOf(record));
+            bandStatIDText.setText("");
             repetitionsText.setText("");
+
+            repIDText.setDisable(true);
+            bandStatIDText.setDisable(true);
+            repetitionsText.setDisable(true);
+
+            buttonPrevious.setDisable(false);
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
         } else {
             try {
+                buttonPrevious.setDisable(false);
                 repIDText.setText(String.valueOf(record));
                 bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
                 repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
@@ -133,17 +158,30 @@ public class repController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        repIDText.setText(String.valueOf(record));
-        if (record <= 1) {
+        if(record == 1){
             buttonPrevious.setDisable(true);
-        } else {
-            buttonPrevious.setDisable(false);
         }
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             System.out.println("No rep with id: " + record);
+            repIDText.setText(String.valueOf(record));
+            bandStatIDText.setText("");
             repetitionsText.setText("");
+
+            repIDText.setDisable(true);
+            bandStatIDText.setDisable(true);
+            repetitionsText.setDisable(true);
+
+            buttonUpdate.setDisable(true);
+            buttonDelete.setDisable(true);
         } else {
             try {
+                repIDText.setDisable(false);
+                bandStatIDText.setDisable(false);
+                repetitionsText.setDisable(false);
+
+                buttonUpdate.setDisable(false);
+                buttonDelete.setDisable(false);
+
                 repIDText.setText(String.valueOf(record));
                 bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
                 repetitionsText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionRepsINDEX));
