@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
@@ -84,7 +82,7 @@ public class exerciseController implements Initializable {
                 System.out.println("ExercisePage NullPointerException: tblExercise empty?\n" + nullError.getLocalizedMessage());
             }
         } else {
-            sceneNavigation.getInstance().showInfoAlert("Exercise", "Problem with accessing Exercise DB", "");
+            sceneNavigation.getInstance().showInfoAlert("Exercise", "Problem with accessing Exercise DB");
             showMainPage();
         }
     }
@@ -152,6 +150,18 @@ public class exerciseController implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try {
+                exerciseIDText.setDisable(false);
+                exerciseNameText.setDisable(false);
+                muscleGroupText.setDisable(false);
+                anchorNeededText.setDisable(false);
+                anchorHeightText.setDisable(false);
+                anchorPositionText.setDisable(false);
+                descriptionText.setDisable(false);
+                videoURLText.setDisable(false);
+
+                buttonUpdate.setDisable(false);
+                buttonDelete.setDisable(false);
+
                 buttonPrevious.setDisable(false);
                 exerciseIDText.setText(String.valueOf(record));
                 exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
@@ -263,7 +273,34 @@ public class exerciseController implements Initializable {
 
     @FXML
     private void onDeleteClicked(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText("All other records with this exercise will also be deleted");
+        alert.setContentText("Click OK to confirm deletion");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                int deleted = bbDatabase.getInstance().deleteExercise(Integer.valueOf(exerciseIDText.getText()));
+                System.out.println("Record with id " + deleted + " deleted successfully");
+                exerciseNameText.setText("");
+                muscleGroupText.setText("");
+                anchorNeededText.setText("");
+                anchorHeightText.setText("");
+                anchorPositionText.setText("");
+                descriptionText.setText("");
+                videoURLText.setText("");
 
+                exerciseIDText.setDisable(true);
+                exerciseNameText.setDisable(true);
+                muscleGroupText.setDisable(true);
+                anchorNeededText.setDisable(true);
+                anchorHeightText.setDisable(true);
+                anchorPositionText.setDisable(true);
+                descriptionText.setDisable(true);
+                videoURLText.setDisable(true);
+
+                buttonUpdate.setDisable(true);
+                buttonDelete.setDisable(true);
+            }
+        });
     }
 }
 
