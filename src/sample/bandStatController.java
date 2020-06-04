@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
@@ -69,7 +67,7 @@ public class bandStatController implements Initializable {
                 System.out.println("BandStatPage NullPointerException: tblBandStat empty?\n" + nullError.getLocalizedMessage());
             }
         } else {
-            sceneNavigation.getInstance().showInfoAlert("Band stat", "Problem with accessing Band stat DB", "");
+            sceneNavigation.getInstance().showInfoAlert("Band stat", "Problem with accessing Band stat DB");
             showMainPage();
         }
     }
@@ -128,6 +126,14 @@ public class bandStatController implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try {
+                bandStatIDText.setDisable(false);
+                singleBandTensionText.setDisable(false);
+                doubledOrNotText.setDisable(false);
+                unitsText.setDisable(false);
+
+                buttonUpdate.setDisable(false);
+                buttonDelete.setDisable(false);
+
                 buttonPrevious.setDisable(false);
                 bandStatIDText.setText(String.valueOf(record));
                 singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
@@ -215,7 +221,26 @@ public class bandStatController implements Initializable {
 
     @FXML
     private void onDeleteClicked(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText("All other records with this band stat will also be deleted");
+        alert.setContentText("Click OK to confirm deletion");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                int deleted = bbDatabase.getInstance().deleteBandStat(Integer.valueOf(bandStatIDText.getText()));
+                System.out.println("Record with id " + deleted + " deleted successfully");
+                singleBandTensionText.setText("");
+                doubledOrNotText.setText("");
+                unitsText.setText("");
 
+                bandStatIDText.setDisable(true);
+                singleBandTensionText.setDisable(true);
+                doubledOrNotText.setDisable(true);
+                unitsText.setDisable(true);
+
+                buttonUpdate.setDisable(true);
+                buttonDelete.setDisable(true);
+            }
+        });
     }
 }
 

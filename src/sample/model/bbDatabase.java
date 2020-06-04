@@ -74,6 +74,12 @@ public class bbDatabase {
             " ?";
     public static final String queryUpdateSet = "UPDATE tblSet SET Comments = ?, SetDate = ? WHERE idSet = ?";
 
+    //DELETE queries (records from tblRepetition and tblSet are deleted ON CASCADE)
+    public static final String queryDeleteExercise = "DELETE FROM tblExercise WHERE idExercise = ?";
+    public static final String queryDeleteBandStat = "DELETE FROM tblBandStat WHERE idBandStat = ?";
+    public static final String queryDeleteRepetition = "DELETE FROM tblRepetition WHERE idRepetition = ?";
+    public static final String queryDeleteSet = "DELETE FROM tblSet WHERE idSet = ?";
+
     //find particular records
     public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, " +
             "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND MuscleGroup = ? AND" +
@@ -125,6 +131,10 @@ public class bbDatabase {
     private PreparedStatement updateBandStat;
     private PreparedStatement updateRepetition;
     private PreparedStatement updateSet;
+    private PreparedStatement deleteExercise;
+    private PreparedStatement deleteBandStat;
+    private PreparedStatement deleteRepetition;
+    private PreparedStatement deleteSet;
 
     //bbDatabase admin routines -------------------------------------------------------------
     //open() is called by main() first and sets up conn
@@ -152,6 +162,10 @@ public class bbDatabase {
             updateBandStat = conn.prepareStatement(queryUpdateBandStat);
             updateRepetition = conn.prepareStatement(queryUpdateRepetition);
             updateSet = conn.prepareStatement(queryUpdateSet);
+            deleteExercise = conn.prepareStatement(queryDeleteExercise);
+            deleteBandStat = conn.prepareStatement(queryDeleteBandStat);
+            deleteRepetition = conn.prepareStatement(queryDeleteRepetition);
+            deleteSet = conn.prepareStatement(queryDeleteSet);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -222,6 +236,18 @@ public class bbDatabase {
             }
             if (updateSet != null) {
                 updateSet.close();
+            }
+            if (deleteExercise != null) {
+                deleteExercise.close();
+            }
+            if (deleteBandStat != null) {
+                deleteBandStat.close();
+            }
+            if (deleteRepetition != null) {
+                deleteRepetition.close();
+            }
+            if (deleteSet != null){
+                deleteSet.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -1116,6 +1142,96 @@ public class bbDatabase {
                 return setID;
             } catch (SQLException error) {
                 System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
+        }
+    }
+
+    // DELETE queries...a separate Dialog alert will be needed to confirm DELETE...deleted record ID is returned
+
+    public int deleteExercise(int index){
+        if (exerciseOnFileKey(index) == null) {
+            System.out.println("Record with ID " + index + " not found. No deletion carried out.");
+            return 0;
+        } else {
+            try {
+                deleteExercise.setInt(1, index);
+
+                int result = deleteExercise.executeUpdate();
+
+                if (result != 1) {
+                    System.out.println("No records deleted");
+                    return 0;
+                }
+                return index;
+            } catch (SQLException err) {
+                System.out.println("Problem with exercise deletion attempt");
+                return -1;
+            }
+        }
+    }
+
+    public int deleteBandStat(int index){
+        if (bandStatOnFileKey(index) == null) {
+            System.out.println("Record with ID " + index + " not found. No deletion carried out.");
+            return 0;
+        } else {
+            try {
+                deleteBandStat.setInt(1, index);
+
+                int result = deleteBandStat.executeUpdate();
+
+                if (result != 1) {
+                    System.out.println("No records deleted");
+                    return 0;
+                }
+                return index;
+            } catch (SQLException err) {
+                System.out.println("Problem with band stat deletion attempt");
+                return -1;
+            }
+        }
+    }
+
+    public int deleteRepetition(int index){
+        if (repetitionOnFileKey(index) == null) {
+            System.out.println("Record with ID " + index + " not found. No deletion carried out.");
+            return 0;
+        } else {
+            try {
+                deleteRepetition.setInt(1, index);
+
+                int result = deleteRepetition.executeUpdate();
+
+                if (result != 1) {
+                    System.out.println("No records deleted");
+                    return 0;
+                }
+                return index;
+            } catch (SQLException err) {
+                System.out.println("Problem with repetition deletion attempt");
+                return -1;
+            }
+        }
+    }
+
+    public int deleteSet(int index){
+        if (setOnFileKey(index) == null) {
+            System.out.println("Record with ID " + index + " not found. No deletion carried out.");
+            return 0;
+        } else {
+            try {
+                deleteSet.setInt(1, index);
+
+                int result = deleteSet.executeUpdate();
+
+                if (result != 1) {
+                    System.out.println("No records deleted");
+                    return 0;
+                }
+                return index;
+            } catch (SQLException err) {
+                System.out.println("Problem with set deletion attempt");
                 return -1;
             }
         }

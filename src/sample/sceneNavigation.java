@@ -123,6 +123,13 @@ public class sceneNavigation {
 
     // Dialog (alert) boxes
 
+    public void showInfoAlert(String title, String header){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.show();
+    }
+
     public void showInfoAlert(String title, String header, String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

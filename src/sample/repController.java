@@ -2,9 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
@@ -45,7 +43,7 @@ public class repController implements Initializable {
                 System.out.println("RepPage NullPointerException: tblRep empty?\n" + nullError.getLocalizedMessage());
             }
         } else {
-            sceneNavigation.getInstance().showInfoAlert("Repetitions", "Problem with accessing Repetition DB", "");
+            sceneNavigation.getInstance().showInfoAlert("Repetitions", "Problem with accessing Repetition DB");
             showMainPage();
         }
     }
@@ -122,6 +120,13 @@ public class repController implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try {
+                repIDText.setDisable(false);
+                bandStatIDText.setDisable(false);
+                repetitionsText.setDisable(false);
+
+                buttonUpdate.setDisable(false);
+                buttonDelete.setDisable(false);
+
                 buttonPrevious.setDisable(false);
                 repIDText.setText(String.valueOf(record));
                 bandStatIDText.setText(bbDatabase.getInstance().repetitionOnFileKey(record).getString(bbDatabase.RepetitionBandStatIdINDEX));
@@ -202,7 +207,23 @@ public class repController implements Initializable {
 
     @FXML
     private void onDeleteClicked(){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setContentText("Click OK to confirm deletion");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                int deleted = bbDatabase.getInstance().deleteRepetition(Integer.valueOf(repIDText.getText()));
+                System.out.println("Record with id " + deleted + " deleted successfully");
+                bandStatIDText.setText("");
+                repetitionsText.setText("");
 
+                repIDText.setDisable(true);
+                bandStatIDText.setDisable(true);
+                repetitionsText.setDisable(true);
+
+                buttonUpdate.setDisable(true);
+                buttonDelete.setDisable(true);
+            }
+        });
     }
 }
 
