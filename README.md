@@ -48,7 +48,7 @@ The above schema was designed in MySQL workbench. The creation of the tables in 
 
 + INT -> INTEGER
 + VARCHAR -> TEXT
-+ DATE -> NUMERIC
++ DATE -> NUMERIC (implemented as TEXT in BodyBand)
 
 For this project, the SQLite datatypes are passed instead of using the MySQL datatypes.
 
@@ -67,7 +67,17 @@ The initial development stages are:
 2. Design and build an input page for __tblSet__.
 3. Design and build a recall page which enables the user to view previous sets, searching by date.
 
-This concludes the minimal functionality of BodyBand. More advanced features which would ideally be provided include:
+## User interface flow
+
++ Initially, an admin version (raw exercise, band stat, repetition and set pages) will be added temporarily for trials.
++ "New workout" ------>   "Muscle group" ------>   "Exercise" ------>  "Rep page"
++ Previous workout --->  Date (calendar) --->  Summary -->--(Rep page)---^
+
+The Rep page is shared, with option for CRUD of reps and band stats. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
+
+## Future development
+
+More advanced features which would ideally be provided include:
 
 - Recording of personal bests
 

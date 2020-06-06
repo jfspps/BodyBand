@@ -32,21 +32,20 @@ public class Controller {
         sceneNavigation.getInstance().repPage();
     }
 
+
+    // end-user based user interface related ------------------------------------------------------------
+
+    // this starts a sequence of scenes which enable the user to enter a new set (as they workout)
     @FXML
-    public void showTestPage(){
-        sceneNavigation.getInstance().testPage();
+    public void showNewSet(){
+        sceneNavigation.getInstance().showMuscleGroup();
     }
+
+    // this starts a sequence of scenes which enables the user to review previous workouts (set targets for
+    // themselves etc.)
+    @FXML
+    public void showPreviousSet(){
+
+    }
+
 }
-
-
-//// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
-//// and runs as a background thread independent of the UI thread
-//class GetAllExercises extends Task {
-//
-//    @Override
-//    public ObservableList<bbExercise> call() {
-//        // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
-//        // purposes (bbExercises are defined as Simple Properties to enable data binding)
-//        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
-//    }
-//}

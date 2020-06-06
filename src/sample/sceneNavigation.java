@@ -138,15 +138,19 @@ public class sceneNavigation {
         alert.show();
     }
 
-    // Testing and debugging only -----------------------------------------------------------------------
+    // End-user UI -----------------------------------------------------------------------
 
-    public void testPage(){
+    public void showMuscleGroup(){
         try {
-            Parent testDialog = FXMLLoader.load(getClass().getResource("testPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand - test page");
-            Main.mainWindow.setScene(new Scene(testDialog));
+            FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/chooseExercise.fxml"));
+            Parent newSet = exerciseListLoader.load();
+            ExerciseType controller = exerciseListLoader.getController();
+            controller.listMuscleGroupAndExercises();
+
+            Main.mainWindow.setTitle("BodyBand - Muscle groups");
+            Main.mainWindow.setScene(new Scene(newSet));
         } catch (IOException e) {
-            System.out.println("Problem loading test scene:\n" + e.getCause());
+            System.out.println("Problem loading Muscle Group scene:\n" + e.getCause());
         }
     }
 }
