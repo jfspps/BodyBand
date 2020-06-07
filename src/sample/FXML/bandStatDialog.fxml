@@ -21,7 +21,7 @@
                 <Pane prefHeight="10.0" prefWidth="200.0" />
                 <Label text="Single band tension*" />
                 <TextField fx:id="singleBandTension" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
-                <Label text="Doubled or not* (default: single)" />
+                <Label text="Doubled or not (default: single)" />
                 <TextField fx:id="doubledOrNot" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
                 <Label text="Units" />
                 <TextField fx:id="units" minHeight="60.0" />

@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -42,7 +43,7 @@ public class exerciseController implements Initializable {
     private Button buttonDelete;
 
     //record is the index of each record in bbExercise, the PK of which is one-based
-    private int record;
+    private static int record;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -66,20 +67,23 @@ public class exerciseController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else if (record > 0) {
-            try {
-                buttonPrevious.setDisable(true);
-                exerciseIDText.setText(String.valueOf(record));
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
-                muscleGroupText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                anchorNeededText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                anchorHeightText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorHeightINDEX));
-                anchorPositionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorPositionINDEX));
-                descriptionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseDescINDEX));
-                videoURLText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseVideoURLINDEX));
-            } catch (SQLException error) {
-                System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
-            } catch (NullPointerException nullError){
-                System.out.println("ExercisePage NullPointerException: tblExercise empty?\n" + nullError.getLocalizedMessage());
+            {
+                try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
+                    buttonPrevious.setDisable(true);
+                    exerciseIDText.setText(String.valueOf(record));
+
+                    exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
+                    muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
+                    anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
+                    anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
+                    anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
+                    descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
+                    videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
+                } catch (SQLException error) {
+                    System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
+                } catch (NullPointerException nullError) {
+                    System.out.println("ExercisePage NullPointerException: current tblExercise record is null\n" + nullError.getLocalizedMessage());
+                }
             }
         } else {
             sceneNavigation.getInstance().showInfoAlert("Exercise", "Problem with accessing Exercise DB");
@@ -149,7 +153,7 @@ public class exerciseController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
@@ -164,13 +168,13 @@ public class exerciseController implements Initializable {
 
                 buttonPrevious.setDisable(false);
                 exerciseIDText.setText(String.valueOf(record));
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
-                muscleGroupText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                anchorNeededText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                anchorHeightText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorHeightINDEX));
-                anchorPositionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorPositionINDEX));
-                descriptionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseDescINDEX));
-                videoURLText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseVideoURLINDEX));
+                exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
+                muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
+                anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
+                anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
+                anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
+                descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
+                videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
@@ -229,7 +233,7 @@ public class exerciseController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
@@ -243,13 +247,13 @@ public class exerciseController implements Initializable {
                 buttonDelete.setDisable(false);
 
                 exerciseIDText.setText(String.valueOf(record));
-                exerciseNameText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseNameINDEX));
-                muscleGroupText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                anchorNeededText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                anchorHeightText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorHeightINDEX));
-                anchorPositionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseAnchorPositionINDEX));
-                descriptionText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseDescINDEX));
-                videoURLText.setText(bbDatabase.getInstance().exerciseOnFileKey(record).getString(bbDatabase.ExerciseVideoURLINDEX));
+                exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
+                muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
+                anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
+                anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
+                anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
+                descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
+                videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
@@ -278,7 +282,8 @@ public class exerciseController implements Initializable {
         alert.setContentText("Click OK to confirm deletion");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                int deleted = bbDatabase.getInstance().deleteExercise(Integer.valueOf(exerciseIDText.getText()));
+                int record = Integer.parseInt(exerciseIDText.getText());
+                int deleted = bbDatabase.getInstance().deleteExercise(record);
                 System.out.println("Record with id " + deleted + " deleted successfully");
                 exerciseNameText.setText("");
                 muscleGroupText.setText("");
@@ -303,15 +308,3 @@ public class exerciseController implements Initializable {
         });
     }
 }
-
-//// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
-//// and runs as a background thread independent of the UI thread
-//class GetAllExercises extends Task {
-//
-//    @Override
-//    public ObservableList<bbExercise> call() {
-//        // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
-//        // purposes (bbExercises are defined as Simple Properties to enable data binding)
-//        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
-//    }
-//}

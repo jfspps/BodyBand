@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "tblBandStat" (
 	"idBandStat"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"SingleBandTension"	INTEGER NOT NULL,
-	"DoubledOrNot"	TEXT NOT NULL DEFAULT "single",
+	"DoubledOrNot"	TEXT DEFAULT "single",
 	"Units"	TEXT DEFAULT ""
 );
 CREATE TABLE IF NOT EXISTS "tblRepetition" (
