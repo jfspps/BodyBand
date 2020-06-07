@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ExerciseType">
+<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.exerciseChoiceControl">
     <top>
         <Label text="Choose an exercise" BorderPane.alignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
         </Label>
     </top>
    <center>
@@ -30,7 +34,7 @@
       </TableView>
    </center>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="47.0" prefWidth="335.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="buttonMainPage" mnemonicParsing="false" onAction="#onClickedMainPage" text="Main page" />
          </children>

@@ -10,8 +10,12 @@ import javafx.scene.control.TableView;
 import sample.model.bbDatabase;
 import sample.model.bbExercise;
 
-//this class handles chooseExercise.fxml interfaces
-public class ExerciseType {
+import java.sql.ResultSet;
+
+//this class handles exerciseChoice.fxml interfaces
+public class exerciseChoiceControl {
+
+    static ResultSet currentExercise;
 
     @FXML
     private TableView<bbExercise> exerciseTable;
@@ -31,8 +35,13 @@ public class ExerciseType {
     private void clickRow() {
         // check the table's selected item and get selected item
         if (exerciseTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println(exerciseTable.getSelectionModel().getSelectedItem().getMuscleGroup());
-            System.out.println(exerciseTable.getSelectionModel().getSelectedItem().getExerciseName());
+            System.out.println("Exercise clicked: " + exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
+
+            //initialise new exerciseSet scene variables, passing exerciseTable.getSelectionModel().getSelectedItem()
+            // .getExerciseId()
+            currentExercise =
+                    bbDatabase.getInstance().exerciseOnFileKey(exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
+            sceneNavigation.getInstance().showExerciseSet();
         }
     }
 

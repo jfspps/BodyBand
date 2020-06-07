@@ -17,7 +17,17 @@ class bbDatabaseTest {
     }
 
     @Test
+    void getInstance() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
     void listAllExercises() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void getFirstExercise() {
         fail("Test not implemented yet");
     }
 
@@ -27,17 +37,37 @@ class bbDatabaseTest {
     }
 
     @Test
+    void exerciseOnFileId() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
     void exerciseOnFileKey() {
         fail("Test not implemented yet");
     }
 
     @Test
-    void listAllBandstats() {
+    void exerciseOnFileKeyList() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void listAllBandStats() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void getFirstBandStat() {
         fail("Test not implemented yet");
     }
 
     @Test
     void bandStatOnFile() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void bandStatOnFileId() {
         fail("Test not implemented yet");
     }
 
@@ -48,6 +78,16 @@ class bbDatabaseTest {
 
     @Test
     void listAllRepetitions() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void getFirstRepetition() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void repetitionOnFileId() {
         fail("Test not implemented yet");
     }
 
@@ -67,7 +107,22 @@ class bbDatabaseTest {
     }
 
     @Test
+    void getFirstSet() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void setOnFileId() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
     void setOnFile() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void setOnFileKey() {
         fail("Test not implemented yet");
     }
 
@@ -88,6 +143,46 @@ class bbDatabaseTest {
 
     @Test
     void insertNewSet() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void updateExercise() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void updateBandStat() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void updateRepetition() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void updateSet() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void deleteExercise() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void deleteBandStat() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void deleteRepetition() {
+        fail("Test not implemented yet");
+    }
+
+    @Test
+    void deleteSet() {
         fail("Test not implemented yet");
     }
 }

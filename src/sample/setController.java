@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -34,17 +35,17 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else if (record > 0) {
-            try {
+            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
                 buttonPrevious.setDisable(true);
                 setIDText.setText(String.valueOf(record));
-                exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
-                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
-                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
+                exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
+                setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             } catch (NullPointerException nullError){
-                System.out.println("SetPage NullPointerException: tblSet empty?\n" + nullError.getLocalizedMessage());
+                System.out.println("SetPage NullPointerException: current tblSet record is null\n" + nullError.getLocalizedMessage());
             }
         } else {
             sceneNavigation.getInstance().showInfoAlert("Set", "Problem with accessing Set DB");
@@ -130,7 +131,7 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
                 setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
@@ -141,10 +142,10 @@ public class setController implements Initializable {
 
                 buttonPrevious.setDisable(false);
                 setIDText.setText(String.valueOf(record));
-                exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
-                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
-                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
+                exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
+                setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -196,7 +197,7 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
                 setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
@@ -206,10 +207,10 @@ public class setController implements Initializable {
                 buttonDelete.setDisable(false);
 
                 setIDText.setText(String.valueOf(record));
-                exerciseIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetRepIdINDEX));
-                commentsText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetCommentsINDEX));
-                setDateText.setText(bbDatabase.getInstance().setOnFileKey(record).getString(bbDatabase.SetDateINDEX));
+                exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
+                commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
+                setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -232,7 +233,8 @@ public class setController implements Initializable {
         alert.setContentText("Click OK to confirm deletion");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                int deleted = bbDatabase.getInstance().deleteSet(Integer.valueOf(setIDText.getText()));
+                int rec = Integer.parseInt(setIDText.getText());
+                int deleted = bbDatabase.getInstance().deleteSet(rec);
                 System.out.println("Record with id " + deleted + " deleted successfully");
                 exerciseIDText.setText("");
                 repIDText.setText("");
@@ -250,15 +252,3 @@ public class setController implements Initializable {
         });
     }
 }
-
-//// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
-//// and runs as a background thread independent of the UI thread
-//class GetAllExercises extends Task {
-//
-//    @Override
-//    public ObservableList<bbExercise> call() {
-//        // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
-//        // purposes (bbExercises are defined as Simple Properties to enable data binding)
-//        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
-//    }
-//}

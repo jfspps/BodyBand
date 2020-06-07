@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import sample.model.bbDatabase;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -55,16 +56,16 @@ public class bandStatController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else if (record > 0) {
-            try {
+            try (ResultSet bandStatSet = bbDatabase.getInstance().bandStatOnFileKey(record)) {
                 buttonPrevious.setDisable(true);
                 bandStatIDText.setText(String.valueOf(record));
-                singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
-                doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
-                unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
+                singleBandTensionText.setText(bandStatSet.getString(bbDatabase.BandStatSingleBandTensionINDEX));
+                doubledOrNotText.setText(bandStatSet.getString(bbDatabase.BandStatDoubledOrNotINDEX));
+                unitsText.setText(bandStatSet.getString(bbDatabase.BandStatUnitsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
             } catch (NullPointerException nullError) {
-                System.out.println("BandStatPage NullPointerException: tblBandStat empty?\n" + nullError.getLocalizedMessage());
+                System.out.println("BandStatPage NullPointerException: current tblBandStat is null\n" + nullError.getLocalizedMessage());
             }
         } else {
             sceneNavigation.getInstance().showInfoAlert("Band stat", "Problem with accessing Band stat DB");
@@ -85,22 +86,22 @@ public class bandStatController implements Initializable {
     }
 
     @FXML
-    private void exitBB(){
+    private void exitBB() {
         sceneNavigation.getInstance().exitBB();
     }
 
     @FXML
-    private void repScene(){
+    private void repScene() {
         sceneNavigation.getInstance().repPage();
     }
 
     @FXML
-    private void setScene(){
+    private void setScene() {
         sceneNavigation.getInstance().setPage();
     }
 
     @FXML
-    private void exerciseScene(){
+    private void exerciseScene() {
         sceneNavigation.getInstance().exercisePage();
     }
 
@@ -125,7 +126,7 @@ public class bandStatController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet bandStatSet = bbDatabase.getInstance().bandStatOnFileKey(record)) {
                 bandStatIDText.setDisable(false);
                 singleBandTensionText.setDisable(false);
                 doubledOrNotText.setDisable(false);
@@ -136,9 +137,9 @@ public class bandStatController implements Initializable {
 
                 buttonPrevious.setDisable(false);
                 bandStatIDText.setText(String.valueOf(record));
-                singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
-                doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
-                unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
+                singleBandTensionText.setText(bandStatSet.getString(bbDatabase.BandStatSingleBandTensionINDEX));
+                doubledOrNotText.setText(bandStatSet.getString(bbDatabase.BandStatDoubledOrNotINDEX));
+                unitsText.setText(bandStatSet.getString(bbDatabase.BandStatUnitsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
             }
@@ -171,7 +172,7 @@ public class bandStatController implements Initializable {
     @FXML
     private void onPreviousClicked() {
         record--;
-        if(record == 1){
+        if (record == 1) {
             buttonPrevious.setDisable(true);
         }
         if (bbDatabase.getInstance().bandStatOnFileKey(record) == null) {
@@ -189,7 +190,7 @@ public class bandStatController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try {
+            try (ResultSet bandStatSet = bbDatabase.getInstance().bandStatOnFileKey(record)) {
                 bandStatIDText.setDisable(false);
                 singleBandTensionText.setDisable(false);
                 doubledOrNotText.setDisable(false);
@@ -199,9 +200,9 @@ public class bandStatController implements Initializable {
                 buttonDelete.setDisable(false);
 
                 bandStatIDText.setText(String.valueOf(record));
-                singleBandTensionText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatSingleBandTensionINDEX));
-                doubledOrNotText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatDoubledOrNotINDEX));
-                unitsText.setText(bbDatabase.getInstance().bandStatOnFileKey(record).getString(bbDatabase.BandStatUnitsINDEX));
+                singleBandTensionText.setText(bandStatSet.getString(bbDatabase.BandStatSingleBandTensionINDEX));
+                doubledOrNotText.setText(bandStatSet.getString(bbDatabase.BandStatDoubledOrNotINDEX));
+                unitsText.setText(bandStatSet.getString(bbDatabase.BandStatUnitsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblBandStat to UI\n" + error.getMessage());
             }
@@ -212,7 +213,7 @@ public class bandStatController implements Initializable {
     private void onUpdateClicked() {
         int outputInt = bbDatabase.getInstance().updateBandStat(
                 record,
-                Integer.valueOf(singleBandTensionText.getText()),
+                Integer.parseInt(singleBandTensionText.getText()),
                 doubledOrNotText.getText().trim(),
                 unitsText.getText().trim()
         );
@@ -220,13 +221,14 @@ public class bandStatController implements Initializable {
     }
 
     @FXML
-    private void onDeleteClicked(){
+    private void onDeleteClicked() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText("All other records with this band stat will also be deleted");
         alert.setContentText("Click OK to confirm deletion");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                int deleted = bbDatabase.getInstance().deleteBandStat(Integer.valueOf(bandStatIDText.getText()));
+                int record = Integer.parseInt(bandStatIDText.getText());
+                int deleted = bbDatabase.getInstance().deleteBandStat(record);
                 System.out.println("Record with id " + deleted + " deleted successfully");
                 singleBandTensionText.setText("");
                 doubledOrNotText.setText("");
@@ -243,15 +245,3 @@ public class bandStatController implements Initializable {
         });
     }
 }
-
-//// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
-//// and runs as a background thread independent of the UI thread
-//class GetAllExercises extends Task {
-//
-//    @Override
-//    public ObservableList<bbExercise> call() {
-//        // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
-//        // purposes (bbExercises are defined as Simple Properties to enable data binding)
-//        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
-//    }
-//}

@@ -38,7 +38,12 @@ public class Controller {
     // this starts a sequence of scenes which enable the user to enter a new set (as they workout)
     @FXML
     public void showNewSet(){
-        sceneNavigation.getInstance().showMuscleGroup();
+
+        // insert code here which compares the current date with the latest date of the selected exercise: if they
+        // match then the user is automatically directed to the same set (this will allow the user to change exercise
+        // or other records and then resume their workout)
+
+        sceneNavigation.getInstance().showMuscleExerciseList();
     }
 
     // this starts a sequence of scenes which enables the user to review previous workouts (set targets for
