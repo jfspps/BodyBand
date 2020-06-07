@@ -38,7 +38,7 @@ public class Controller {
     // this starts a sequence of scenes which enable the user to enter a new set (as they workout)
     @FXML
     public void showNewSet(){
-        sceneNavigation.getInstance().showMuscleGroup();
+        sceneNavigation.getInstance().showMuscleExerciseList();
     }
 
     // this starts a sequence of scenes which enables the user to review previous workouts (set targets for

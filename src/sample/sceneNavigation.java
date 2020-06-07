@@ -140,17 +140,30 @@ public class sceneNavigation {
 
     // End-user UI -----------------------------------------------------------------------
 
-    public void showMuscleGroup(){
+    public void showMuscleExerciseList(){
         try {
-            FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/chooseExercise.fxml"));
+            FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/exerciseChoice.fxml"));
             Parent newSet = exerciseListLoader.load();
-            ExerciseType controller = exerciseListLoader.getController();
+            exerciseChoiceControl controller = exerciseListLoader.getController();
             controller.listMuscleGroupAndExercises();
 
             Main.mainWindow.setTitle("BodyBand - Muscle groups");
             Main.mainWindow.setScene(new Scene(newSet));
         } catch (IOException e) {
             System.out.println("Problem loading Muscle Group scene:\n" + e.getCause());
+        }
+    }
+
+    public void showExerciseSet() {
+        try {
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseSet.fxml"));
+            Parent newSet = exerciseSetLoader.load();
+            exerciseSetControl controller = exerciseSetLoader.getController();
+
+            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setScene(new Scene(newSet));;
+        } catch (IOException e) {
+            System.out.println("Problem loading exercise set scene:\n" + e.getCause());
         }
     }
 }

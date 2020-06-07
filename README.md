@@ -69,8 +69,8 @@ The initial development stages are:
 
 ## User interface flow
 
-+ Initially, an admin version (raw exercise, band stat, repetition and set pages) will be added temporarily for trials.
-+ "New workout" ------>   "Muscle group" ------>   "Exercise" ------>  "Rep page"
++ Initially, an admin version (raw exercise, band stat, repetition and set pages) will be added temporarily to test JDBC PreparedStatement queries and facilitate DB entry management.
++ "New workout" ------>   "Choose muscle group and exercise" ------>  "Rep page"
 + Previous workout --->  Date (calendar) --->  Summary -->--(Rep page)---^
 
 The Rep page is shared, with option for CRUD of reps and band stats. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
