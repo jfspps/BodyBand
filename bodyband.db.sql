@@ -15,10 +15,9 @@ CREATE TABLE IF NOT EXISTS "tblExercise" (
 CREATE TABLE IF NOT EXISTS "tblSet" (
 	"idSet"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"Exercise_id"	INTEGER NOT NULL,
-	"Rep_id"	INTEGER NOT NULL,
 	"Comments"	TEXT DEFAULT "",
 	"SetDate"	TEXT NOT NULL DEFAULT "",
-	FOREIGN KEY("Rep_id") REFERENCES "tblRepetition"("idRepetition") ON DELETE CASCADE,
+	"RepIdSeq"	TEXT NOT NULL DEFAULT "R_",
 	FOREIGN KEY("Exercise_id") REFERENCES "tblExercise"("idExercise") ON DELETE CASCADE
 );
 INSERT INTO "tblRepetition" VALUES (1,8,9);
@@ -36,7 +35,7 @@ INSERT INTO "tblExercise" VALUES (8,'Squat','Legs','Floor','Compound exercise fo
 INSERT INTO "tblExercise" VALUES (9,'Calf Raise','Legs','Base','','');
 INSERT INTO "tblExercise" VALUES (10,'Seated Bicep Curl','Arms','Base','Works the biceps','');
 INSERT INTO "tblExercise" VALUES (12,'Resisted Curl','Abs','Base','Challenge the core!','');
-INSERT INTO "tblSet" VALUES (1,10,1,'Now the hard work begins!','10th March');
-INSERT INTO "tblSet" VALUES (2,8,3,'Getting there!','10th March');
-INSERT INTO "tblSet" VALUES (3,8,4,'As expected','10th March');
+INSERT INTO "tblSet" VALUES (1,10,'Now the hard work begins!','10th March','R_1_2');
+INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10th March','R_3');
+INSERT INTO "tblSet" VALUES (3,8,'As expected','10th March','R_3_4');
 COMMIT;

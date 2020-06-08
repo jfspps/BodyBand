@@ -21,6 +21,7 @@ public class setDialogControl implements Initializable {
         System.out.println(timeDate);
         setDate.setText(timeDate);
         saveButton.setDisable(true);
+        setDate.setDisable(true);
     }
 
     @FXML
@@ -39,9 +40,9 @@ public class setDialogControl implements Initializable {
 
     @FXML
     private void requiredFieldsCheck(){
-        if (exerciseID.getText().isBlank() || repetitionsID.getText().isBlank() || setDate.getText().isBlank()){
+        if (exerciseID.getText().isBlank()){
             saveButton.setDisable(true);
-            alertLabel.setText("Please enter IDs for the exercise and reps, with the date");
+            alertLabel.setText("Please enter exercise ID");
         } else {
             saveButton.setDisable(false);
             alertLabel.setText("");
@@ -53,14 +54,14 @@ public class setDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.setOnFile(Integer.parseInt(exerciseID.getText().trim()),
-                Integer.parseInt(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
+        int index = tempDB.setOnFileId(Integer.parseInt(exerciseID.getText().trim()),
+                comments.getText().trim(), setDate.getText().trim(), repetitionsID.getText().trim());
 
         if (index >= 1){
-            alertLabel.setText("These details are already on file");
+            alertLabel.setText("These details are already on file, id : " + index);
         } else {
             index = tempDB.insertNewSet(Integer.parseInt(exerciseID.getText().trim()),
-                    Integer.parseInt(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
+                    comments.getText().trim(), setDate.getText().trim(), repetitionsID.getText().trim());
             alertLabel.setText("New set added at " + index);
         }
     }

@@ -28,13 +28,25 @@ public class exerciseSetControl implements Initializable {
     private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
 
     //adds a listener to a TextField and permits xxx.xx float values only
-    private void setNumField(TextField field){
+    private void setFloatField(TextField field) {
         field.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 // regex which firstly allows 0 to 3 digits before ".", followed by "." and thirdly 0 to 2 digits
                 // after "."
                 if (!newValue.matches("\\d{0,3}([\\.]\\d{0,2})?")) {
+                    field.setText(oldValue);
+                }
+            }
+        });
+    }
+
+    private void setIntField(TextField field) {
+        field.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // regex which firstly allows 0 to 3 digits without a decimal
+                if (!newValue.matches("\\d{0,3}?")) {
                     field.setText(oldValue);
                 }
             }
@@ -81,8 +93,8 @@ public class exerciseSetControl implements Initializable {
                         updateButton.setDisable(true);
                         deleteButton.setDisable(true);
 
-                        setNumField(tensionTextField);
-                        setNumField(repsTextField);
+                        setFloatField(tensionTextField);
+                        setIntField(repsTextField);
                     }
                 });
             }
@@ -108,7 +120,19 @@ public class exerciseSetControl implements Initializable {
 
     @FXML
     private void onClickedAdd() {
-        // Build a new set object...format of each TextField is handled by a listener
+        // Build a new set object...format of each TextField is handled by a listener;
+        // button is only enabled when both fields have a value
+        float bandTension = Float.parseFloat(tensionTextField.getText());
+        int reps = Integer.parseInt(repsTextField.getText());
+        int repIndex = bbDatabase.getInstance().repetitionOnFileId(bandTension, reps);
+        if (repIndex > 0) {
+            System.out.println("Repetition found at id: " + repIndex);
+            //check exercise and repetition ID
+        } else {
+            System.out.println("Repetition not found, adding to the database...");
+            repIndex = bbDatabase.getInstance().insertNewRepetition(bandTension, reps);
+            //add new set with new repetition
+        }
 
 
         // ...and query the database. If it already exists then update all relevant fields

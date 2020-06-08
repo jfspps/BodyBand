@@ -47,13 +47,13 @@ public class repDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.repetitionOnFile(Integer.parseInt(tension.getText().trim()),
+        int index = tempDB.repetitionOnFileId(Float.parseFloat(tension.getText().trim()),
                 Integer.parseInt(repetitions.getText().trim()));
 
         if (index >= 1){
-            alertLabel.setText("These details are already on file");
+            alertLabel.setText("These details are already on file, id: " + index);
         } else {
-            index = tempDB.insertNewRepetition(Integer.parseInt(tension.getText().trim()),
+            index = tempDB.insertNewRepetition(Float.parseFloat(tension.getText().trim()),
                     Integer.parseInt(repetitions.getText().trim()));
             alertLabel.setText("New rep added at " + index);
         }

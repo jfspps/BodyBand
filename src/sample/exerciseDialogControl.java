@@ -47,14 +47,14 @@ public class exerciseDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.exerciseOnFile(exerciseName.getText().trim(),
+        int index = tempDB.exerciseOnFileId(exerciseName.getText().trim(),
                 muscleGroup.getText().trim(),
                 anchorPosition.getText().trim(),
                 description.getText().trim(),
                 videoURL.getText().trim());
 
         if (index >= 1){
-            alertLabel.setText("These details are already on file");
+            alertLabel.setText("These details are already on file, id: " + index);
         } else {
             index = tempDB.insertNewExercise(exerciseName.getText().trim(),
                     muscleGroup.getText().trim(),
