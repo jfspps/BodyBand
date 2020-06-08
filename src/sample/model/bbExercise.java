@@ -7,8 +7,6 @@ public class bbExercise {
     private SimpleIntegerProperty exerciseId;
     private SimpleStringProperty exerciseName;
     private SimpleStringProperty muscleGroup;
-    private SimpleStringProperty anchorNeeded;
-    private SimpleStringProperty anchorHeight;
     private SimpleStringProperty anchorPosition;
     private SimpleStringProperty exerciseDesc;
     private SimpleStringProperty videoURL;
@@ -17,8 +15,6 @@ public class bbExercise {
         this.exerciseId = new SimpleIntegerProperty();
         this.exerciseName = new SimpleStringProperty();
         this.muscleGroup = new SimpleStringProperty();
-        this.anchorNeeded = new SimpleStringProperty();
-        this.anchorHeight = new SimpleStringProperty();
         this.anchorPosition = new SimpleStringProperty();
         this.exerciseDesc = new SimpleStringProperty();
         this.videoURL = new SimpleStringProperty();
@@ -48,22 +44,6 @@ public class bbExercise {
 
     public void setMuscleGroup(String muscleGroup) {
         this.muscleGroup.set(muscleGroup);
-    }
-
-    public String getAnchorNeeded() {
-        return this.anchorNeeded.get();
-    }
-
-    public void setAnchorNeeded(String anchorNeeded) {
-        this.anchorNeeded.set(anchorNeeded);
-    }
-
-    public String getAnchorHeight() {
-        return this.anchorHeight.get();
-    }
-
-    public void setAnchorHeight(String anchorHeight) {
-        this.anchorHeight.set(anchorHeight);
     }
 
     public String getAnchorPosition() {

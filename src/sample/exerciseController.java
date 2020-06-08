@@ -20,10 +20,6 @@ public class exerciseController implements Initializable {
     @FXML
     private TextArea muscleGroupText;
     @FXML
-    private TextArea anchorNeededText;
-    @FXML
-    private TextArea anchorHeightText;
-    @FXML
     private TextArea anchorPositionText;
     @FXML
     private TextArea descriptionText;
@@ -56,8 +52,6 @@ public class exerciseController implements Initializable {
             exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
-            anchorNeededText.setDisable(true);
-            anchorHeightText.setDisable(true);
             anchorPositionText.setDisable(true);
             descriptionText.setDisable(true);
             videoURLText.setDisable(true);
@@ -74,8 +68,6 @@ public class exerciseController implements Initializable {
 
                     exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
                     muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                    anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                    anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
                     anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
                     descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
                     videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
@@ -109,10 +101,6 @@ public class exerciseController implements Initializable {
         sceneNavigation.getInstance().exitBB();
     }
 
-    @FXML
-    private void bandStatScene(){
-        sceneNavigation.getInstance().showBandStatPage();
-    }
 
     @FXML
     private void repScene(){
@@ -134,8 +122,6 @@ public class exerciseController implements Initializable {
             exerciseIDText.setText(String.valueOf(record));
             exerciseNameText.setText("");
             muscleGroupText.setText("");
-            anchorNeededText.setText("");
-            anchorHeightText.setText("");
             anchorPositionText.setText("");
             descriptionText.setText("");
             videoURLText.setText("");
@@ -143,8 +129,6 @@ public class exerciseController implements Initializable {
             exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
-            anchorNeededText.setDisable(true);
-            anchorHeightText.setDisable(true);
             anchorPositionText.setDisable(true);
             descriptionText.setDisable(true);
             videoURLText.setDisable(true);
@@ -157,8 +141,6 @@ public class exerciseController implements Initializable {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
-                anchorNeededText.setDisable(false);
-                anchorHeightText.setDisable(false);
                 anchorPositionText.setDisable(false);
                 descriptionText.setDisable(false);
                 videoURLText.setDisable(false);
@@ -170,8 +152,6 @@ public class exerciseController implements Initializable {
                 exerciseIDText.setText(String.valueOf(record));
                 exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
                 muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
                 anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
                 descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
                 videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
@@ -215,8 +195,6 @@ public class exerciseController implements Initializable {
             exerciseIDText.setText(String.valueOf(record));
             exerciseNameText.setText("");
             muscleGroupText.setText("");
-            anchorNeededText.setText("");
-            anchorHeightText.setText("");
             anchorPositionText.setText("");
             descriptionText.setText("");
             videoURLText.setText("");
@@ -224,8 +202,6 @@ public class exerciseController implements Initializable {
             exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
-            anchorNeededText.setDisable(true);
-            anchorHeightText.setDisable(true);
             anchorPositionText.setDisable(true);
             descriptionText.setDisable(true);
             videoURLText.setDisable(true);
@@ -237,8 +213,7 @@ public class exerciseController implements Initializable {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
-                anchorNeededText.setDisable(false);
-                anchorHeightText.setDisable(false);
+
                 anchorPositionText.setDisable(false);
                 descriptionText.setDisable(false);
                 videoURLText.setDisable(false);
@@ -249,8 +224,6 @@ public class exerciseController implements Initializable {
                 exerciseIDText.setText(String.valueOf(record));
                 exerciseNameText.setText(exerciseSet.getString(bbDatabase.ExerciseNameINDEX));
                 muscleGroupText.setText(exerciseSet.getString(bbDatabase.ExerciseMuscleGroupINDEX));
-                anchorNeededText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorNeededINDEX));
-                anchorHeightText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorHeightINDEX));
                 anchorPositionText.setText(exerciseSet.getString(bbDatabase.ExerciseAnchorPositionINDEX));
                 descriptionText.setText(exerciseSet.getString(bbDatabase.ExerciseDescINDEX));
                 videoURLText.setText(exerciseSet.getString(bbDatabase.ExerciseVideoURLINDEX));
@@ -266,8 +239,6 @@ public class exerciseController implements Initializable {
                 record,
                 exerciseNameText.getText().trim(),
                 muscleGroupText.getText().trim(),
-                anchorNeededText.getText().trim(),
-                anchorHeightText.getText().trim(),
                 anchorPositionText.getText().trim(),
                 descriptionText.getText().trim(),
                 videoURLText.getText().trim()
@@ -287,8 +258,6 @@ public class exerciseController implements Initializable {
                 System.out.println("Record with id " + deleted + " deleted successfully");
                 exerciseNameText.setText("");
                 muscleGroupText.setText("");
-                anchorNeededText.setText("");
-                anchorHeightText.setText("");
                 anchorPositionText.setText("");
                 descriptionText.setText("");
                 videoURLText.setText("");
@@ -296,8 +265,6 @@ public class exerciseController implements Initializable {
                 exerciseIDText.setDisable(true);
                 exerciseNameText.setDisable(true);
                 muscleGroupText.setDisable(true);
-                anchorNeededText.setDisable(true);
-                anchorHeightText.setDisable(true);
                 anchorPositionText.setDisable(true);
                 descriptionText.setDisable(true);
                 videoURLText.setDisable(true);

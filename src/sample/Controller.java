@@ -18,11 +18,6 @@ public class Controller {
     }
 
     @FXML
-    public void showBandStats() {
-        sceneNavigation.getInstance().showBandStatPage();
-    }
-
-    @FXML
     public void showSets() {
         sceneNavigation.getInstance().showSetPage();
     }

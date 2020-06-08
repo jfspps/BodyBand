@@ -17,7 +17,6 @@
          <Menu text="Database">
             <items>
                <MenuItem disable="true" text="Exercise DB" />
-               <MenuItem onAction="#bandStatScene" text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem onAction="#repScene" text="Repetition DB" />
                <MenuItem onAction="#setScene" text="Set DB" />
@@ -43,18 +42,6 @@
                <children>
                   <Label minWidth="125.0" text="Muscle group" />
                   <TextArea fx:id="muscleGroupText" prefHeight="150.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="125.0" text="Anchor needed" />
-                  <TextArea fx:id="anchorNeededText" prefHeight="150.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label minWidth="125.0" text="Anchor height" />
-                  <TextArea fx:id="anchorHeightText" prefHeight="150.0" prefWidth="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">

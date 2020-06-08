@@ -17,7 +17,6 @@
          <Menu text="Database">
             <items>
                <MenuItem onAction="#exerciseScene" text="Exercise DB" />
-               <MenuItem onAction="#bandStatScene" text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem disable="true" text="Repetition DB" />
                <MenuItem onAction="#setScene" text="Set DB" />
@@ -35,8 +34,8 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Band Stat ID" wrapText="true" />
-                  <TextArea fx:id="bandStatIDText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Tension" wrapText="true" />
+                  <TextArea fx:id="tensionText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">

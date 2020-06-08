@@ -17,7 +17,6 @@
          <Menu text="Database">
             <items>
                <MenuItem onAction="#exerciseScene" text="Exercise DB" />
-               <MenuItem onAction="#bandStatScene" text="Band stat DB" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem onAction="#repScene" text="Repetition DB" />
                <MenuItem disable="true" text="Set DB" />

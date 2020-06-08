@@ -4,66 +4,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <center>
         <VBox BorderPane.alignment="CENTER">
             <children>
-                <Pane prefHeight="70.0" prefWidth="335.0"/>
+                <Pane prefHeight="70.0" prefWidth="335.0" />
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Button fx:id="buttonNewSet" minHeight="100.0" minWidth="180.0" mnemonicParsing="false"
-                                onAction="#showNewSet" text="New set">
+                        <Button fx:id="buttonNewSet" minHeight="100.0" minWidth="180.0" mnemonicParsing="false" onAction="#showNewSet" text="New set">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                         </Button>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Button fx:id="buttonPreviousSet" minHeight="100.0" minWidth="180.0" mnemonicParsing="false"
-                                onAction="#showPreviousSet" text="Previous set">
+                        <Button fx:id="buttonPreviousSet" minHeight="100.0" minWidth="180.0" mnemonicParsing="false" onAction="#showPreviousSet" text="Previous set">
                             <font>
-                                <Font size="24.0"/>
+                                <Font size="24.0" />
                             </font>
                         </Button>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Button fx:id="buttonShowExercises" mnemonicParsing="false" onAction="#showExercises"
-                                prefHeight="40" text="Exercise page" textAlignment="CENTER">
+                        <Button fx:id="buttonShowExercises" mnemonicParsing="false" onAction="#showExercises" prefHeight="40" text="Exercise page" textAlignment="CENTER">
                             <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Button>
-                        <Button fx:id="buttonShowBandStats" mnemonicParsing="false" onAction="#showBandStats"
-                                prefHeight="40" text="Band Stat page" textAlignment="CENTER">
-                            <font>
-                                <Font size="18.0"/>
+                                <Font size="18.0" />
                             </font>
                         </Button>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps" prefHeight="40"
-                                text="Repetition page" textAlignment="CENTER">
+                        <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps" prefHeight="40" text="Repetition page" textAlignment="CENTER">
                             <font>
-                                <Font size="18.0"/>
+                                <Font size="18.0" />
                             </font>
                         </Button>
-                        <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets" prefHeight="40"
-                                text="Set page" textAlignment="CENTER">
+                        <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets" prefHeight="40" text="Set page" textAlignment="CENTER">
                             <font>
-                                <Font size="18.0"/>
+                                <Font size="18.0" />
                             </font>
                         </Button>
                     </children>
                 </VBox>
-                <Pane prefHeight="70.0" prefWidth="335.0"/>
+                <Pane prefHeight="70.0" prefWidth="335.0" />
             </children>
         </VBox>
     </center>
@@ -74,7 +61,7 @@
                     <children>
                         <Label prefHeight="186.0" prefWidth="235.0" text="BodyBand" textAlignment="CENTER">
                             <font>
-                                <Font size="46.0"/>
+                                <Font size="46.0" />
                             </font>
                         </Label>
                     </children>

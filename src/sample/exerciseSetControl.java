@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import sample.model.bbBandStat;
 import sample.model.bbDatabase;
 import sample.model.bbRepetition;
 import sample.model.bbSet;
@@ -24,10 +23,9 @@ public class exerciseSetControl implements Initializable {
     // related get___() functions
     private bbSet currentSet;
     private bbRepetition currentRep;
-    private bbBandStat currentBandStat;
 
     //prove useful on exit
-    private String exerciseName, exerciseAnchorHeight, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
+    private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
 
     //adds a listener to a TextField and permits xxx.xx float values only
     private void setNumField(TextField field){
@@ -47,7 +45,7 @@ public class exerciseSetControl implements Initializable {
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorHeightField, anchorPositionField, videoURLField, repsTextField, tensionTextField;
+    private TextField anchorPositionField, videoURLField, repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
@@ -63,8 +61,6 @@ public class exerciseSetControl implements Initializable {
             public void run() {
                 try {
                     exerciseName = exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseNameINDEX);
-                    exerciseAnchorHeight =
-                            exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseAnchorHeightINDEX);
                     exerciseAnchorPosition =
                             exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseAnchorPositionINDEX);
                     exerciseDescription = exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseDescINDEX);
@@ -78,7 +74,6 @@ public class exerciseSetControl implements Initializable {
                     @Override
                     public void run() {
                         exerciseSetHeadLabel.setText(exerciseName);
-                        anchorHeightField.setText(exerciseAnchorHeight);
                         anchorPositionField.setText(exerciseAnchorPosition);
                         videoURLField.setText(exerciseVideoURL);
                         descriptionArea.setText(exerciseDescription);

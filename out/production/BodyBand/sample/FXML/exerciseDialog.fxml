@@ -23,10 +23,6 @@
                 <TextField fx:id="exerciseName" minHeight="50.0" onKeyReleased="#nameFieldCheck" />
                 <Label text="Muscle group" />
                 <TextField fx:id="muscleGroup" minHeight="50.0" />
-                <Label text="Anchor needed" />
-                <TextField fx:id="anchorNeeded" minHeight="50.0" />
-                <Label text="Anchor height" />
-                <TextField fx:id="anchorHeight" minHeight="50.0" />
                 <Label text="Anchor position" />
                 <TextField fx:id="anchorPosition" minHeight="50.0" />
                 <Label text="Description" />

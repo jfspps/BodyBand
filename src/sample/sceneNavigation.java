@@ -41,18 +41,6 @@ public class sceneNavigation {
         }
     }
 
-    public void showBandStatPage() {
-        try {
-            Parent bandStatPage = FXMLLoader.load(getClass().getResource("FXML/BandStatPage.fxml"));
-            Main.mainWindow.setTitle("BodyBand band stats");
-            Main.mainWindow.setScene(new Scene(bandStatPage));
-        } catch (
-                IOException e) {
-            System.out.println("Problem loading band stat scene:\n");
-            e.printStackTrace();
-        }
-    }
-
     public void showSetPage() {
         try {
             Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
@@ -80,16 +68,6 @@ public class sceneNavigation {
     }
 
     // pages to add new records ----------------------------------------------------------------------------
-
-    public void addBandStat() {
-        try {
-            Parent addBandStat = FXMLLoader.load(getClass().getResource("FXML/bandStatDialog.fxml"));
-            Main.mainWindow.setTitle("BodyBand - add new band stat");
-            Main.mainWindow.setScene(new Scene(addBandStat));
-        } catch (IOException e) {
-            System.out.println("Problem loading new band stat scene:\n" + e.getCause());
-        }
-    }
 
     public void addExercise() {
         try {

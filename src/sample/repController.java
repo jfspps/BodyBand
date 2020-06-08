@@ -25,7 +25,7 @@ public class repController implements Initializable {
                     "to proceed");
             //prevent user access to each field
             repIDText.setDisable(true);
-            bandStatIDText.setDisable(true);
+            tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
             buttonNext.setDisable(true);
@@ -36,7 +36,7 @@ public class repController implements Initializable {
             try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
                 buttonPrevious.setDisable(true);
                 repIDText.setText(String.valueOf(record));
-                bandStatIDText.setText(repSet.getString(bbDatabase.RepetitionBandStatIdINDEX));
+                tensionText.setText(repSet.getString(bbDatabase.RepetitionTensionINDEX));
                 repetitionsText.setText(repSet.getString(bbDatabase.RepetitionRepsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
@@ -52,7 +52,7 @@ public class repController implements Initializable {
     @FXML
     private TextArea repIDText;
     @FXML
-    private TextArea bandStatIDText;
+    private TextArea tensionText;
     @FXML
     private TextArea repetitionsText;
 
@@ -87,11 +87,6 @@ public class repController implements Initializable {
     }
 
     @FXML
-    private void bandStatScene(){
-        sceneNavigation.getInstance().showBandStatPage();
-    }
-
-    @FXML
     private void setScene(){
         sceneNavigation.getInstance().showSetPage();
     }
@@ -109,11 +104,11 @@ public class repController implements Initializable {
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             System.out.println("No rep with id: " + record);
             repIDText.setText(String.valueOf(record));
-            bandStatIDText.setText("");
+            tensionText.setText("");
             repetitionsText.setText("");
 
             repIDText.setDisable(true);
-            bandStatIDText.setDisable(true);
+            tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
             buttonPrevious.setDisable(false);
@@ -122,7 +117,7 @@ public class repController implements Initializable {
         } else {
             try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
                 repIDText.setDisable(false);
-                bandStatIDText.setDisable(false);
+                tensionText.setDisable(false);
                 repetitionsText.setDisable(false);
 
                 buttonUpdate.setDisable(false);
@@ -130,7 +125,7 @@ public class repController implements Initializable {
 
                 buttonPrevious.setDisable(false);
                 repIDText.setText(String.valueOf(record));
-                bandStatIDText.setText(repSet.getString(bbDatabase.RepetitionBandStatIdINDEX));
+                tensionText.setText(repSet.getString(bbDatabase.RepetitionTensionINDEX));
                 repetitionsText.setText(repSet.getString(bbDatabase.RepetitionRepsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
@@ -170,11 +165,11 @@ public class repController implements Initializable {
         if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
             System.out.println("No rep with id: " + record);
             repIDText.setText(String.valueOf(record));
-            bandStatIDText.setText("");
+            tensionText.setText("");
             repetitionsText.setText("");
 
             repIDText.setDisable(true);
-            bandStatIDText.setDisable(true);
+            tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
             buttonUpdate.setDisable(true);
@@ -182,14 +177,14 @@ public class repController implements Initializable {
         } else {
             try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
                 repIDText.setDisable(false);
-                bandStatIDText.setDisable(false);
+                tensionText.setDisable(false);
                 repetitionsText.setDisable(false);
 
                 buttonUpdate.setDisable(false);
                 buttonDelete.setDisable(false);
 
                 repIDText.setText(String.valueOf(record));
-                bandStatIDText.setText(repSet.getString(bbDatabase.RepetitionBandStatIdINDEX));
+                tensionText.setText(repSet.getString(bbDatabase.RepetitionTensionINDEX));
                 repetitionsText.setText(repSet.getString(bbDatabase.RepetitionRepsINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblRep to UI\n" + error.getMessage());
@@ -201,7 +196,8 @@ public class repController implements Initializable {
     private void onUpdateClicked() {
         int outputInt = bbDatabase.getInstance().updateRepetition(
                 record,
-                Integer.valueOf(repetitionsText.getText())
+                Float.parseFloat(tensionText.getText()),
+                Integer.parseInt(repetitionsText.getText())
         );
         System.out.println("Update code: " + outputInt);
     }
@@ -215,11 +211,11 @@ public class repController implements Initializable {
                 int rec = Integer.parseInt(repIDText.getText());
                 int deleted = bbDatabase.getInstance().deleteRepetition(rec);
                 System.out.println("Record with id " + deleted + " deleted successfully");
-                bandStatIDText.setText("");
+                tensionText.setText("");
                 repetitionsText.setText("");
 
                 repIDText.setDisable(true);
-                bandStatIDText.setDisable(true);
+                tensionText.setDisable(true);
                 repetitionsText.setDisable(true);
 
                 buttonUpdate.setDisable(true);
