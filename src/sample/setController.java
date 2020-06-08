@@ -39,9 +39,9 @@ public class setController implements Initializable {
                 buttonPrevious.setDisable(true);
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
                 commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
                 setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdSeqINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             } catch (NullPointerException nullError){
@@ -138,9 +138,9 @@ public class setController implements Initializable {
                 buttonPrevious.setDisable(false);
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
                 commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
                 setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdSeqINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -203,9 +203,9 @@ public class setController implements Initializable {
 
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
-                repIDText.setText(setSet.getString(bbDatabase.SetRepIdINDEX));
                 commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
                 setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
+                repIDText.setText(setSet.getString(bbDatabase.SetRepIdSeqINDEX));
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -217,7 +217,8 @@ public class setController implements Initializable {
         int outputInt = bbDatabase.getInstance().updateSet(
                 record,
                 commentsText.getText().trim(),
-                setDateText.getText().trim()
+                setDateText.getText().trim(),
+                setIDText.getText().trim()
         );
         System.out.println("Update code: " + outputInt);
     }

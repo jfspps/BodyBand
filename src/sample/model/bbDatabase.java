@@ -27,9 +27,10 @@ public class bbDatabase {
     //tblSet indices
     public static final int SetIdINDEX = 1;
     public static final int SetExerciseIdINDEX = 2;
-    public static final int SetRepIdINDEX = 3;
-    public static final int SetCommentsINDEX = 4;
-    public static final int SetDateINDEX = 5;
+    public static final int SetCommentsINDEX = 3;
+    public static final int SetDateINDEX = 4;
+    public static final int SetRepIdSeqINDEX = 5;
+
 
     //General SQL queries -------------------------------------------------------------------
     //SELECT * queries
@@ -49,7 +50,7 @@ public class bbDatabase {
     public static final String queryInsertRepetition = "INSERT INTO tblRepetition " +
             "(Tension, Repetitions) VALUES(?, ?)";
     public static final String queryInsertSet = "INSERT INTO tblSet " +
-            "(Exercise_id, Rep_id, Comments, SetDate) VALUES(?, ?, ?, ?)";
+            "(Exercise_id, Comments, SetDate, RepIdSeq) VALUES(?, ?, ?, ?)";
 
     //UPDATE queries (foreign keys cannot be updated)
     public static final String queryUpdateExercise = "UPDATE tblExercise SET ExerciseName = ?, MuscleGroup = ?, " +
@@ -57,7 +58,9 @@ public class bbDatabase {
             "idExercise = ?";
     public static final String queryUpdateRepetition = "UPDATE tblRepetition SET Repetitions = ? WHERE idRepetition =" +
             " ?";
-    public static final String queryUpdateSet = "UPDATE tblSet SET Comments = ?, SetDate = ? WHERE idSet = ?";
+    public static final String queryUpdateSet = "UPDATE tblSet SET Comments = ?, SetDate = ?, RepIdSeq = ? WHERE " +
+            "idSet = ?";
+    public static final String queryUpdateSetDateAndRep = "UPDATE tblSet SET SetDate = ?, RepIdSeq = ? WHERE idSet = ?";
 
     //DELETE queries (records from tblRepetition and tblSet are deleted ON CASCADE)
     public static final String queryDeleteExercise = "DELETE FROM tblExercise WHERE idExercise = ?";
@@ -70,8 +73,8 @@ public class bbDatabase {
             " AnchorPosition = ? AND Description = ? AND VideoURL = ?";
     public static final String querySelectRepetition = "SELECT Tension, Repetitions FROM tblRepetition " +
             "WHERE Tension = ? AND Repetitions = ?";
-    public static final String querySelectSet = "SELECT Exercise_id, Rep_id, Comments, SetDate FROM tblSet WHERE " +
-            "Exercise_id = ? AND Rep_id = ? AND Comments = ? AND SetDate = ?";
+    public static final String querySelectSet = "SELECT Exercise_id, Comments, SetDate, RepIdSeq FROM tblSet WHERE " +
+            "Exercise_id = ? AND Comments = ? AND SetDate = ? AND RepIdSeq = ?";
 
     //find particular records by primary key
     public static final String queryExerciseKey = "SELECT * FROM tblExercise WHERE idExercise = ?";
@@ -84,8 +87,8 @@ public class bbDatabase {
             "AND VideoURL = ?";
     public static final String querySelectRepetitionId = "SELECT idRepetition FROM tblRepetition WHERE Tension = " +
             "? AND Repetitions = ?";
-    public static final String querySelectSetId = "SELECT idSet FROM tblSet WHERE Exercise_id = ? AND Rep_id = ? AND " +
-            "Comments = ? AND SetDate = ?";
+    public static final String querySelectSetId = "SELECT idSet FROM tblSet WHERE Exercise_id = ? AND " +
+            "Comments = ? AND SetDate = ? AND RepIdSeq = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -105,6 +108,7 @@ public class bbDatabase {
     private PreparedStatement updateExercise;
     private PreparedStatement updateRepetition;
     private PreparedStatement updateSet;
+    private PreparedStatement updateSet_DateRep;
     private PreparedStatement deleteExercise;
     private PreparedStatement deleteRepetition;
     private PreparedStatement deleteSet;
@@ -130,6 +134,7 @@ public class bbDatabase {
             updateExercise = conn.prepareStatement(queryUpdateExercise);
             updateRepetition = conn.prepareStatement(queryUpdateRepetition);
             updateSet = conn.prepareStatement(queryUpdateSet);
+            updateSet_DateRep = conn.prepareStatement(queryUpdateSetDateAndRep);
             deleteExercise = conn.prepareStatement(queryDeleteExercise);
             deleteRepetition = conn.prepareStatement(queryDeleteRepetition);
             deleteSet = conn.prepareStatement(queryDeleteSet);
@@ -188,6 +193,9 @@ public class bbDatabase {
             }
             if (updateSet != null) {
                 updateSet.close();
+            }
+            if (updateSet_DateRep != null) {
+                updateSet_DateRep.close();
             }
             if (deleteExercise != null) {
                 deleteExercise.close();
@@ -433,7 +441,7 @@ public class bbDatabase {
             ResultSet resultSet = selectRepetitionId.executeQuery();
 
             if (resultSet.next()) {
-                System.out.println("Repetition found with id " + resultSet.getString(1));
+//                System.out.println("Repetition found with id " + resultSet.getString(1));
                 return resultSet.getInt(1);
             } else {
                 System.out.println("Repetition not found");
@@ -511,9 +519,9 @@ public class bbDatabase {
                 bbSet set = new bbSet();
                 set.setSetId(results.getInt(SetIdINDEX));
                 set.setExerciseId(results.getInt(SetExerciseIdINDEX));
-                set.setRepetitionId(results.getInt(SetRepIdINDEX));
                 set.setComments(results.getString(SetCommentsINDEX));
                 set.setSetDate(results.getString(SetDateINDEX));
+                set.setRepIdSequence(results.getString(SetRepIdSeqINDEX));
                 sets.add(set);
             }
             return sets;
@@ -541,12 +549,12 @@ public class bbDatabase {
 
     /**Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.*/
-    public int setOnFileId(Integer exerciseID, Integer repID, String comments, String setDate) {
+    public int setOnFileId(Integer exerciseID, String comments, String setDate, String repSeq) {
         try {
             selectSetId.setInt(1, exerciseID);
-            selectSetId.setInt(2, repID);
-            selectSetId.setString(3, comments);
-            selectSetId.setString(4, setDate);
+            selectSetId.setString(2, comments);
+            selectSetId.setString(3, setDate);
+            selectSetId.setString(4, repSeq);
 
             //this returns a ResultSet with one field, idExercise
             ResultSet resultSet = selectSetId.executeQuery();
@@ -568,7 +576,7 @@ public class bbDatabase {
     /**Returns the number of records with supplied fields, on file.
      * Compared to most of the other query methods, setOnFile also checks tblRepetition and tblExercise using
      * repetitionOnFileKey and exerciseOnFileKey, respectively. Returns -1 if an exception was caught. */
-    public int setOnFile(int exerciseId, int repId, String comments, String setDate) {
+    public int setOnFile(int exerciseId, String comments, String setDate, String repSeq) {
         try (ResultSet exercisePack = exerciseOnFileKey(exerciseId)) {
             if (exercisePack == null) {
                 System.out.println("The given exerciseId, " + exerciseId + ", was not found");
@@ -578,20 +586,17 @@ public class bbDatabase {
             System.out.println("Error with exerciseId in set parameter list\n" + err.getMessage());
         }
 
-        try (ResultSet repetitionPack = repetitionOnFileKey(repId)) {
-            if (repetitionPack == null) {
-                System.out.println("The given repetition, " + repId + ", was not found");
-                return -1;
-            }
-        } catch (SQLException err) {
-            System.out.println("Error with repetitionId in set parameter list\n" + err.getMessage());
-        }
+
+        //
+        // add code here to parse repSeq and check if each repId is still valid
+        //
+
 
         try {
             selectSet.setInt(1, exerciseId);
-            selectSet.setInt(2, repId);
-            selectSet.setString(3, comments);
-            selectSet.setString(4, setDate);
+            selectSet.setString(2, comments);
+            selectSet.setString(3, setDate);
+            selectSet.setString(4, repSeq);
 
             //returns the rows with this record
             ResultSet resultSet = selectSet.executeQuery();
@@ -741,8 +746,8 @@ public class bbDatabase {
     /**Inserts a new exercise, first by checking of the supplied fields match any record on file. The exercise
      * record with the supplied exerciseId is also verified on tblExercise. Returns the primary
      *  key of the inserted record, 0 if set already exists, -2 if exercise is missing or 0, -3 if repetition
-     *  is missing or 0, -4 is the date is missing, and -1 if an exception was caught.*/
-    public int insertNewSet(int exerciseId, int repId, String comments, String setDate) {
+     *  is missing, -4 is the date is missing, and -1 if an exception was caught.*/
+    public int insertNewSet(int exerciseId, String comments, String setDate, String repSeq) {
         //check if exercise from tblExercise actually exists
         try (ResultSet exercise = exerciseOnFileKey(exerciseId)) {
             if (exercise == null) {
@@ -754,19 +759,12 @@ public class bbDatabase {
             return -1;
         }
 
+        //
         //check if repetition from tblRepetition actually exists
-        try (ResultSet repetition = repetitionOnFileKey(repId)) {
-            if (repetition == null) {
-                System.out.println("The repetition with id " + repId + " is not in its table");
-                return -3;
-            }
-        } catch (SQLException err) {
-            System.out.println("Problem finding repetition in tblRepetition with given ID\n" + err.getMessage());
-            return -1;
-        }
+        //
 
         //check if the set already exists in tblSet (returns 0 if none, and 1 if present)
-        int index = setOnFile(exerciseId, repId, comments, setDate);
+        int index = setOnFile(exerciseId, comments, setDate, repSeq);
         if (index == 1) {
             System.out.println("This set dated " + setDate + " already on file, no further changes made.");
             return 0;
@@ -777,8 +775,9 @@ public class bbDatabase {
             System.out.println("Exercise info needed ( >0 )");
             return -2;
         }
-        if (repId == 0) {
-            System.out.println("Rep info needed ( >0 )");
+        if (repSeq == "R_") {
+            //expect to have at least R_x, where x is the first repId
+            System.out.println("No repetitions associated with this set");
             return -3;
         }
         if (setDate == null) {
@@ -789,9 +788,9 @@ public class bbDatabase {
         try {
             //PreparedStatements only allow for one value per placeholder ?
             insertSet.setInt(1, exerciseId);
-            insertSet.setInt(2, repId);
-            insertSet.setString(3, comments);
-            insertSet.setString(4, setDate);
+            insertSet.setString(2, comments);
+            insertSet.setString(3, setDate);
+            insertSet.setString(4, repSeq);
 
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertSet.executeUpdate();
@@ -824,8 +823,7 @@ public class bbDatabase {
                               String anchorPosition,
                               String desc, String videoURL){
         // check the index is already on the DB, return 0 if not
-        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
-        // check would prevent the passing of NULL)
+
         if (exerciseOnFileKey(exerciseID) == null) {
             System.out.println("Record with ID " + exerciseID + " not found. No changes made.");
             return 0;
@@ -857,8 +855,7 @@ public class bbDatabase {
      * record found, and -1 if an exception was caught*/
     public int updateRepetition(Integer repID, Float tension, Integer reps){
         // check the index is already on the DB, return 0 if not
-        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
-        // check would prevent the passing of NULL)
+
         if (repetitionOnFileKey(repID) == null) {
             System.out.println("Record with ID " + repID + " not found. No changes made.");
             return 0;
@@ -884,10 +881,9 @@ public class bbDatabase {
 
     /**Updates the selected set. Returns the setID if update successful, 0 if no changes needed or no record
      * found, and -1 if an exception was caught*/
-    public int updateSet(Integer setID, String comments, String setDate){
+    public int updateSet(Integer setID, String comments, String setDate, String repSeq){
         // check the index is already on the DB, return 0 if not
-        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
-        // check would prevent the passing of NULL)
+
         if (setOnFileKey(setID) == null) {
             System.out.println("Record with ID " + setID + " not found. No changes made.");
             return 0;
@@ -895,10 +891,41 @@ public class bbDatabase {
             try {
                 updateSet.setString(1, comments);
                 updateSet.setString(2, setDate);
-                updateSet.setInt(3, setID);
+                updateSet.setString(3, repSeq);
+                updateSet.setInt(4, setID);
 
                 //should only return 1 row update (index = 1)
                 int index = updateSet.executeUpdate();
+
+                if (index != 1) {
+                    System.out.println("No records updated");
+                    return 0;
+                }
+                return setID;
+            } catch (SQLException error) {
+                System.out.println("Problem updating exercise\n" + error.getMessage());
+                return -1;
+            }
+        }
+    }
+
+    /**Updates the selected set's date and repetition sequence, repSeq. Returns the setID if update successful, 0 if no
+     * changes needed or no record
+     * found, and -1 if an exception was caught*/
+    public int updateSetDateRep(Integer setID, String setDate, String repSeq){
+        // check the index is already on the DB, return 0 if not
+
+        if (setOnFileKey(setID) == null) {
+            System.out.println("Record with ID " + setID + " not found. No changes made.");
+            return 0;
+        } else {
+            try {
+                updateSet_DateRep.setString(1, setDate);
+                updateSet_DateRep.setString(2, repSeq);
+                updateSet_DateRep.setInt(3, setID);
+
+                //should only return 1 row update (index = 1)
+                int index = updateSet_DateRep.executeUpdate();
 
                 if (index != 1) {
                     System.out.println("No records updated");

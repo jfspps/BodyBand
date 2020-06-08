@@ -4,9 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.setDialogControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.setDialogControl">
 
     <top>
         <Label text="Enter new sets here (required*):" BorderPane.alignment="CENTER" />
@@ -23,12 +21,12 @@
                 <Pane prefHeight="10.0" prefWidth="200.0" />
                 <Label text="Exercise ID*" />
                 <TextField fx:id="exerciseID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
-                <Label text="Repetitions ID*" />
-                <TextField fx:id="repetitionsID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck"/>
+                <Label text="Repetitions ID* (use &quot;R_x_y_z_&quot; etc.)" />
+                <TextField fx:id="repetitionsID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
                 <Label text="Comments" />
                 <TextField fx:id="comments" minHeight="60.0" />
-                <Label text="Set date*" />
-                <TextField fx:id="setDate" minHeight="60.0" onKeyReleased="#requiredFieldsCheck"/>
+                <Label text="Set date (applied automatically)" />
+                <TextField fx:id="setDate" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
 
                 <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
                <VBox.margin>

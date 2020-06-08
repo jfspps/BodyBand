@@ -40,7 +40,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Rep Id" />
+                  <Label minWidth="125.0" text="Repetition ID sequence" wrapText="true" />
                   <TextArea fx:id="repIDText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>

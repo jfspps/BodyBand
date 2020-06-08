@@ -6,9 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 public class bbSet {
     private SimpleIntegerProperty setId;
     private SimpleIntegerProperty exerciseId;
-    private SimpleIntegerProperty repetitionId;
     private SimpleStringProperty comments;
     private SimpleStringProperty setDate;
+    private SimpleStringProperty repIdSequence;
 
     public Integer getSetId() {
         return this.setId.get();
@@ -26,12 +26,6 @@ public class bbSet {
         this.exerciseId.set(exerciseId);
     }
 
-    public Integer getRepetitionId() { return this.repetitionId.get(); }
-
-    public void setRepetitionId(Integer repetitionId) {
-        this.repetitionId.set(repetitionId);
-    }
-
     public String getComments() {
         return this.comments.get();
     }
@@ -46,5 +40,13 @@ public class bbSet {
 
     public void setSetDate(String setDate) {
         this.setDate.set(setDate);
+    }
+
+    // repIdSequence is a string of integers, separated by an underscore _ each denoting an repId for the given set
+
+    public String getRepIdSequence() { return this.repIdSequence.get(); }
+
+    public void setRepIdSequence(String repIdSequence) {
+        this.repIdSequence.set(repIdSequence);
     }
 }
