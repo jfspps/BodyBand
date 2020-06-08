@@ -34,7 +34,7 @@ public class setDialogControl implements Initializable {
 
     @FXML
     private void showSets() {
-        sceneNavigation.getInstance().setPage();
+        sceneNavigation.getInstance().showSetPage();
     }
 
     @FXML

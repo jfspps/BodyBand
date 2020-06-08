@@ -73,7 +73,7 @@ public class repController implements Initializable {
 
     @FXML
     private void showMainPage() {
-        sceneNavigation.getInstance().mainPage();
+        sceneNavigation.getInstance().showMainPage();
     }
 
     @FXML
@@ -88,17 +88,17 @@ public class repController implements Initializable {
 
     @FXML
     private void bandStatScene(){
-        sceneNavigation.getInstance().bandStatPage();
+        sceneNavigation.getInstance().showBandStatPage();
     }
 
     @FXML
     private void setScene(){
-        sceneNavigation.getInstance().setPage();
+        sceneNavigation.getInstance().showSetPage();
     }
 
     @FXML
     private void exerciseScene(){
-        sceneNavigation.getInstance().exercisePage();
+        sceneNavigation.getInstance().showExercisePage();
     }
 
     // Previous and Next buttons --------------------------------------------------------------------------------

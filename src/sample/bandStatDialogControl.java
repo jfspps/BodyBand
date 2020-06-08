@@ -29,7 +29,7 @@ public class bandStatDialogControl implements Initializable {
 
     @FXML
     private void showBandStats() {
-        sceneNavigation.getInstance().bandStatPage();
+        sceneNavigation.getInstance().showBandStatPage();
     }
 
     @FXML

@@ -14,22 +14,22 @@ public class Controller {
 
     @FXML
     public void showExercises() {
-        sceneNavigation.getInstance().exercisePage();
+        sceneNavigation.getInstance().showExercisePage();
     }
 
     @FXML
     public void showBandStats() {
-        sceneNavigation.getInstance().bandStatPage();
+        sceneNavigation.getInstance().showBandStatPage();
     }
 
     @FXML
     public void showSets() {
-        sceneNavigation.getInstance().setPage();
+        sceneNavigation.getInstance().showSetPage();
     }
 
     @FXML
     public void showReps() {
-        sceneNavigation.getInstance().repPage();
+        sceneNavigation.getInstance().showRepPage();
     }
 
 

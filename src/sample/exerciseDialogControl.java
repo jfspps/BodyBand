@@ -28,7 +28,7 @@ public class exerciseDialogControl implements Initializable {
 
     @FXML
     private void showExercises() {
-        sceneNavigation.getInstance().exercisePage();
+        sceneNavigation.getInstance().showExercisePage();
     }
 
     @FXML

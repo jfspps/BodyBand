@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,14 +29,25 @@ public class exerciseSetControl implements Initializable {
     //prove useful on exit
     private String exerciseName, exerciseAnchorHeight, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
 
+    //adds a listener to a TextField and permits xxx.xx float values only
+    private void setNumField(TextField field){
+        field.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // regex which firstly allows 0 to 3 digits before ".", followed by "." and thirdly 0 to 2 digits
+                // after "."
+                if (!newValue.matches("\\d{0,3}([\\.]\\d{0,2})?")) {
+                    field.setText(oldValue);
+                }
+            }
+        });
+    }
+
     @FXML
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorHeightField, anchorPositionField, videoURLField;
-
-    @FXML
-    private TextField repsTextField, tensionTextField;
+    private TextField anchorHeightField, anchorPositionField, videoURLField, repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
@@ -72,6 +85,9 @@ public class exerciseSetControl implements Initializable {
                         addButton.setDisable(true);
                         updateButton.setDisable(true);
                         deleteButton.setDisable(true);
+
+                        setNumField(tensionTextField);
+                        setNumField(repsTextField);
                     }
                 });
             }
@@ -96,20 +112,20 @@ public class exerciseSetControl implements Initializable {
     }
 
     @FXML
-    private void onClickedAdd(){
-        // Build a new set object...
+    private void onClickedAdd() {
+        // Build a new set object...format of each TextField is handled by a listener
 
 
         // ...and query the database. If it already exists then update all relevant fields
     }
 
     @FXML
-    private void onClickedUpdate(){
+    private void onClickedUpdate() {
 
     }
 
     @FXML
-    private void onClickedDelete(){
+    private void onClickedDelete() {
 
     }
 }

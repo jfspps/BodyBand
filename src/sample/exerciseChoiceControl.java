@@ -28,7 +28,7 @@ public class exerciseChoiceControl {
 
     @FXML
     private void onClickedMainPage() {
-        sceneNavigation.getInstance().mainPage();
+        sceneNavigation.getInstance().showMainPage();
     }
 
     @FXML
@@ -41,7 +41,7 @@ public class exerciseChoiceControl {
             // .getExerciseId()
             currentExercise =
                     bbDatabase.getInstance().exerciseOnFileKey(exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
-            sceneNavigation.getInstance().showExerciseSet();
+            sceneNavigation.getInstance().showExerciseSetPage();
         }
     }
 

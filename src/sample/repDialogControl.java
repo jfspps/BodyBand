@@ -28,7 +28,7 @@ public class repDialogControl implements Initializable {
 
     @FXML
     private void showReps() {
-        sceneNavigation.getInstance().repPage();
+        sceneNavigation.getInstance().showRepPage();
     }
 
     @FXML
