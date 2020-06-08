@@ -15,22 +15,14 @@ public class bbDatabase {
     public static final int ExerciseIdINDEX = 1;
     public static final int ExerciseNameINDEX = 2;
     public static final int ExerciseMuscleGroupINDEX = 3;
-    public static final int ExerciseAnchorNeededINDEX = 4;
-    public static final int ExerciseAnchorHeightINDEX = 5;
-    public static final int ExerciseAnchorPositionINDEX = 6;
-    public static final int ExerciseDescINDEX = 7;
-    public static final int ExerciseVideoURLINDEX = 8;
+    public static final int ExerciseAnchorPositionINDEX = 4;
+    public static final int ExerciseDescINDEX = 5;
+    public static final int ExerciseVideoURLINDEX = 6;
 
     //tblRepetition indices
     public static final int RepetitionIdINDEX = 1;
-    public static final int RepetitionBandStatIdINDEX = 2;
+    public static final int RepetitionTensionINDEX = 2;
     public static final int RepetitionRepsINDEX = 3;
-
-    //tblBandStat indices
-    public static final int BandStatIdINDEX = 1;
-    public static final int BandStatSingleBandTensionINDEX = 2;
-    public static final int BandStatDoubledOrNotINDEX = 3;
-    public static final int BandStatUnitsINDEX = 4;
 
     //tblSet indices
     public static final int SetIdINDEX = 1;
@@ -43,67 +35,54 @@ public class bbDatabase {
     //SELECT * queries
     public static final String querySelectAllExercises = "SELECT * FROM tblExercise";
     public static final String querySelectAllRepetitions = "SELECT * FROM tblRepetition";
-    public static final String querySelectAllBandStats = "SELECT * FROM tblBandStat";
     public static final String querySelectAllSets = "SELECT * FROM tblSet";
 
     //SELECT the first entry
     public static final String querySelectFirstExercise = "SELECT * FROM tblExercise LIMIT 1";
     public static final String querySelectFirstRepetition = "SELECT * FROM tblRepetition LIMIT 1";
-    public static final String querySelectFirstBandStat = "SELECT * FROM tblBandStat LIMIT 1";
     public static final String querySelectFirstSet = "SELECT * FROM tblSet LIMIT 1";
 
     //INSERT queries
     public static final String queryInsertExercise = "INSERT INTO tblExercise " +
-            "(ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, AnchorPosition, Description, VideoURL) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?)";
-    public static final String queryInsertBandStat = "INSERT INTO tblBandStat " +
-            "(SingleBandTension, DoubledOrNot, Units) " +
-            "VALUES(?, ?, ?)";
+            "(ExerciseName, MuscleGroup, AnchorPosition, Description, VideoURL) " +
+            "VALUES(?, ?, ?, ?, ?)";
     public static final String queryInsertRepetition = "INSERT INTO tblRepetition " +
-            "(BandStat_id, Repetitions) VALUES(?, ?)";
+            "(Tension, Repetitions) VALUES(?, ?)";
     public static final String queryInsertSet = "INSERT INTO tblSet " +
             "(Exercise_id, Rep_id, Comments, SetDate) VALUES(?, ?, ?, ?)";
 
     //UPDATE queries (foreign keys cannot be updated)
     public static final String queryUpdateExercise = "UPDATE tblExercise SET ExerciseName = ?, MuscleGroup = ?, " +
-            "AnchorNeeded = ?, AnchorHeight = ?, AnchorPosition = ?, Description = ?, VideoURL = ? WHERE " +
+            "AnchorPosition = ?, Description = ?, VideoURL = ? WHERE " +
             "idExercise = ?";
-    public static final String queryUpdateBandStat = "UPDATE tblBandStat SET SingleBandTension = ?, DoubledOrNot =" +
-            " ?, Units = ? WHERE idBandStat = ?";
     public static final String queryUpdateRepetition = "UPDATE tblRepetition SET Repetitions = ? WHERE idRepetition =" +
             " ?";
     public static final String queryUpdateSet = "UPDATE tblSet SET Comments = ?, SetDate = ? WHERE idSet = ?";
 
     //DELETE queries (records from tblRepetition and tblSet are deleted ON CASCADE)
     public static final String queryDeleteExercise = "DELETE FROM tblExercise WHERE idExercise = ?";
-    public static final String queryDeleteBandStat = "DELETE FROM tblBandStat WHERE idBandStat = ?";
     public static final String queryDeleteRepetition = "DELETE FROM tblRepetition WHERE idRepetition = ?";
     public static final String queryDeleteSet = "DELETE FROM tblSet WHERE idSet = ?";
 
     //find particular records
-    public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, AnchorNeeded, AnchorHeight, " +
+    public static final String querySelectExercise = "SELECT ExerciseName, MuscleGroup, " +
             "AnchorPosition, Description, VideoURL FROM tblExercise WHERE ExerciseName = ? AND MuscleGroup = ? AND" +
-            " AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? AND VideoURL = ?";
-    public static final String querySelectBandStat = "SELECT SingleBandTension, DoubledOrNot, Units FROM" +
-            " tblBandStat WHERE SingleBandTension = ? AND DoubledOrNot = ? AND Units = ?";
-    public static final String querySelectRepetition = "SELECT BandStat_id, Repetitions FROM tblRepetition " +
-            "WHERE BandStat_id = ? AND Repetitions = ?";
+            " AnchorPosition = ? AND Description = ? AND VideoURL = ?";
+    public static final String querySelectRepetition = "SELECT Tension, Repetitions FROM tblRepetition " +
+            "WHERE Tension = ? AND Repetitions = ?";
     public static final String querySelectSet = "SELECT Exercise_id, Rep_id, Comments, SetDate FROM tblSet WHERE " +
             "Exercise_id = ? AND Rep_id = ? AND Comments = ? AND SetDate = ?";
 
     //find particular records by primary key
-    public static final String queryBandStatKey = "SELECT * FROM tblBandStat WHERE idBandStat = ?";
     public static final String queryExerciseKey = "SELECT * FROM tblExercise WHERE idExercise = ?";
     public static final String queryRepetitionKey = "SELECT * FROM tblRepetition WHERE idRepetition = ?";
     public static final String querySetKey = "SELECT * FROM tblSet WHERE idSet = ?";
 
     //find record id
     public static final String querySelectExerciseId = "SELECT idExercise FROM tblExercise WHERE ExerciseName = ? AND" +
-            " MuscleGroup = ? AND AnchorNeeded = ? AND AnchorHeight = ? AND AnchorPosition = ? AND Description = ? " +
+            " MuscleGroup = ? AND AnchorPosition = ? AND Description = ? " +
             "AND VideoURL = ?";
-    public static final String querySelectBandStatId = "SELECT idBandStat FROM tblBandStat WHERE SingleBandTension = " +
-            "? AND DoubledOrNot = ? AND Units = ?";
-    public static final String querySelectRepetitionId = "SELECT idRepetition FROM tblRepetition WHERE BandStat_id = " +
+    public static final String querySelectRepetitionId = "SELECT idRepetition FROM tblRepetition WHERE Tension = " +
             "? AND Repetitions = ?";
     public static final String querySelectSetId = "SELECT idSet FROM tblSet WHERE Exercise_id = ? AND Rep_id = ? AND " +
             "Comments = ? AND SetDate = ?";
@@ -112,27 +91,21 @@ public class bbDatabase {
     private Connection conn;
     //Prepared statements
     private PreparedStatement insertExercise;
-    private PreparedStatement insertBandStat;
     private PreparedStatement insertRepetition;
     private PreparedStatement insertSet;
     private PreparedStatement selectExercise;
-    private PreparedStatement selectBandStat;
     private PreparedStatement selectRepetition;
     private PreparedStatement selectSet;
-    private PreparedStatement selectBandStatKey;
     private PreparedStatement selectExerciseKey;
     private PreparedStatement selectRepetitionKey;
     private PreparedStatement selectSetKey;
     private PreparedStatement selectExerciseId;
-    private PreparedStatement selectBandStatId;
     private PreparedStatement selectRepetitionId;
     private PreparedStatement selectSetId;
     private PreparedStatement updateExercise;
-    private PreparedStatement updateBandStat;
     private PreparedStatement updateRepetition;
     private PreparedStatement updateSet;
     private PreparedStatement deleteExercise;
-    private PreparedStatement deleteBandStat;
     private PreparedStatement deleteRepetition;
     private PreparedStatement deleteSet;
 
@@ -143,27 +116,21 @@ public class bbDatabase {
             //initiate the connection conn and all Statements/PreparedStatements here
             conn = DriverManager.getConnection(CONNECTION_STRING);
             insertExercise = conn.prepareStatement(queryInsertExercise);
-            insertBandStat = conn.prepareStatement(queryInsertBandStat);
             insertRepetition = conn.prepareStatement(queryInsertRepetition);
             insertSet = conn.prepareStatement(queryInsertSet);
             selectExercise = conn.prepareStatement(querySelectExercise);
-            selectBandStat = conn.prepareStatement(querySelectBandStat);
             selectRepetition = conn.prepareStatement(querySelectRepetition);
             selectSet = conn.prepareStatement(querySelectSet);
-            selectBandStatKey = conn.prepareStatement(queryBandStatKey);
             selectExerciseKey = conn.prepareStatement(queryExerciseKey);
             selectRepetitionKey = conn.prepareStatement(queryRepetitionKey);
             selectSetKey = conn.prepareStatement(querySetKey);
             selectExerciseId = conn.prepareStatement(querySelectExerciseId);
-            selectBandStatId = conn.prepareStatement(querySelectBandStatId);
             selectRepetitionId = conn.prepareStatement(querySelectRepetitionId);
             selectSetId = conn.prepareStatement(querySelectSetId);
             updateExercise = conn.prepareStatement(queryUpdateExercise);
-            updateBandStat = conn.prepareStatement(queryUpdateBandStat);
             updateRepetition = conn.prepareStatement(queryUpdateRepetition);
             updateSet = conn.prepareStatement(queryUpdateSet);
             deleteExercise = conn.prepareStatement(queryDeleteExercise);
-            deleteBandStat = conn.prepareStatement(queryDeleteBandStat);
             deleteRepetition = conn.prepareStatement(queryDeleteRepetition);
             deleteSet = conn.prepareStatement(queryDeleteSet);
             return true;
@@ -180,9 +147,6 @@ public class bbDatabase {
             if (insertExercise != null) {
                 insertExercise.close();
             }
-            if (insertBandStat != null) {
-                insertBandStat.close();
-            }
             if (insertRepetition != null) {
                 insertRepetition.close();
             }
@@ -192,17 +156,11 @@ public class bbDatabase {
             if (selectExercise != null) {
                 selectExercise.close();
             }
-            if (selectBandStat != null) {
-                selectBandStat.close();
-            }
             if (selectRepetition != null) {
                 selectRepetition.close();
             }
             if (selectSet != null) {
                 selectSet.close();
-            }
-            if (selectBandStatKey != null) {
-                selectBandStatKey.close();
             }
             if (selectExerciseKey != null) {
                 selectExerciseKey.close();
@@ -216,9 +174,6 @@ public class bbDatabase {
             if (selectExerciseId != null) {
                 selectExerciseId.close();
             }
-            if (selectBandStatId != null) {
-                selectBandStatId.close();
-            }
             if (selectRepetitionId != null) {
                 selectRepetitionId.close();
             }
@@ -228,9 +183,6 @@ public class bbDatabase {
             if (updateExercise != null) {
                 updateExercise.close();
             }
-            if (updateBandStat != null) {
-                updateBandStat.close();
-            }
             if (updateRepetition != null) {
                 updateRepetition.close();
             }
@@ -239,9 +191,6 @@ public class bbDatabase {
             }
             if (deleteExercise != null) {
                 deleteExercise.close();
-            }
-            if (deleteBandStat != null) {
-                deleteBandStat.close();
             }
             if (deleteRepetition != null) {
                 deleteRepetition.close();
@@ -296,8 +245,6 @@ public class bbDatabase {
                 exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
                 exercise.setExerciseName(results.getString(ExerciseNameINDEX));
                 exercise.setMuscleGroup(results.getString(ExerciseMuscleGroupINDEX));
-                exercise.setAnchorNeeded(results.getString(ExerciseAnchorNeededINDEX));
-                exercise.setAnchorHeight(results.getString(ExerciseAnchorHeightINDEX));
                 exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
                 exercise.setExerciseDesc(results.getString(ExerciseDescINDEX));
                 exercise.setVideoURL(results.getString(ExerciseVideoURLINDEX));
@@ -327,17 +274,15 @@ public class bbDatabase {
     }
 
     /**Returns the number of records with supplied fields, on file. Returns -1 if an exception was caught.*/
-    public int exerciseOnFile(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+    public int exerciseOnFile(String name, String muscleGroup,
                               String anchorPosition,
                               String desc, String videoURL) {
         try {
             selectExercise.setString(1, name);
             selectExercise.setString(2, muscleGroup);
-            selectExercise.setString(3, anchorNeeded);
-            selectExercise.setString(4, anchorHeight);
-            selectExercise.setString(5, anchorPosition);
-            selectExercise.setString(6, desc);
-            selectExercise.setString(7, videoURL);
+            selectExercise.setString(3, anchorPosition);
+            selectExercise.setString(4, desc);
+            selectExercise.setString(5, videoURL);
 
             //returns the rows with this record
             ResultSet resultSet = selectExercise.executeQuery();
@@ -363,17 +308,15 @@ public class bbDatabase {
 
     /**Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.*/
-    public int exerciseOnFileId(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+    public int exerciseOnFileId(String name, String muscleGroup,
                               String anchorPosition,
                               String desc, String videoURL) {
         try {
             selectExerciseId.setString(1, name);
             selectExerciseId.setString(2, muscleGroup);
-            selectExerciseId.setString(3, anchorNeeded);
-            selectExerciseId.setString(4, anchorHeight);
-            selectExerciseId.setString(5, anchorPosition);
-            selectExerciseId.setString(6, desc);
-            selectExerciseId.setString(7, videoURL);
+            selectExerciseId.setString(3, anchorPosition);
+            selectExerciseId.setString(4, desc);
+            selectExerciseId.setString(5, videoURL);
 
             //this returns a ResultSet with one field, idExercise
             ResultSet resultSet = selectExerciseId.executeQuery();
@@ -426,8 +369,6 @@ public class bbDatabase {
                 tempEx.setExerciseId(resultSet.getInt(ExerciseIdINDEX)); //records and their PKs may get deleted over time
                 tempEx.setExerciseName(resultSet.getString(ExerciseNameINDEX));
                 tempEx.setMuscleGroup(resultSet.getString(ExerciseMuscleGroupINDEX));
-                tempEx.setAnchorNeeded(resultSet.getString(ExerciseAnchorNeededINDEX));
-                tempEx.setAnchorHeight(resultSet.getString(ExerciseAnchorHeightINDEX));
                 tempEx.setAnchorPosition(resultSet.getString(ExerciseAnchorPositionINDEX));
                 tempEx.setExerciseDesc(resultSet.getString(ExerciseDescINDEX));
                 tempEx.setVideoURL(resultSet.getString(ExerciseVideoURLINDEX));
@@ -443,121 +384,7 @@ public class bbDatabase {
         }
     }
 
-    //tblBandStat ========================================================================================
-
-    /**Returns a List<> of all band stats and their fields on file. Returns null if none found.*/
-    public List<bbBandStat> listAllBandStats() {
-        try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(querySelectAllBandStats)) {
-            List<bbBandStat> bandStats = new ArrayList<>();
-
-            while (results.next()) {
-                bbBandStat bandStat = new bbBandStat();
-                bandStat.setBandStatId(results.getInt(BandStatIdINDEX));
-                bandStat.setTension(results.getFloat(BandStatSingleBandTensionINDEX));
-                bandStat.setDoubledOrNot(results.getString(BandStatDoubledOrNotINDEX));
-                bandStat.setUnits(results.getString(BandStatUnitsINDEX));
-                bandStats.add(bandStat);
-            }
-            return bandStats;
-        } catch (SQLException e) {
-            System.out.println("JDBC connection error to tblBandStat:\n" + e.getMessage());
-            return null;
-        }
-    }
-
-    /**Returns the index of the first band stat on file. Returns 0 no records found and -1 if an exception was caught.*/
-    public int getFirstBandStat(){
-        try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(querySelectFirstBandStat)) {
-
-            if(results.next()) {
-                return results.getInt(1);
-            }
-            System.out.println("No band stats on record");
-            return 0;
-        } catch (SQLException e) {
-            System.out.println("JDBC connection error to tblBandStats:\n" + e.getMessage());
-            return -1;
-        }
-    }
-
-    /**Returns the number of records with supplied fields, on file. Returns -1 if an exception was caught.*/
-    public int bandStatOnFile(float tension, String doubledOrNot, String units) {
-        try {
-            selectBandStat.setFloat(1, tension);
-            selectBandStat.setString(2, doubledOrNot);
-            selectBandStat.setString(3, units);
-
-            //returns the rows with this record
-            ResultSet resultSet = selectBandStat.executeQuery();
-            int rowCount = 0;
-            while (resultSet.next()) {
-                rowCount++;
-            }
-
-            if (rowCount > 0) {
-//                System.out.println("Band stat already on file");
-                resultSet.close();
-                return rowCount;
-            } else if (rowCount == 0) {
-//                System.out.println("Band stat not on file");
-                resultSet.close();
-            }
-            return 0;
-        } catch (SQLException e) {
-            System.out.println("onFile problem querying tblBandStat:\n" + e.getMessage());
-            return -1;
-        }
-    }
-
-    /**Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
-     * exception was caught.*/
-    public int bandStatOnFileId(float tension, String doubled, String units) {
-        try {
-            selectBandStatId.setFloat(1, tension);
-            selectBandStatId.setString(2, doubled);
-            selectBandStatId.setString(3, units);
-
-            //this returns a ResultSet with one field, idExercise
-            ResultSet resultSet = selectBandStatId.executeQuery();
-
-            if (resultSet.next()) {
-                System.out.println("Band stat found with id " + resultSet.getString(1));
-                return resultSet.getInt(1);
-            } else {
-                System.out.println("Band stat not found");
-                return 0;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("onFileId problem querying tblBandStat:\n" + e.getMessage());
-            return -1;
-        }
-    }
-
-    /**Returns a ResultSet of the band stat record with the supplied primary key idBandStat. Returns null if none
-     * found or if an exception is caught.*/
-    public ResultSet bandStatOnFileKey(int idBandStat) {
-//        System.out.println("Trying to find exercise with id = " + idBandStat);
-        try {
-            selectBandStatKey.setInt(1, idBandStat);
-            ResultSet resultSet = selectBandStatKey.executeQuery();
-
-            if (resultSet.next()) {
-//                System.out.println("Record with the key " + idBandStat + " found");
-                return resultSet;
-            } else {
-                System.out.println("No record with the key " + idBandStat + " found");
-                return null;
-            }
-        } catch (SQLException e) {
-            System.out.println("Problem with querying tblBandStat:\n" + e.getMessage());
-            return null;
-        }
-    }
-
-    //tblRepetition ===========================================
+    //tblRepetition ========================================================================================
 
     /**Returns a List<> of all repetitions and their fields on file. Returns null if none found.*/
     public List<bbRepetition> listAllRepetitions() {
@@ -568,7 +395,7 @@ public class bbDatabase {
             while (results.next()) {
                 bbRepetition repetition = new bbRepetition();
                 repetition.setRepetitionId(results.getInt(RepetitionIdINDEX));
-                repetition.setBandStatId(results.getInt(RepetitionBandStatIdINDEX));
+                repetition.setTension(results.getFloat(RepetitionTensionINDEX));
                 repetition.setReps(results.getInt(RepetitionRepsINDEX));
                 repetitions.add(repetition);
             }
@@ -597,9 +424,9 @@ public class bbDatabase {
 
     /**Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.*/
-    public int repetitionOnFileId(Integer bandStatID, Integer reps) {
+    public int repetitionOnFileId(Float tension, Integer reps) {
         try {
-            selectRepetitionId.setInt(1, bandStatID);
+            selectRepetitionId.setFloat(1, tension);
             selectRepetitionId.setInt(2, reps);
 
             //this returns a ResultSet with one field, idExercise
@@ -620,22 +447,12 @@ public class bbDatabase {
     }
 
     /**Returns the number of records with supplied fields, on file.
-     * Compared to most of the other query methods, repetitionOnFile also checks tblBandStat using bandStatOnFileKey
-     * (int idBandStat). Returns -1 if an exception was caught.
+     * Returns -1 if an exception was caught.
      */
-    public int repetitionOnFile(int bandStatId, int repetitions) {
-
-        try (ResultSet bandStatPack = bandStatOnFileKey(bandStatId)) {
-            if (bandStatPack == null) {
-                System.out.println("The given bandStatId, " + bandStatId + ", was not found");
-                return -1;
-            }
-        } catch (SQLException err) {
-            System.out.println("Error with bandStatId in repetition parameter list\n" + err.getMessage());
-        }
+    public int repetitionOnFile(float tension, int repetitions) {
 
         try {
-            selectRepetition.setInt(1, bandStatId);
+            selectRepetition.setFloat(1, tension);
             selectRepetition.setInt(2, repetitions);
 
             //returns the rows with this record
@@ -826,11 +643,11 @@ public class bbDatabase {
     /**Inserts a new exercise, first by checking of the supplied fields match any record on file. Returns the primary
      *  key of the inserted record, 0 if the exercise already exists, -2 if name is blank or null, and -1 if an
      *  exception was caught*/
-    public int insertNewExercise(String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+    public int insertNewExercise(String name, String muscleGroup,
                                  String anchorPosition,
                                  String desc, String videoURL) {
         //check if the exercise already exists (returns 0 if none, and 1 if present)
-        int index = exerciseOnFile(name, muscleGroup, anchorNeeded, anchorHeight, anchorPosition, desc, videoURL);
+        int index = exerciseOnFile(name, muscleGroup, anchorPosition, desc, videoURL);
         if (index == 1) {
             System.out.println(name + " already exists on file. No further changes made.");
             return 0;
@@ -846,11 +663,9 @@ public class bbDatabase {
             //PreparedStatements only allow for one value per placeholder ?
             insertExercise.setString(1, name);
             insertExercise.setString(2, muscleGroup);
-            insertExercise.setString(3, anchorNeeded);
-            insertExercise.setString(4, anchorHeight);
-            insertExercise.setString(5, anchorPosition);
-            insertExercise.setString(6, desc);
-            insertExercise.setString(7, videoURL);
+            insertExercise.setString(3, anchorPosition);
+            insertExercise.setString(4, desc);
+            insertExercise.setString(5, videoURL);
 
             //store the expected return (1) if one row was inserted
             int insertedRecord = insertExercise.executeUpdate();
@@ -876,82 +691,20 @@ public class bbDatabase {
         }
     }
 
-    /**Inserts a new band stat, first by checking of the supplied fields match any record on file. Returns the primary
-     *  key of the inserted record, 0 if the band stat already exists, -2 if singleBandTension is <= 0, and -1 if an
-     *  exception was caught*/
-    public int insertNewBandStat(float singleBandTension, String doubledOrNot, String units) {
-        //check if the BandStat already exists (returns 0 if none, and 1 if present)
-        int index = bandStatOnFile(singleBandTension, doubledOrNot, units);
-        if (index == 1) {
-            System.out.println(singleBandTension + " " + units + ", doubled:" + doubledOrNot + ", already on" +
-                    " file, no further changes made.");
-            return 0;
-        }
-
-        //testing for null is eventually handled by the controller and used here for test purposes
-        if (singleBandTension <= 0) {
-            System.out.println("Band tension needed");
-            return -2;
-        }
-
-        try {
-            //PreparedStatements only allow for one value per placeholder ?
-            insertBandStat.setFloat(1, singleBandTension);
-            insertBandStat.setString(2, doubledOrNot);
-            insertBandStat.setString(3, units);
-
-            //store the expected return (1) if one row was inserted
-            int insertedRecord = insertBandStat.executeUpdate();
-
-            if (insertedRecord != 1) {
-                throw new SQLException("Could not insert Band stat");
-            }
-//            System.out.println("New band stat added, getting the ID...");
-
-            //find the key of the inserted record and return it
-            ResultSet generatedKeys = insertBandStat.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                System.out.println("New band stat id: " + generatedKeys.getInt(1));
-                return generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Could not get ID for new band stat");
-            }
-        } catch (SQLException err) {
-            System.out.println("Error with inserting new BandStat\n" + err.getMessage());
-            //one can conn.rollback() in another try-catch block
-            return -1;
-        }
-    }
-
-    /**Inserts a new repetition, first by checking of the supplied fields match any record on file. The bandStat
-     * record with the supplied bandStatId is also verified on tblBandStat. Returns the primary
-     *  key of the inserted record, 0 if repetition already exists, -3 if bandStatId is 0 or missing, -2 if
+    /**Inserts a new repetition, first by checking of the supplied fields match any record on file. Returns the primary
+     *  key of the inserted record, 0 if repetition already exists, -2 if
      *  repetitions is 0, and -1 if an exception was caught.*/
-    public int insertNewRepetition(int bandStatId, int repetitions) {
-        //check if band stat from tblBandStat actually exists
-        try (ResultSet band = bandStatOnFileKey(bandStatId)) {
-            if (band == null) {
-                System.out.println("The bandStat with id " + bandStatId + " is not in its table");
-                return -3;
-            }
-        } catch (SQLException err) {
-            System.out.println("Problem finding bandStat in tblBandStat with given ID\n" + err.getMessage());
-            return -1;
-        }
+    public int insertNewRepetition(float tension, int repetitions) {
 
         //check if the Repetition already exists in tblRepetition (returns 0 if none, and 1 if present)
-        int index = repetitionOnFile(bandStatId, repetitions);
+        int index = repetitionOnFile(tension, repetitions);
         if (index == 1) {
-            System.out.println(repetitions + " with band stat " + bandStatId + " already exists on " +
+            System.out.println(repetitions + " with tension " + tension + " already exists on " +
                     "file, no further changes made.");
             return 0;
         }
 
         //testing for null is eventually handled by the controller and used here for test purposes
-        if (bandStatId == 0) {
-            System.out.println("Band stat info needed ( >=1 )");
-            return -3;
-        }
         if (repetitions == 0) {
             System.out.println("Rep count needed ( >=1 )");
             return -2;
@@ -959,7 +712,7 @@ public class bbDatabase {
 
         try {
             //PreparedStatements only allow for one value per placeholder ?
-            insertRepetition.setInt(1, bandStatId);
+            insertRepetition.setFloat(1, tension);
             insertRepetition.setInt(2, repetitions);
 
             //store the expected return (1) if one row was inserted
@@ -1067,7 +820,7 @@ public class bbDatabase {
 
     /**Updates the selected exercise. Returns the exerciseID if update successful, 0 if no changes needed or no record
      * found, and -1 if an exception was caught*/
-    public int updateExercise(Integer exerciseID, String name, String muscleGroup, String anchorNeeded, String anchorHeight,
+    public int updateExercise(Integer exerciseID, String name, String muscleGroup,
                               String anchorPosition,
                               String desc, String videoURL){
         // check the index is already on the DB, return 0 if not
@@ -1080,12 +833,10 @@ public class bbDatabase {
             try {
                 updateExercise.setString(1, name);
                 updateExercise.setString(2, muscleGroup);
-                updateExercise.setString(3, anchorNeeded);
-                updateExercise.setString(4, anchorHeight);
-                updateExercise.setString(5, anchorPosition);
-                updateExercise.setString(6, desc);
-                updateExercise.setString(7, videoURL);
-                updateExercise.setInt(8, exerciseID);
+                updateExercise.setString(3, anchorPosition);
+                updateExercise.setString(4, desc);
+                updateExercise.setString(5, videoURL);
+                updateExercise.setInt(6, exerciseID);
 
                 //should only return 1 row update (index = 1)
                 int index = updateExercise.executeUpdate();
@@ -1102,40 +853,9 @@ public class bbDatabase {
         }
     }
 
-    /**Updates the selected band stat. Returns the bandStatID if update successful, 0 if no changes needed or no record
-     * found, and -1 if an exception was caught*/
-    public int updateBandStat(Integer bandStatID, float singleBandTension, String doubledOrNot, String units){
-        // check the index is already on the DB, return 0 if not
-        // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
-        // check would prevent the passing of NULL)
-        if (bandStatOnFileKey(bandStatID) == null) {
-            System.out.println("Record with ID " + bandStatID + " not found. No changes made.");
-            return 0;
-        } else {
-            try {
-                updateBandStat.setFloat(1, singleBandTension);
-                updateBandStat.setString(2, doubledOrNot);
-                updateBandStat.setString(3, units);
-                updateBandStat.setInt(4, bandStatID);
-
-                //should only return 1 row update (index = 1)
-                int index = updateBandStat.executeUpdate();
-
-                if (index != 1) {
-                    System.out.println("No records updated");
-                    return 0;
-                }
-                return bandStatID;
-            } catch (SQLException error) {
-                System.out.println("Problem updating exercise\n" + error.getMessage());
-                return -1;
-            }
-        }
-    }
-
     /**Updates the selected repetition. Returns the repetitionID if update successful, 0 if no changes needed or no
      * record found, and -1 if an exception was caught*/
-    public int updateRepetition(Integer repID, Integer reps){
+    public int updateRepetition(Integer repID, Float tension, Integer reps){
         // check the index is already on the DB, return 0 if not
         // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
         // check would prevent the passing of NULL)
@@ -1144,7 +864,7 @@ public class bbDatabase {
             return 0;
         } else {
             try {
-                updateRepetition.setInt(1, reps);
+                updateRepetition.setFloat(1, tension);
                 updateRepetition.setInt(2, repID);
 
                 //should only return 1 row update (index = 1)
@@ -1213,30 +933,6 @@ public class bbDatabase {
                 return index;
             } catch (SQLException err) {
                 System.out.println("Problem with exercise deletion attempt");
-                return -1;
-            }
-        }
-    }
-
-    /**Deletes the selected band stat. Returns the bandStatID if delete successful, 0 if no record was
-     * found or nothing deleted, and -1 if an exception was caught*/
-    public int deleteBandStat(int index){
-        if (bandStatOnFileKey(index) == null) {
-            System.out.println("Record with ID " + index + " not found. No deletion carried out.");
-            return 0;
-        } else {
-            try {
-                deleteBandStat.setInt(1, index);
-
-                int result = deleteBandStat.executeUpdate();
-
-                if (result != 1) {
-                    System.out.println("No records deleted");
-                    return 0;
-                }
-                return index;
-            } catch (SQLException err) {
-                System.out.println("Problem with band stat deletion attempt");
                 return -1;
             }
         }

@@ -21,26 +21,6 @@
          <children>
             <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="200.0">
                <children>
-                  <Label prefWidth="120.0" text="Anchor height">
-                     <HBox.margin>
-                        <Insets right="5.0" top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="anchorHeightField" disable="true" editable="false" prefWidth="180.0">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets left="5.0" top="10.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="200.0">
-               <children>
                   <Label prefWidth="120.0" text="Anchor position">
                      <HBox.margin>
                         <Insets right="5.0" top="10.0" />
@@ -128,7 +108,7 @@
             </HBox>
             <HBox prefWidth="200.0">
                <children>
-                  <TableView prefHeight="220.0" prefWidth="335.0">
+                  <TableView prefHeight="242.0" prefWidth="335.0">
                     <columns>
                       <TableColumn prefWidth="168.0" />
                       <TableColumn minWidth="0.0" prefWidth="166.0" resizable="false" />

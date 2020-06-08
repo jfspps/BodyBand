@@ -1,11 +1,12 @@
 package sample.model;
 
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class bbRepetition {
     private SimpleIntegerProperty repetitionId;
     private SimpleIntegerProperty reps;
-    private SimpleIntegerProperty bandStatId; //id to the corresponding bandStat
+    private SimpleFloatProperty tension;
 
     public Integer getRepetitionId() {
         return this.repetitionId.get();
@@ -23,11 +24,11 @@ public class bbRepetition {
         this.reps.set(reps);
     }
 
-    public Integer getBandStatId() {
-        return this.bandStatId.get();
+    public Float getTension() {
+        return this.tension.get();
     }
 
-    public void setBandStatId(Integer bandStatId) {
-        this.bandStatId.set(bandStatId);
+    public void setTension(Float tension) {
+        this.tension.set(tension);
     }
 }

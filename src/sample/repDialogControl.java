@@ -18,7 +18,7 @@ public class repDialogControl implements Initializable {
     }
 
     @FXML
-    private TextField bandStatID, repetitions;
+    private TextField tension, repetitions;
 
     @FXML
     private TextArea alertLabel;
@@ -33,7 +33,7 @@ public class repDialogControl implements Initializable {
 
     @FXML
     private void requiredFieldsCheck(){
-        if (bandStatID.getText().isBlank() || repetitions.getText().isBlank()){
+        if (tension.getText().isBlank() || repetitions.getText().isBlank()){
             saveButton.setDisable(true);
             alertLabel.setText("Please enter Band stat ID and repetitions");
         } else {
@@ -47,13 +47,13 @@ public class repDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.repetitionOnFile(Integer.parseInt(bandStatID.getText().trim()),
+        int index = tempDB.repetitionOnFile(Integer.parseInt(tension.getText().trim()),
                 Integer.parseInt(repetitions.getText().trim()));
 
         if (index >= 1){
             alertLabel.setText("These details are already on file");
         } else {
-            index = tempDB.insertNewRepetition(Integer.parseInt(bandStatID.getText().trim()),
+            index = tempDB.insertNewRepetition(Integer.parseInt(tension.getText().trim()),
                     Integer.parseInt(repetitions.getText().trim()));
             alertLabel.setText("New rep added at " + index);
         }

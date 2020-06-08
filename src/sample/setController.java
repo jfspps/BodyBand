@@ -95,11 +95,6 @@ public class setController implements Initializable {
     }
 
     @FXML
-    private void bandStatScene() {
-        sceneNavigation.getInstance().showBandStatPage();
-    }
-
-    @FXML
     private void repScene() {
         sceneNavigation.getInstance().showRepPage();
     }

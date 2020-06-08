@@ -18,7 +18,7 @@ public class exerciseDialogControl implements Initializable {
     }
 
     @FXML
-    private TextField exerciseName, muscleGroup, anchorNeeded, anchorHeight, anchorPosition, description, videoURL;
+    private TextField exerciseName, muscleGroup, anchorPosition, description, videoURL;
 
     @FXML
     private TextArea alertLabel;
@@ -49,8 +49,6 @@ public class exerciseDialogControl implements Initializable {
 
         int index = tempDB.exerciseOnFile(exerciseName.getText().trim(),
                 muscleGroup.getText().trim(),
-                anchorNeeded.getText().trim(),
-                anchorHeight.getText().trim(),
                 anchorPosition.getText().trim(),
                 description.getText().trim(),
                 videoURL.getText().trim());
@@ -60,8 +58,6 @@ public class exerciseDialogControl implements Initializable {
         } else {
             index = tempDB.insertNewExercise(exerciseName.getText().trim(),
                     muscleGroup.getText().trim(),
-                    anchorNeeded.getText().trim(),
-                    anchorHeight.getText().trim(),
                     anchorPosition.getText().trim(),
                     description.getText().trim(),
                     videoURL.getText().trim());

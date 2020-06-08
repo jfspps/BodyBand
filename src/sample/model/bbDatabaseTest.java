@@ -52,31 +52,6 @@ class bbDatabaseTest {
     }
 
     @Test
-    void listAllBandStats() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
-    void getFirstBandStat() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
-    void bandStatOnFile() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
-    void bandStatOnFileId() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
-    void bandStatOnFileKey() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
     void listAllRepetitions() {
         fail("Test not implemented yet");
     }
@@ -132,11 +107,6 @@ class bbDatabaseTest {
     }
 
     @Test
-    void insertNewBandStat() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
     void insertNewRepetition() {
         fail("Test not implemented yet");
     }
@@ -152,11 +122,6 @@ class bbDatabaseTest {
     }
 
     @Test
-    void updateBandStat() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
     void updateRepetition() {
         fail("Test not implemented yet");
     }
@@ -168,11 +133,6 @@ class bbDatabaseTest {
 
     @Test
     void deleteExercise() {
-        fail("Test not implemented yet");
-    }
-
-    @Test
-    void deleteBandStat() {
         fail("Test not implemented yet");
     }
 
