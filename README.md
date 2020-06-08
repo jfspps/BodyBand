@@ -32,11 +32,7 @@ This table details how to set up the bands and where to position them for a give
 
 ### Populating tblRepetition
 
-This table details the number of repetitions or 'reps' for a given band, detailed in the table tblBandStat.
-
-### Populating tblBandStat
-
-This table details the type of band used, sometimes characterised by a colour code and always denoted by its tension. Details about whether to double over a single band is also recorded here.
+This table details the number of repetitions or 'reps' for a given band, and the band tension for a given rep. Bands can be doubled up or combined with other tensions and is a value which is ultimately determined by the user. It is assumed that the same units are (lbs or kg) are used throughout.
 
 ### Populating tblSet
 
@@ -49,6 +45,7 @@ The above schema was designed in MySQL workbench. The creation of the tables in 
 + INT -> INTEGER
 + VARCHAR -> TEXT
 + DATE -> NUMERIC (implemented as TEXT in BodyBand)
++ REAL -> FLOAT (high precision is not required)
 
 For this project, the SQLite datatypes are passed instead of using the MySQL datatypes.
 
@@ -63,7 +60,7 @@ The initial development stages are:
 
 ## Basic setup
 
-1. Design and build a settings page for the tables __tblExercise__ and __tblBandStat__.
+1. Design and build a settings page for the tables __tblExercise__.
 2. Design and build an input page for __tblSet__.
 3. Design and build a recall page which enables the user to view previous sets, searching by date.
 
@@ -73,7 +70,7 @@ The initial development stages are:
 + "New workout" ------>   "Choose muscle group and exercise" ------>  "Rep page"
 + Previous workout --->  Date (calendar) --->  Summary -->--(Rep page)---^
 
-The Rep page is shared, with option for CRUD of reps and band stats. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
+The Rep page is shared, with option for CRUD of reps and tensions. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
 
 ## Future development
 
