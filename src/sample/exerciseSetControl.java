@@ -31,7 +31,10 @@ public class exerciseSetControl implements Initializable {
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorHeightField, anchorPositionField, videoURLField, repsTextField, weightTextField;
+    private TextField anchorHeightField, anchorPositionField, videoURLField;
+
+    @FXML
+    private TextField repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
@@ -77,28 +80,36 @@ public class exerciseSetControl implements Initializable {
     }
 
     // interface related methods -----------------------------------------------------------------------------
+
     @FXML
     private void onClickChooseExercise() {
-
-        // insert code here which saves the current state to bbCombinedSet (records can be retrieved from the
-        // "Previous Set" scene; the user would not be expected to hit a save button)
-
-        // Build a new set object...
-
-
-        // ...and query the database. If it already exists then update all relevant fields
-
-        // go back to the previous exercise selection page
         sceneNavigation.getInstance().showMuscleExerciseList();
     }
 
     @FXML
     public void toggleAddButton() {
-        if (!weightTextField.getText().isBlank() && !repsTextField.getText().isBlank()) {
+        if (!tensionTextField.getText().isBlank() && !repsTextField.getText().isBlank()) {
             addButton.setDisable(false);
         } else {
             addButton.setDisable(true);
         }
     }
-}
 
+    @FXML
+    private void onClickedAdd(){
+        // Build a new set object...
+
+
+        // ...and query the database. If it already exists then update all relevant fields
+    }
+
+    @FXML
+    private void onClickedUpdate(){
+
+    }
+
+    @FXML
+    private void onClickedDelete(){
+
+    }
+}

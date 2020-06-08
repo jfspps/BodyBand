@@ -53,14 +53,14 @@ public class setDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.setOnFile(Integer.valueOf(exerciseID.getText().trim()),
-                Integer.valueOf(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
+        int index = tempDB.setOnFile(Integer.parseInt(exerciseID.getText().trim()),
+                Integer.parseInt(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
 
         if (index >= 1){
             alertLabel.setText("These details are already on file");
         } else {
-            index = tempDB.insertNewSet(Integer.valueOf(exerciseID.getText().trim()),
-                    Integer.valueOf(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
+            index = tempDB.insertNewSet(Integer.parseInt(exerciseID.getText().trim()),
+                    Integer.parseInt(repetitionsID.getText().trim()), comments.getText().trim(), setDate.getText().trim());
             alertLabel.setText("New set added at " + index);
         }
     }

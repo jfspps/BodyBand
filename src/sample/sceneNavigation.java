@@ -19,7 +19,7 @@ public class sceneNavigation {
     }
 
     //main pages ------------------------------------------------------------------------------------------
-
+    
     public void mainPage() {
         try {
             Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));

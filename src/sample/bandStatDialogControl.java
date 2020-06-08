@@ -34,9 +34,9 @@ public class bandStatDialogControl implements Initializable {
 
     @FXML
     private void requiredFieldsCheck(){
-        if (singleBandTension.getText().isBlank() || doubledOrNot.getText().isBlank()){
+        if (singleBandTension.getText().isBlank()){
             saveButton.setDisable(true);
-            alertLabel.setText("Please enter a band tension with doubling info");
+            alertLabel.setText("Please enter a band tension");
         } else {
             saveButton.setDisable(false);
             alertLabel.setText("");
@@ -48,14 +48,14 @@ public class bandStatDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.bandStatOnFile(Integer.valueOf(singleBandTension.getText().trim()),
+        int index = tempDB.bandStatOnFile(Float.parseFloat(singleBandTension.getText().trim()),
                 doubledOrNot.getText().trim(),
                 units.getText().trim());
 
         if (index >= 1){
             alertLabel.setText("These details are already on file");
         } else {
-            index = tempDB.insertNewBandStat(Integer.valueOf(singleBandTension.getText().trim()),
+            index = tempDB.insertNewBandStat(Float.parseFloat(singleBandTension.getText().trim()),
                     doubledOrNot.getText().trim(),
                     units.getText().trim());
             alertLabel.setText("New band stat added at " + index);

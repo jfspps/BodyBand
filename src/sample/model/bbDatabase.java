@@ -454,7 +454,7 @@ public class bbDatabase {
             while (results.next()) {
                 bbBandStat bandStat = new bbBandStat();
                 bandStat.setBandStatId(results.getInt(BandStatIdINDEX));
-                bandStat.setTension(results.getInt(BandStatSingleBandTensionINDEX));
+                bandStat.setTension(results.getFloat(BandStatSingleBandTensionINDEX));
                 bandStat.setDoubledOrNot(results.getString(BandStatDoubledOrNotINDEX));
                 bandStat.setUnits(results.getString(BandStatUnitsINDEX));
                 bandStats.add(bandStat);
@@ -483,9 +483,9 @@ public class bbDatabase {
     }
 
     /**Returns the number of records with supplied fields, on file. Returns -1 if an exception was caught.*/
-    public int bandStatOnFile(int tension, String doubledOrNot, String units) {
+    public int bandStatOnFile(float tension, String doubledOrNot, String units) {
         try {
-            selectBandStat.setInt(1, tension);
+            selectBandStat.setFloat(1, tension);
             selectBandStat.setString(2, doubledOrNot);
             selectBandStat.setString(3, units);
 
@@ -513,9 +513,9 @@ public class bbDatabase {
 
     /**Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.*/
-    public int bandStatOnFileId(Integer tension, String doubled, String units) {
+    public int bandStatOnFileId(float tension, String doubled, String units) {
         try {
-            selectBandStatId.setInt(1, tension);
+            selectBandStatId.setFloat(1, tension);
             selectBandStatId.setString(2, doubled);
             selectBandStatId.setString(3, units);
 
@@ -879,7 +879,7 @@ public class bbDatabase {
     /**Inserts a new band stat, first by checking of the supplied fields match any record on file. Returns the primary
      *  key of the inserted record, 0 if the band stat already exists, -2 if singleBandTension is <= 0, and -1 if an
      *  exception was caught*/
-    public int insertNewBandStat(int singleBandTension, String doubledOrNot, String units) {
+    public int insertNewBandStat(float singleBandTension, String doubledOrNot, String units) {
         //check if the BandStat already exists (returns 0 if none, and 1 if present)
         int index = bandStatOnFile(singleBandTension, doubledOrNot, units);
         if (index == 1) {
@@ -896,7 +896,7 @@ public class bbDatabase {
 
         try {
             //PreparedStatements only allow for one value per placeholder ?
-            insertBandStat.setInt(1, singleBandTension);
+            insertBandStat.setFloat(1, singleBandTension);
             insertBandStat.setString(2, doubledOrNot);
             insertBandStat.setString(3, units);
 
@@ -1104,7 +1104,7 @@ public class bbDatabase {
 
     /**Updates the selected band stat. Returns the bandStatID if update successful, 0 if no changes needed or no record
      * found, and -1 if an exception was caught*/
-    public int updateBandStat(Integer bandStatID, int singleBandTension, String doubledOrNot, String units){
+    public int updateBandStat(Integer bandStatID, float singleBandTension, String doubledOrNot, String units){
         // check the index is already on the DB, return 0 if not
         // (new records would not have NULL values by default, uninitialised records would have NULL fields but this
         // check would prevent the passing of NULL)
@@ -1113,7 +1113,7 @@ public class bbDatabase {
             return 0;
         } else {
             try {
-                updateBandStat.setInt(1, singleBandTension);
+                updateBandStat.setFloat(1, singleBandTension);
                 updateBandStat.setString(2, doubledOrNot);
                 updateBandStat.setString(3, units);
                 updateBandStat.setInt(4, bandStatID);

@@ -213,7 +213,7 @@ public class bandStatController implements Initializable {
     private void onUpdateClicked() {
         int outputInt = bbDatabase.getInstance().updateBandStat(
                 record,
-                Integer.parseInt(singleBandTensionText.getText()),
+                Float.parseFloat(singleBandTensionText.getText()),
                 doubledOrNotText.getText().trim(),
                 unitsText.getText().trim()
         );

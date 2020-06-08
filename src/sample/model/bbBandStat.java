@@ -1,11 +1,16 @@
 package sample.model;
 
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class bbBandStat {
     private SimpleIntegerProperty bandStatId;
-    private SimpleIntegerProperty tension;
+
+    //Java float less precise with space-saving benefits, compared to double
+    private SimpleFloatProperty tension;
+
+    // remains on the DB but is not always used
     private SimpleStringProperty doubledOrNot;
     private SimpleStringProperty units;
 
@@ -17,11 +22,11 @@ public class bbBandStat {
         this.bandStatId.set(bandStatId);
     }
 
-    public Integer getTension() {
+    public float getTension() {
         return this.tension.get();
     }
 
-    public void setTension(Integer tension) {
+    public void setTension(Float tension) {
         this.tension.set(tension);
     }
 
