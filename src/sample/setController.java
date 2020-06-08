@@ -81,7 +81,7 @@ public class setController implements Initializable {
 
     @FXML
     private void showMainPage() {
-        sceneNavigation.getInstance().mainPage();
+        sceneNavigation.getInstance().showMainPage();
     }
 
     @FXML
@@ -96,17 +96,17 @@ public class setController implements Initializable {
 
     @FXML
     private void bandStatScene() {
-        sceneNavigation.getInstance().bandStatPage();
+        sceneNavigation.getInstance().showBandStatPage();
     }
 
     @FXML
     private void repScene() {
-        sceneNavigation.getInstance().repPage();
+        sceneNavigation.getInstance().showRepPage();
     }
 
     @FXML
     private void exerciseScene() {
-        sceneNavigation.getInstance().exercisePage();
+        sceneNavigation.getInstance().showExercisePage();
     }
 
     // Previous and Next buttons --------------------------------------------------------------------------------

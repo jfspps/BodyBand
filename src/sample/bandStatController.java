@@ -77,7 +77,7 @@ public class bandStatController implements Initializable {
 
     @FXML
     public void showMainPage() {
-        sceneNavigation.getInstance().mainPage();
+        sceneNavigation.getInstance().showMainPage();
     }
 
     @FXML
@@ -92,17 +92,17 @@ public class bandStatController implements Initializable {
 
     @FXML
     private void repScene() {
-        sceneNavigation.getInstance().repPage();
+        sceneNavigation.getInstance().showRepPage();
     }
 
     @FXML
     private void setScene() {
-        sceneNavigation.getInstance().setPage();
+        sceneNavigation.getInstance().showSetPage();
     }
 
     @FXML
     private void exerciseScene() {
-        sceneNavigation.getInstance().exercisePage();
+        sceneNavigation.getInstance().showExercisePage();
     }
 
     // Previous and Next buttons --------------------------------------------------------------------------------
@@ -213,7 +213,7 @@ public class bandStatController implements Initializable {
     private void onUpdateClicked() {
         int outputInt = bbDatabase.getInstance().updateBandStat(
                 record,
-                Integer.parseInt(singleBandTensionText.getText()),
+                Float.parseFloat(singleBandTensionText.getText()),
                 doubledOrNotText.getText().trim(),
                 unitsText.getText().trim()
         );

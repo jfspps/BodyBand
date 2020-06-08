@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -27,11 +29,25 @@ public class exerciseSetControl implements Initializable {
     //prove useful on exit
     private String exerciseName, exerciseAnchorHeight, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
 
+    //adds a listener to a TextField and permits xxx.xx float values only
+    private void setNumField(TextField field){
+        field.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                // regex which firstly allows 0 to 3 digits before ".", followed by "." and thirdly 0 to 2 digits
+                // after "."
+                if (!newValue.matches("\\d{0,3}([\\.]\\d{0,2})?")) {
+                    field.setText(oldValue);
+                }
+            }
+        });
+    }
+
     @FXML
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorHeightField, anchorPositionField, videoURLField, repsTextField, weightTextField;
+    private TextField anchorHeightField, anchorPositionField, videoURLField, repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
@@ -69,6 +85,9 @@ public class exerciseSetControl implements Initializable {
                         addButton.setDisable(true);
                         updateButton.setDisable(true);
                         deleteButton.setDisable(true);
+
+                        setNumField(tensionTextField);
+                        setNumField(repsTextField);
                     }
                 });
             }
@@ -77,28 +96,36 @@ public class exerciseSetControl implements Initializable {
     }
 
     // interface related methods -----------------------------------------------------------------------------
+
     @FXML
     private void onClickChooseExercise() {
-
-        // insert code here which saves the current state to bbCombinedSet (records can be retrieved from the
-        // "Previous Set" scene; the user would not be expected to hit a save button)
-
-        // Build a new set object...
-
-
-        // ...and query the database. If it already exists then update all relevant fields
-
-        // go back to the previous exercise selection page
         sceneNavigation.getInstance().showMuscleExerciseList();
     }
 
     @FXML
     public void toggleAddButton() {
-        if (!weightTextField.getText().isBlank() && !repsTextField.getText().isBlank()) {
+        if (!tensionTextField.getText().isBlank() && !repsTextField.getText().isBlank()) {
             addButton.setDisable(false);
         } else {
             addButton.setDisable(true);
         }
     }
-}
 
+    @FXML
+    private void onClickedAdd() {
+        // Build a new set object...format of each TextField is handled by a listener
+
+
+        // ...and query the database. If it already exists then update all relevant fields
+    }
+
+    @FXML
+    private void onClickedUpdate() {
+
+    }
+
+    @FXML
+    private void onClickedDelete() {
+
+    }
+}

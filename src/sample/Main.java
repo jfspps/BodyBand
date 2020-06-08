@@ -32,7 +32,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //assign whatever primaryStage has to mainWindow
-        this.mainWindow = primaryStage;
+        mainWindow = primaryStage;
         Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));
         mainWindow.setTitle("BodyBand");
         mainWindow.setScene(new Scene(mainPage, 335, 600));

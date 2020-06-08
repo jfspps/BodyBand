@@ -28,7 +28,7 @@ public class repDialogControl implements Initializable {
 
     @FXML
     private void showReps() {
-        sceneNavigation.getInstance().repPage();
+        sceneNavigation.getInstance().showRepPage();
     }
 
     @FXML
@@ -47,14 +47,14 @@ public class repDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.repetitionOnFile(Integer.valueOf(bandStatID.getText().trim()),
-                Integer.valueOf(repetitions.getText().trim()));
+        int index = tempDB.repetitionOnFile(Integer.parseInt(bandStatID.getText().trim()),
+                Integer.parseInt(repetitions.getText().trim()));
 
         if (index >= 1){
             alertLabel.setText("These details are already on file");
         } else {
-            index = tempDB.insertNewRepetition(Integer.valueOf(bandStatID.getText().trim()),
-                    Integer.valueOf(repetitions.getText().trim()));
+            index = tempDB.insertNewRepetition(Integer.parseInt(bandStatID.getText().trim()),
+                    Integer.parseInt(repetitions.getText().trim()));
             alertLabel.setText("New rep added at " + index);
         }
     }

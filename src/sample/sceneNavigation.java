@@ -20,7 +20,7 @@ public class sceneNavigation {
 
     //main pages ------------------------------------------------------------------------------------------
 
-    public void mainPage() {
+    public void showMainPage() {
         try {
             Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));
             Main.mainWindow.setTitle("BodyBand");
@@ -30,7 +30,7 @@ public class sceneNavigation {
         }
     }
 
-    public void exercisePage() {
+    public void showExercisePage() {
         try {
             Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
             Main.mainWindow.setTitle("BodyBand exercises");
@@ -41,7 +41,7 @@ public class sceneNavigation {
         }
     }
 
-    public void bandStatPage() {
+    public void showBandStatPage() {
         try {
             Parent bandStatPage = FXMLLoader.load(getClass().getResource("FXML/BandStatPage.fxml"));
             Main.mainWindow.setTitle("BodyBand band stats");
@@ -53,7 +53,7 @@ public class sceneNavigation {
         }
     }
 
-    public void setPage() {
+    public void showSetPage() {
         try {
             Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
             Main.mainWindow.setTitle("BodyBand sets");
@@ -64,7 +64,7 @@ public class sceneNavigation {
         }
     }
 
-    public void repPage() {
+    public void showRepPage() {
         try {
             Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
@@ -154,7 +154,7 @@ public class sceneNavigation {
         }
     }
 
-    public void showExerciseSet() {
+    public void showExerciseSetPage() {
         try {
             FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseSet.fxml"));
             Parent newSet = exerciseSetLoader.load();

@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "tblBandStat" (
 	"idBandStat"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"SingleBandTension"	INTEGER NOT NULL,
+	"SingleBandTension"	REAL NOT NULL,
 	"DoubledOrNot"	TEXT DEFAULT "single",
 	"Units"	TEXT DEFAULT ""
 );
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "tblSet" (
 	FOREIGN KEY("Rep_id") REFERENCES "tblRepetition"("idRepetition") ON DELETE CASCADE,
 	FOREIGN KEY("Exercise_id") REFERENCES "tblExercise"("idExercise") ON DELETE CASCADE
 );
-INSERT INTO "tblBandStat" VALUES (1,12,'no','kg');
+INSERT INTO "tblBandStat" VALUES (1,12,'single','kg');
 INSERT INTO "tblBandStat" VALUES (2,4,'single','kg');
 INSERT INTO "tblBandStat" VALUES (3,6,'single','kg');
 INSERT INTO "tblBandStat" VALUES (4,8,'single','kg');
