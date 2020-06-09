@@ -8,19 +8,25 @@ public class bbRepetition {
     private SimpleIntegerProperty reps;
     private SimpleFloatProperty tension;
 
-    public Integer getRepetitionId() {
+    public bbRepetition() {
+        this.repetitionId = new SimpleIntegerProperty();
+        this.reps = new SimpleIntegerProperty();
+        this.tension = new SimpleFloatProperty();
+    }
+
+    public int getRepetitionId() {
         return this.repetitionId.get();
     }
 
-    public void setRepetitionId(Integer repetitionId) {
+    public void setRepetitionId(int repetitionId) {
         this.repetitionId.set(repetitionId);
     }
 
-    public Integer getReps() {
+    public int getReps() {
         return this.reps.get();
     }
 
-    public void setReps(Integer reps) {
+    public void setReps(int reps) {
         this.reps.set(reps);
     }
 

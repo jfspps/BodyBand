@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "tblRepetition" (
 	"idRepetition"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"Tension"	INTEGER NOT NULL,
+	"Tension"	REAL NOT NULL,
 	"Repetitions"	INTEGER NOT NULL
 );
 CREATE TABLE IF NOT EXISTS "tblExercise" (
@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS "tblSet" (
 	"RepIdSeq"	TEXT NOT NULL DEFAULT "R_",
 	FOREIGN KEY("Exercise_id") REFERENCES "tblExercise"("idExercise") ON DELETE CASCADE
 );
-INSERT INTO "tblRepetition" VALUES (1,8,9);
-INSERT INTO "tblRepetition" VALUES (2,10,6);
-INSERT INTO "tblRepetition" VALUES (3,14,4);
-INSERT INTO "tblRepetition" VALUES (4,18,4);
+INSERT INTO "tblRepetition" VALUES (1,8.0,9);
+INSERT INTO "tblRepetition" VALUES (2,10.0,6);
+INSERT INTO "tblRepetition" VALUES (3,14.0,4);
+INSERT INTO "tblRepetition" VALUES (4,18.0,4);
 INSERT INTO "tblExercise" VALUES (1,'Bent-over Rowing','Lats','Floor','Develop the lats','https://www.youtube.com/watch?v=TE3v7CgXiiI');
 INSERT INTO "tblExercise" VALUES (2,'Lying pulldown','Lats','Base','Models a lateral pulldown','');
 INSERT INTO "tblExercise" VALUES (3,'Standing Row','Lats','Chest','','');
