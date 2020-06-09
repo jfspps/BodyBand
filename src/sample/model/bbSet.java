@@ -10,6 +10,14 @@ public class bbSet {
     private SimpleStringProperty setDate;
     private SimpleStringProperty repIdSequence;
 
+    public bbSet() {
+        this.setId = new SimpleIntegerProperty();
+        this.exerciseId = new SimpleIntegerProperty();
+        this.comments = new SimpleStringProperty();
+        this.setDate = new SimpleStringProperty();
+        this.repIdSequence = new SimpleStringProperty();
+    }
+
     public Integer getSetId() {
         return this.setId.get();
     }
