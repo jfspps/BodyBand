@@ -47,7 +47,7 @@ public class exerciseDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.exerciseOnFileId(exerciseName.getText().trim(),
+        int index = tempDB.getIDOfFirstExerciseOnFile(exerciseName.getText().trim(),
                 muscleGroup.getText().trim(),
                 anchorPosition.getText().trim(),
                 description.getText().trim(),

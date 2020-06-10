@@ -10,22 +10,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
-import sample.model.bbRepetition;
-import sample.model.bbSet;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class exerciseSetControl implements Initializable {
 
-    //exercise is accessed by calling exerciseChoiceControl.currentExercise.getInt(bbDatabase.ExerciseIdINDEX) and
-    // related get___() functions
-    private bbSet currentSet;
-    private bbRepetition currentRep;
+    private int currentExID, currentSetID, repIndex;
 
     //prove useful on exit
-    private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
+    private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL, repString;
 
     //adds a listener to a TextField and permits xxx.xx float values only
     private void setFloatField(TextField field) {
@@ -72,6 +69,7 @@ public class exerciseSetControl implements Initializable {
             @Override
             public void run() {
                 try {
+                    currentExID = exerciseChoiceControl.currentExercise.getInt(bbDatabase.ExerciseIdINDEX);
                     exerciseName = exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseNameINDEX);
                     exerciseAnchorPosition =
                             exerciseChoiceControl.currentExercise.getString(bbDatabase.ExerciseAnchorPositionINDEX);
@@ -111,20 +109,22 @@ public class exerciseSetControl implements Initializable {
 
     @FXML
     public void toggleAddButton() {
-        if (!tensionTextField.getText().isBlank() && !repsTextField.getText().isBlank()) {
-            addButton.setDisable(false);
-        } else {
-            addButton.setDisable(true);
-        }
+        addButton.setDisable(tensionTextField.getText().isBlank() || repsTextField.getText().isBlank());
     }
 
     @FXML
     private void onClickedAdd() {
         // Build a new set object...format of each TextField is handled by a listener;
         // button is only enabled when both fields have a value
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        String timeDate = dateTime.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
+
+
         float bandTension = Float.parseFloat(tensionTextField.getText());
         int reps = Integer.parseInt(repsTextField.getText());
-        int repIndex = bbDatabase.getInstance().repetitionOnFileId(bandTension, reps);
+
+        int repIndex = bbDatabase.getInstance().getIDOfFirstRepetitionOnFile(bandTension, reps);
         if (repIndex > 0) {
             System.out.println("Repetition found at id: " + repIndex);
             //check exercise and repetition ID

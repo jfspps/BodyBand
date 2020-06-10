@@ -17,7 +17,7 @@ public class setDialogControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LocalDateTime dateTime = LocalDateTime.now();
-        String timeDate = dateTime.format(DateTimeFormatter.ofPattern("HH:mm, dd LLL yyyy"));
+        String timeDate = dateTime.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
         System.out.println(timeDate);
         setDate.setText(timeDate);
         saveButton.setDisable(true);
@@ -54,7 +54,7 @@ public class setDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.setOnFileId(Integer.parseInt(exerciseID.getText().trim()),
+        int index = tempDB.getIDOfFirstSetOnFile(Integer.parseInt(exerciseID.getText().trim()),
                 comments.getText().trim(), setDate.getText().trim(), repetitionsID.getText().trim());
 
         if (index >= 1){

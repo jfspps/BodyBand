@@ -62,7 +62,7 @@ public class exerciseController implements Initializable {
             buttonDelete.setDisable(true);
         } else if (record > 0) {
             {
-                try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
+                try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
                     buttonPrevious.setDisable(true);
                     exerciseIDText.setText(String.valueOf(record));
 
@@ -117,7 +117,7 @@ public class exerciseController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getExerciseSetWithKey(record) == null) {
             System.out.println("No exercise with id: " + record);
             exerciseIDText.setText(String.valueOf(record));
             exerciseNameText.setText("");
@@ -137,7 +137,7 @@ public class exerciseController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
+            try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
@@ -190,7 +190,7 @@ public class exerciseController implements Initializable {
         if(record == 1){
             buttonPrevious.setDisable(true);
         }
-        if (bbDatabase.getInstance().exerciseOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getExerciseSetWithKey(record) == null) {
             System.out.println("No exercise with id: " + record);
             exerciseIDText.setText(String.valueOf(record));
             exerciseNameText.setText("");
@@ -209,7 +209,7 @@ public class exerciseController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet exerciseSet = bbDatabase.getInstance().exerciseOnFileKey(record)) {
+            try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
                 exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
