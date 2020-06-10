@@ -33,7 +33,7 @@ public class repController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else if (record > 0) {
-            try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
+            try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
                 buttonPrevious.setDisable(true);
                 repIDText.setText(String.valueOf(record));
                 tensionText.setText(repSet.getString(bbDatabase.RepetitionTensionINDEX));
@@ -101,7 +101,7 @@ public class repController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getRepetitionSetWithKey(record) == null) {
             System.out.println("No rep with id: " + record);
             repIDText.setText(String.valueOf(record));
             tensionText.setText("");
@@ -115,7 +115,7 @@ public class repController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
+            try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
                 repIDText.setDisable(false);
                 tensionText.setDisable(false);
                 repetitionsText.setDisable(false);
@@ -162,7 +162,7 @@ public class repController implements Initializable {
         if(record == 1){
             buttonPrevious.setDisable(true);
         }
-        if (bbDatabase.getInstance().repetitionOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getRepetitionSetWithKey(record) == null) {
             System.out.println("No rep with id: " + record);
             repIDText.setText(String.valueOf(record));
             tensionText.setText("");
@@ -175,7 +175,7 @@ public class repController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet repSet = bbDatabase.getInstance().repetitionOnFileKey(record)) {
+            try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
                 repIDText.setDisable(false);
                 tensionText.setDisable(false);
                 repetitionsText.setDisable(false);

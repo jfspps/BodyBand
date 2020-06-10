@@ -35,7 +35,7 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else if (record > 0) {
-            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
+            try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
                 buttonPrevious.setDisable(true);
                 setIDText.setText(String.valueOf(record));
                 exerciseIDText.setText(setSet.getString(bbDatabase.SetExerciseIdINDEX));
@@ -109,7 +109,7 @@ public class setController implements Initializable {
     @FXML
     private void onNextClicked() {
         record++;
-        if (bbDatabase.getInstance().setOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getSetSetWithKey(record) == null) {
             System.out.println("No set with id: " + record);
             setIDText.setText(String.valueOf(record));
             exerciseIDText.setText("");
@@ -126,7 +126,7 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
+            try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
                 setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
@@ -176,7 +176,7 @@ public class setController implements Initializable {
         if(record == 1){
             buttonPrevious.setDisable(true);
         }
-        if (bbDatabase.getInstance().setOnFileKey(record) == null) {
+        if (bbDatabase.getInstance().getSetSetWithKey(record) == null) {
             System.out.println("No set with id: " + record);
             setIDText.setText(String.valueOf(record));
             exerciseIDText.setText("");
@@ -192,7 +192,7 @@ public class setController implements Initializable {
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
         } else {
-            try (ResultSet setSet = bbDatabase.getInstance().setOnFileKey(record)) {
+            try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
                 setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);

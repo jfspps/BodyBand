@@ -89,6 +89,8 @@ public class bbDatabase {
             "? AND Repetitions = ?";
     public static final String querySelectSetId = "SELECT idSet FROM tblSet WHERE Exercise_id = ? AND " +
             "Comments = ? AND SetDate = ? AND RepIdSeq = ?";
+    public static final String querySelectSetByDateAndEx = "SELECT * FROM tblSet WHERE Exercise_id = ? AND " +
+            "SetDate = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -112,6 +114,7 @@ public class bbDatabase {
     private PreparedStatement deleteExercise;
     private PreparedStatement deleteRepetition;
     private PreparedStatement deleteSet;
+    private PreparedStatement selectSetDateAndEx;
 
     //bbDatabase admin routines -------------------------------------------------------------
 
@@ -141,6 +144,7 @@ public class bbDatabase {
             deleteExercise = conn.prepareStatement(queryDeleteExercise);
             deleteRepetition = conn.prepareStatement(queryDeleteRepetition);
             deleteSet = conn.prepareStatement(queryDeleteSet);
+            selectSetDateAndEx = conn.prepareStatement(querySelectSetByDateAndEx);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -210,6 +214,9 @@ public class bbDatabase {
             }
             if (deleteSet != null) {
                 deleteSet.close();
+            }
+            if (selectSetDateAndEx != null) {
+                selectSetDateAndEx.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -296,9 +303,9 @@ public class bbDatabase {
     /**
      * Returns the number of records with supplied fields, on file. Returns -1 if an exception was caught.
      */
-    public int exerciseOnFile(String name, String muscleGroup,
-                              String anchorPosition,
-                              String desc, String videoURL) {
+    public int numberOfExercisesOnFile(String name, String muscleGroup,
+                                       String anchorPosition,
+                                       String desc, String videoURL) {
         try {
             selectExercise.setString(1, name);
             selectExercise.setString(2, muscleGroup);
@@ -332,9 +339,9 @@ public class bbDatabase {
      * Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.
      */
-    public int exerciseOnFileId(String name, String muscleGroup,
-                                String anchorPosition,
-                                String desc, String videoURL) {
+    public int getIDOfFirstExerciseOnFile(String name, String muscleGroup,
+                                          String anchorPosition,
+                                          String desc, String videoURL) {
         try {
             selectExerciseId.setString(1, name);
             selectExerciseId.setString(2, muscleGroup);
@@ -363,7 +370,7 @@ public class bbDatabase {
      * Returns a ResultSet of the exercise record with the supplied primary key idExercise. Returns null if none
      * found or if an exception is caught.
      */
-    public ResultSet exerciseOnFileKey(int idExercise) {
+    public ResultSet getExerciseSetWithKey(int idExercise) {
 //        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
             selectExerciseKey.setInt(ExerciseIdINDEX, idExercise);
@@ -386,7 +393,7 @@ public class bbDatabase {
      * Returns a List<bbExercise> with the given primary key. Returns null if none
      * found or if an exception is caught.
      */
-    public List<bbExercise> exerciseOnFileKeyList(int idExercise) {
+    public List<bbExercise> getExerciseListWithKey(int idExercise) {
         try {
             selectExerciseKey.setInt(ExerciseIdINDEX, idExercise);
             ResultSet resultSet = selectExerciseKey.executeQuery();
@@ -458,7 +465,7 @@ public class bbDatabase {
      * Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.
      */
-    public int repetitionOnFileId(Float tension, Integer reps) {
+    public int getIDOfFirstRepetitionOnFile(Float tension, Integer reps) {
         try {
             selectRepetitionId.setFloat(1, tension);
             selectRepetitionId.setInt(2, reps);
@@ -467,7 +474,6 @@ public class bbDatabase {
             ResultSet resultSet = selectRepetitionId.executeQuery();
 
             if (resultSet.next()) {
-//                System.out.println("Repetition found with id " + resultSet.getString(1));
                 return resultSet.getInt(1);
             } else {
                 System.out.println("Repetition not found");
@@ -484,7 +490,7 @@ public class bbDatabase {
      * Returns the number of records with supplied fields, on file.
      * Returns -1 if an exception was caught.
      */
-    public int repetitionOnFile(float tension, int repetitions) {
+    public int numberOfRepetitionsOnFile(float tension, int repetitions) {
 
         try {
             selectRepetition.setFloat(1, tension);
@@ -516,14 +522,13 @@ public class bbDatabase {
      * Returns a ResultSet of the repetition record with the supplied primary key idRepetition. Returns null if none
      * found or if an exception is caught.
      */
-    public ResultSet repetitionOnFileKey(int idRepetition) {
+    public ResultSet getRepetitionSetWithKey(int idRepetition) {
 //        System.out.println("Trying to find exercise with id = " + idRepetition);
         try {
             selectRepetitionKey.setInt(1, idRepetition);
             ResultSet resultSet = selectRepetitionKey.executeQuery();
 
             if (resultSet.next()) {
-//                System.out.println("Record with the key " + idRepetition + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idRepetition + " found");
@@ -536,30 +541,50 @@ public class bbDatabase {
     }
 
     /**
+     * Determines if a repetition string sequence, repString, is formatted correctly. Returns the original string if
+     * correct and "R_error" string if not
+     */
+    public String checkRepString(String repString) {
+
+        if (repString.isEmpty() || repString.isBlank()) {
+            System.out.println("repString empty");
+            return "R_error";
+        }
+        //check empty repString then one with IDs
+        if (repString.equals("R_")) {
+//            System.out.println("New repString received, all clear.");
+            return repString;
+        } else if (repString.matches("^R_([0-9]?[0-9]?[1-9]_)+")) {
+//            System.out.println("repString with IDs formatted correctly");
+            return repString;
+        } else {
+            System.out.println("Incorrectly formatted repString received");
+            return "R_error";
+        }
+    }
+
+    /**
      * Builds a string in the format R_x_x_x_ and so on...to store repetition IDs as x in a single field in bbSet.
-     * returns the same string if nothing built
+     * returns the same string if nothing built or format supplied was incorrect
      */
     public String buildRepString(String repBuild, int index) {
         StringBuilder reversedIndex = new StringBuilder();
-        if (repBuild.matches("^R_[^a-zA-Z]*$") || repBuild.matches("^R_([0-9]?[0-9]?[1-9]_)+")) {
+        if (repBuild.equals(checkRepString(repBuild))) {
             String reversed = reversedIndex.append(index).reverse().toString();
             repBuild = repBuild + reversed + "_";
             System.out.println("New rep string:" + repBuild);
-        } else {
-            System.out.println("R_ or R_x_x (x is numerical) expected");
         }
         return repBuild;
     }
 
     /**
-     * Parses an ordered string and returns a List<bbRepetition> related to the parsed string. Returns null if a
-     * problem is encountered.
+     * Parses an repetition sequence string and returns a List<bbRepetition> related to the parsed string. Returns null
+     * if a problem is encountered.
      */
-    public List<bbRepetition> parseRepString(String repString) {
+    public List<bbRepetition> getRepListFromRepString(String repString) {
         int length = repString.length();
 
-        if (!repString.matches("^R_([0-9]?[0-9]?[1-9]_)+")) {
-            System.out.println("Incorrectly formatted string received. Null List<> returned");
+        if (!repString.equals(checkRepString(repString))) {
             return null;
         } else {
             int repIndex;
@@ -589,7 +614,7 @@ public class bbDatabase {
                     } catch (SQLException error) {
                         System.out.println("parseString error\n" + error.getMessage());
                         return null;
-                    } catch (NullPointerException nullError){
+                    } catch (NullPointerException nullError) {
                         System.out.println("Dealing with an empty record at id: " + repIndex + "\n" + nullError.getCause());
                     }
                 }
@@ -597,6 +622,51 @@ public class bbDatabase {
             System.out.println("String parsed: " + stringBuilder);
             return repList;
         }
+    }
+
+
+    /**
+     * Determines if a repString's IDs are on tblRepetition. Returns record of missing record first encountered, 0 if
+     * all records were found and -1 if an exception was caught or string formatted incorrectly
+     */
+    public int checkRepStringOnFile(String repString) {
+        int result;
+        int length = repString.length();
+        StringBuilder stringBuilder = new StringBuilder();
+        int repIndex = 0;
+
+        if (repString.equals(checkRepString(repString))) {
+            for (int i = length - 2; i >= 0; i--) {
+
+                if (repString.charAt(i) != '_') {
+                    //build up the reversed integer (may be double or triple figured)
+                    stringBuilder.append(repString.charAt(i));
+                } else if (repString.charAt(i) == '_') {
+                    // stop processing repString for now, extract the index and reset stringBuilder
+                    repIndex = Integer.parseInt(stringBuilder.toString());
+                    stringBuilder.setLength(0);
+
+                    try {
+                        selectRepetitionKey.setInt(1, repIndex);
+                        if (!selectRepetitionKey.executeQuery().next()) {
+                            System.out.println("Rep index " + repIndex + " missing");
+                            return repIndex;
+                        }
+                    } catch (SQLException error) {
+                        System.out.println("parseString error\n" + error.getMessage());
+                        return -1;
+                    } catch (NullPointerException nullError) {
+                        System.out.println("Dealing with an empty record at id: " + repIndex + "\n" + nullError.getCause());
+                        return -1;
+                    }
+                }
+            }
+        } else {
+            //formatting problem...
+            return -1;
+        }
+        //all good...
+        return 0;
     }
 
     //tblSet =========================================================================================
@@ -648,7 +718,7 @@ public class bbDatabase {
      * Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
      * exception was caught.
      */
-    public int setOnFileId(Integer exerciseID, String comments, String setDate, String repSeq) {
+    public int getIDOfFirstSetOnFile(Integer exerciseID, String comments, String setDate, String repSeq) {
         try {
             selectSetId.setInt(1, exerciseID);
             selectSetId.setString(2, comments);
@@ -674,11 +744,12 @@ public class bbDatabase {
 
     /**
      * Returns the number of records with supplied fields, on file.
-     * Compared to most of the other query methods, setOnFile also checks tblRepetition and tblExercise using
-     * repetitionOnFileKey and exerciseOnFileKey, respectively. Returns -1 if an exception was caught.
+     * Compared to most of the other query methods, numberOfSetsOnFile also checks tblRepetition and tblExercise using
+     * repetitionOnFileKey and exerciseOnFileKey, respectively. Returns -1 if an DB record error occurred or
+     * an exception was caught.
      */
-    public int setOnFile(int exerciseId, String comments, String setDate, String repSeq) {
-        try (ResultSet exercisePack = exerciseOnFileKey(exerciseId)) {
+    public int numberOfSetsOnFile(int exerciseId, String comments, String setDate, String repSeq) {
+        try (ResultSet exercisePack = getExerciseSetWithKey(exerciseId)) {
             if (exercisePack == null) {
                 System.out.println("The given exerciseId, " + exerciseId + ", was not found");
                 return -1;
@@ -687,36 +758,34 @@ public class bbDatabase {
             System.out.println("Error with exerciseId in set parameter list\n" + err.getMessage());
         }
 
+        if (checkRepStringOnFile(repSeq) == 0) {
+            try {
+                selectSet.setInt(1, exerciseId);
+                selectSet.setString(2, comments);
+                selectSet.setString(3, setDate);
+                selectSet.setString(4, repSeq);
 
-        //
-        // add code here to parse repSeq and check if each repId is still valid
-        //
+                //returns the rows with this record
+                ResultSet resultSet = selectSet.executeQuery();
+                int rowCount = 0;
+                while (resultSet.next()) {
+                    rowCount++;
+                }
 
-
-        try {
-            selectSet.setInt(1, exerciseId);
-            selectSet.setString(2, comments);
-            selectSet.setString(3, setDate);
-            selectSet.setString(4, repSeq);
-
-            //returns the rows with this record
-            ResultSet resultSet = selectSet.executeQuery();
-            int rowCount = 0;
-            while (resultSet.next()) {
-                rowCount++;
-            }
-
-            if (rowCount > 0) {
+                if (rowCount > 0) {
 //                System.out.println("Set is already on file");
-                resultSet.close();
-                return rowCount;
-            } else if (rowCount == 0) {
+                    resultSet.close();
+                    return rowCount;
+                } else if (rowCount == 0) {
 //                System.out.println("Set not on file");
-                resultSet.close();
+                    resultSet.close();
+                }
+                return 0;
+            } catch (SQLException e) {
+                System.out.println("on File problem querying tblSet:\n" + e.getMessage());
+                return -1;
             }
-            return 0;
-        } catch (SQLException e) {
-            System.out.println("on File problem querying tblSet:\n" + e.getMessage());
+        } else {
             return -1;
         }
     }
@@ -725,14 +794,13 @@ public class bbDatabase {
      * Returns a ResultSet of the set record with the supplied primary key idSet. Returns null if none
      * found or if an exception is caught.
      */
-    public ResultSet setOnFileKey(int idSet) {
+    public ResultSet getSetSetWithKey(int idSet) {
 //        System.out.println("Trying to find set with id = " + idSet);
         try {
             selectSetKey.setInt(1, idSet);
             ResultSet resultSet = selectSetKey.executeQuery();
 
             if (resultSet.next()) {
-//                System.out.println("Record with the key " + idSet + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idSet + " found");
@@ -744,23 +812,46 @@ public class bbDatabase {
         }
     }
 
+    /**
+     * Returns a List<bbSet> of a set with the supplied SetDate and Exercise_id. Returns null if an
+     * exception was caught.
+     */
+    public ResultSet getSetSetWithExerciseIDDate(int ExerciseID, String timeDate) {
+        try {
+            selectSetDateAndEx.setInt(1, ExerciseID);
+            selectSetDateAndEx.setString(2, timeDate);
+            ResultSet newSet = selectSetDateAndEx.executeQuery();
+
+            if (newSet.next()) {
+                return newSet;
+            } else {
+                System.out.println("newSet is empty");
+                return null;
+            }
+        } catch (SQLException err) {
+            System.out.println("SQLException of setOnFileDateEx\n" + err.getMessage());
+            return null;
+        }
+    }
+
     // Insertion methods -------------return value is the index of the inserted record---------------------------------
 
     //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
 
     /**
      * Inserts a new exercise, first by checking of the supplied fields match any record on file. Returns the primary
-     * key of the inserted record, 0 if the exercise already exists, -2 if name is blank or null, and -1 if an
+     * key of the inserted record, current index if the exercise already exists, -2 if name is blank or null, and -1
+     * if an
      * exception was caught
      */
     public int insertNewExercise(String name, String muscleGroup,
                                  String anchorPosition,
                                  String desc, String videoURL) {
         //check if the exercise already exists (returns 0 if none, and 1 if present)
-        int index = exerciseOnFile(name, muscleGroup, anchorPosition, desc, videoURL);
-        if (index == 1) {
+        int index = getIDOfFirstExerciseOnFile(name, muscleGroup, anchorPosition, desc, videoURL);
+        if (index >= 1) {
             System.out.println(name + " already exists on file. No further changes made.");
-            return 0;
+            return index;
         }
 
         //testing for null is eventually handled by the controller and used here for test purposes
@@ -784,8 +875,6 @@ public class bbDatabase {
                 throw new SQLException("Could not insert exercise");
             }
 
-//            System.out.println("New exercise added, getting the ID...");
-
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertExercise.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -803,17 +892,17 @@ public class bbDatabase {
 
     /**
      * Inserts a new repetition, first by checking of the supplied fields match any record on file. Returns the primary
-     * key of the inserted record, 0 if repetition already exists, -2 if
+     * key of the inserted record, current index if repetition already exists, -2 if
      * repetitions is 0, and -1 if an exception was caught.
      */
     public int insertNewRepetition(float tension, int repetitions) {
 
         //check if the Repetition already exists in tblRepetition (returns 0 if none, and 1 if present)
-        int index = repetitionOnFile(tension, repetitions);
-        if (index == 1) {
+        int index = getIDOfFirstRepetitionOnFile(tension, repetitions);
+        if (index >= 1) {
             System.out.println(repetitions + " with tension " + tension + " already exists on " +
                     "file, no further changes made.");
-            return 0;
+            return index;
         }
 
         //testing for null is eventually handled by the controller and used here for test purposes
@@ -833,7 +922,6 @@ public class bbDatabase {
             if (insertedRecord != 1) {
                 throw new SQLException("Could not insert rep record");
             }
-//            System.out.println("New rep added, getting the ID...");
 
             //find the key of the inserted record and return it
             ResultSet generatedKeys = insertRepetition.getGeneratedKeys();
@@ -853,78 +941,71 @@ public class bbDatabase {
     /**
      * Inserts a new exercise, first by checking of the supplied fields match any record on file. The exercise
      * record with the supplied exerciseId is also verified on tblExercise. Returns the primary
-     * key of the inserted record, 0 if set already exists, -2 if exercise is missing or 0, -3 if repetition
-     * is missing, -4 is the date is missing, and -1 if an exception was caught.
+     * key of the inserted record, current index if set already exists, -2 if exercise is missing or exerciseID is 0, -3
+     * if repetition is missing, -4 is the date is missing, and -1 if an exception was caught.
      */
     public int insertNewSet(int exerciseId, String comments, String setDate, String repSeq) {
-        //check if exercise from tblExercise actually exists
-        try (ResultSet exercise = exerciseOnFileKey(exerciseId)) {
+        //check if the set already exists in tblSet (returns 0 if none, and index if present)
+        int index = getIDOfFirstSetOnFile(exerciseId, comments, setDate, repSeq);
+        if (index >= 1) {
+            System.out.println("This set dated " + setDate + " already on file, no further changes made.");
+            return index;
+        }
+
+        //check if exerciseID is valid and record from tblExercise actually exists
+        if (exerciseId == 0) {
+            System.out.println("Exercise info needed ( >0 )");
+            return -2;
+        }
+
+        try (ResultSet exercise = getExerciseSetWithKey(exerciseId)) {
             if (exercise == null) {
                 System.out.println("The exercise with id " + exerciseId + " is not in its table");
                 return -2;
             }
         } catch (SQLException err) {
-            System.out.println("Problem finding exercise in tblExercise with given ID\n" + err.getMessage());
+            System.out.println("Insert set: SQL problem finding exercise with given exerciseID\n" + err.getMessage());
             return -1;
         }
 
-        //
-        //check if repetition from tblRepetition actually exists
-        //
-
-        //check if the set already exists in tblSet (returns 0 if none, and 1 if present)
-        int index = setOnFile(exerciseId, comments, setDate, repSeq);
-        if (index == 1) {
-            System.out.println("This set dated " + setDate + " already on file, no further changes made.");
-            return 0;
-        }
-
-        //testing for null is eventually handled by the controller and used here for test purposes
-        if (exerciseId == 0) {
-            System.out.println("Exercise info needed ( >0 )");
-            return -2;
-        }
-        if (repSeq == "R_") {
-            //expect to have at least R_x, where x is the first repId
-            System.out.println("No repetitions associated with this set");
-            return -3;
-        }
         if (setDate == null) {
             System.out.println("Date of workout needed");
             return -4;
         }
 
-        try {
-            //PreparedStatements only allow for one value per placeholder ?
-            insertSet.setInt(1, exerciseId);
-            insertSet.setString(2, comments);
-            insertSet.setString(3, setDate);
-            insertSet.setString(4, repSeq);
+        if (checkRepStringOnFile(repSeq) == 0){
+            try {
+                //PreparedStatements only allow for one value per placeholder ?
+                insertSet.setInt(1, exerciseId);
+                insertSet.setString(2, comments);
+                insertSet.setString(3, setDate);
+                insertSet.setString(4, repSeq);
 
-            //store the expected return (1) if one row was inserted
-            int insertedRecord = insertSet.executeUpdate();
+                //store the expected return (1) if one row was inserted
+                int insertedRecord = insertSet.executeUpdate();
 
-            if (insertedRecord != 1) {
-                throw new SQLException("Could not insert set record");
+                if (insertedRecord != 1) {
+                    throw new SQLException("Could not insert set record");
+                }
+
+                //find the key of the inserted record and return it
+                ResultSet generatedKeys = insertSet.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    System.out.println("New set id: " + generatedKeys.getInt(1));
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Could not get ID for new set record");
+                }
+            } catch (SQLException err) {
+                System.out.println("Error with inserting set\n" + err.getMessage());
+                //one can conn.rollback() in another try-catch block
+                return -1;
             }
-//            System.out.println("New set added, getting the ID...");
-
-            //find the key of the inserted record and return it
-            ResultSet generatedKeys = insertSet.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                System.out.println("New set id: " + generatedKeys.getInt(1));
-                return generatedKeys.getInt(1);
-            } else {
-                throw new SQLException("Could not get ID for new set record");
-            }
-        } catch (SQLException err) {
-            System.out.println("Error with inserting set\n" + err.getMessage());
-            //one can conn.rollback() in another try-catch block
-            return -1;
         }
+        return -3;
     }
 
-    // update methods ------------------return value is the index of the updated record ------------------------
+    // update methods ---return value is the index of the updated record; parameter checking provided UI controls-----
 
     /**
      * Updates the selected exercise. Returns the exerciseID if update successful, 0 if no changes needed or no record
@@ -935,7 +1016,7 @@ public class bbDatabase {
                               String desc, String videoURL) {
         // check the index is already on the DB, return 0 if not
 
-        if (exerciseOnFileKey(exerciseID) == null) {
+        if (getExerciseSetWithKey(exerciseID) == null) {
             System.out.println("Record with ID " + exerciseID + " not found. No changes made.");
             return 0;
         } else {
@@ -969,7 +1050,7 @@ public class bbDatabase {
     public int updateRepetition(Integer repID, Float tension, Integer reps) {
         // check the index is already on the DB, return 0 if not
 
-        if (repetitionOnFileKey(repID) == null) {
+        if (getRepetitionSetWithKey(repID) == null) {
             System.out.println("Record with ID " + repID + " not found. No changes made.");
             return 0;
         } else {
@@ -999,7 +1080,7 @@ public class bbDatabase {
     public int updateSet(Integer setID, String comments, String setDate, String repSeq) {
         // check the index is already on the DB, return 0 if not
 
-        if (setOnFileKey(setID) == null) {
+        if (getSetSetWithKey(setID) == null) {
             System.out.println("Record with ID " + setID + " not found. No changes made.");
             return 0;
         } else {
@@ -1026,13 +1107,12 @@ public class bbDatabase {
 
     /**
      * Updates the selected set's date and repetition sequence, repSeq. Returns the setID if update successful, 0 if no
-     * changes needed or no record
-     * found, and -1 if an exception was caught
+     * changes needed or no record found, and -1 if an exception was caught
      */
     public int updateSetDateRep(Integer setID, String setDate, String repSeq) {
         // check the index is already on the DB, return 0 if not
 
-        if (setOnFileKey(setID) == null) {
+        if (getSetSetWithKey(setID) == null) {
             System.out.println("Record with ID " + setID + " not found. No changes made.");
             return 0;
         } else {
@@ -1063,7 +1143,7 @@ public class bbDatabase {
      * found or nothing deleted, and -1 if an exception was caught
      */
     public int deleteExercise(int index) {
-        if (exerciseOnFileKey(index) == null) {
+        if (getExerciseSetWithKey(index) == null) {
             System.out.println("Record with ID " + index + " not found. No deletion carried out.");
             return 0;
         } else {
@@ -1089,7 +1169,7 @@ public class bbDatabase {
      * found or nothing deleted, and -1 if an exception was caught
      */
     public int deleteRepetition(int index) {
-        if (repetitionOnFileKey(index) == null) {
+        if (getRepetitionSetWithKey(index) == null) {
             System.out.println("Record with ID " + index + " not found. No deletion carried out.");
             return 0;
         } else {
@@ -1115,7 +1195,7 @@ public class bbDatabase {
      * found or nothing deleted, and -1 if an exception was caught
      */
     public int deleteSet(int index) {
-        if (setOnFileKey(index) == null) {
+        if (getSetSetWithKey(index) == null) {
             System.out.println("Record with ID " + index + " not found. No deletion carried out.");
             return 0;
         } else {

@@ -40,7 +40,7 @@ public class exerciseChoiceControl {
             //initialise new exerciseSet scene variables, passing exerciseTable.getSelectionModel().getSelectedItem()
             // .getExerciseId()
             currentExercise =
-                    bbDatabase.getInstance().exerciseOnFileKey(exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
+                    bbDatabase.getInstance().getExerciseSetWithKey(exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
             sceneNavigation.getInstance().showExerciseSetPage();
         }
     }

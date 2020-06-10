@@ -47,7 +47,7 @@ public class repDialogControl implements Initializable {
         //trim() removes all leading and trailing whitespace
         bbDatabase tempDB = bbDatabase.getInstance();
 
-        int index = tempDB.repetitionOnFileId(Float.parseFloat(tension.getText().trim()),
+        int index = tempDB.getIDOfFirstRepetitionOnFile(Float.parseFloat(tension.getText().trim()),
                 Integer.parseInt(repetitions.getText().trim()));
 
         if (index >= 1){

@@ -35,7 +35,7 @@ INSERT INTO "tblExercise" VALUES (8,'Squat','Legs','Floor','Compound exercise fo
 INSERT INTO "tblExercise" VALUES (9,'Calf Raise','Legs','Base','','');
 INSERT INTO "tblExercise" VALUES (10,'Seated Bicep Curl','Arms','Base','Works the biceps','');
 INSERT INTO "tblExercise" VALUES (12,'Resisted Curl','Abs','Base','Challenge the core!','');
-INSERT INTO "tblSet" VALUES (1,10,'Now the hard work begins!','10th March','R_1_2');
-INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10th March','R_3');
-INSERT INTO "tblSet" VALUES (3,8,'As expected','10th March','R_3_4');
+INSERT INTO "tblSet" VALUES (1,10,'Now the hard work begins!','09 Mar 2020','R_1_2_');
+INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10 Mar 2020','R_3_');
+INSERT INTO "tblSet" VALUES (3,8,'As expected','11 Mar 2020','R_3_4_');
 COMMIT;
