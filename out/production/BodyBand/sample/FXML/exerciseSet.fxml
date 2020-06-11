@@ -109,7 +109,7 @@
             </HBox>
             <HBox alignment="CENTER" prefWidth="200.0">
                <children>
-                  <TableView fx:id="repTable" prefHeight="242.0" prefWidth="335.0">
+                  <TableView fx:id="repTable" onMouseClicked="#onClickedRow" prefHeight="242.0" prefWidth="335.0">
                     <columns>
                       <TableColumn fx:id="tensionColumn" prefWidth="168.0">
                        <cellValueFactory>

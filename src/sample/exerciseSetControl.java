@@ -23,12 +23,15 @@ public class exerciseSetControl implements Initializable {
 
     //for exercises:
     private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
+    private int currentExerciseID;
 
     //for sets: comments might prove redundant since Description can provide custom user remarks
     private final String comments = "";
+    private int currentSetID;
 
     //for repetitions:
     private int currentRepID;
+    private String repStringExSet, currentDateTime;
 
     @FXML
     private TableView<bbRepetition> repTable;
@@ -54,8 +57,11 @@ public class exerciseSetControl implements Initializable {
         Runnable background = new Runnable() {
             @Override
             public void run() {
-                try (ResultSet tempExercise = bbDatabase.getInstance().getExerciseSetWithKey(exerciseChoiceControl.currentExerciseID)){
+                try (ResultSet tempExercise =
+                             bbDatabase.getInstance().getExerciseSetWithKey(exerciseChoiceControl.getCurrentExerciseID())) {
                     //get the exercise details
+
+                    currentExerciseID = tempExercise.getInt(bbDatabase.ExerciseIdINDEX);
                     exerciseName = tempExercise.getString(bbDatabase.ExerciseNameINDEX);
                     exerciseAnchorPosition =
                             tempExercise.getString(bbDatabase.ExerciseAnchorPositionINDEX);
@@ -77,6 +83,8 @@ public class exerciseSetControl implements Initializable {
                         updateButton.setDisable(true);
                         deleteButton.setDisable(true);
 
+                        currentDateTime = exerciseChoiceControl.getCurrentDateTime();
+                        repStringExSet = exerciseChoiceControl.getRepString();
                         setFloatField(tensionTextField);
                         setIntField(repsTextField);
                     }
@@ -99,6 +107,13 @@ public class exerciseSetControl implements Initializable {
     }
 
     @FXML
+    public void onClickedRow() {
+        System.out.println("Row " + repTable.getSelectionModel().getSelectedIndex() + " with rep ID " + repTable.getSelectionModel().getSelectedItem().getRepetitionId());
+        repsTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getReps()));
+        tensionTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getTension()));
+    }
+
+    @FXML
     private void onClickedAdd() {
         // button is only enabled when both fields have a value
 
@@ -111,33 +126,38 @@ public class exerciseSetControl implements Initializable {
         int reps = Integer.parseInt(repsTextField.getText());
 
         currentRepID = bbDatabase.getInstance().getIDOfFirstRepetitionOnFile(bandTension, reps);
-        if (currentRepID <= 0){
+        if (currentRepID <= 0) {
             currentRepID = bbDatabase.getInstance().insertNewRepetition(bandTension, reps);
         }
 
         // update the Rep string
-        bbDatabase.getInstance().buildRepString(exerciseChoiceControl.repString, currentRepID);
-        if (exerciseChoiceControl.repString.equals(exerciseChoiceControl.repString)){
+        String updatedRepString = bbDatabase.getInstance().buildRepString(repStringExSet, currentRepID);
+        if (repStringExSet.equals(updatedRepString)) {
             System.out.println("repString not updated");
         }
 
         // (3) if the set exists, update it otherwise create a new one
-        if (exerciseChoiceControl.currentSetID > 0){
-            exerciseChoiceControl.currentSetID = bbDatabase.getInstance().updateSet(
-                    exerciseChoiceControl.currentSetID,
-                    exerciseChoiceControl.currentExerciseID,
+        currentSetID = exerciseChoiceControl.getCurrentSetID();
+        if (currentSetID > 0) {
+            currentSetID = bbDatabase.getInstance().updateSet(
+                    currentSetID,
+                    currentExerciseID,
                     comments,
-                    exerciseChoiceControl.currentDateTime,
-                    exerciseChoiceControl.repString);
-            System.out.println("Using stored set with id " + exerciseChoiceControl.currentSetID);
+                    currentDateTime,
+                    updatedRepString);
+            System.out.println("Using stored set with id " + currentSetID);
         } else {
-            exerciseChoiceControl.currentSetID = bbDatabase.getInstance().insertNewSet(
-                    exerciseChoiceControl.currentExerciseID,
+            currentSetID = bbDatabase.getInstance().insertNewSet(
+                    currentExerciseID,
                     comments,
-                    exerciseChoiceControl.currentDateTime,
-                    exerciseChoiceControl.repString);
-            System.out.println("Inserted new set with id " + exerciseChoiceControl.currentSetID);
+                    currentDateTime,
+                    updatedRepString);
+            System.out.println("Inserted new set with id " + currentSetID);
         }
+
+        //update the table
+        exerciseChoiceControl.setRepString(updatedRepString);
+        listRepetitionsRepString();
     }
 
     @FXML
@@ -196,6 +216,6 @@ class GetAllRepetitionsForSet extends Task {
     public ObservableList<bbRepetition> call() {
         // returns a List<> which is then pass to and converted to an ObservableList for data binding
         // purposes (bbExercise variables are defined as Simple Properties to enable data binding)
-        return FXCollections.observableArrayList(bbDatabase.getInstance().getRepListFromRepString(exerciseChoiceControl.repString));
+        return FXCollections.observableArrayList(bbDatabase.getInstance().getRepListFromRepString(exerciseChoiceControl.getRepString()));
     }
 }

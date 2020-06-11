@@ -619,7 +619,7 @@ public class bbDatabase {
                     }
                 }
             }
-            System.out.println("String parsed: " + stringBuilder);
+            System.out.println("Number of reps in list: " + repList.size());
             return repList;
         }
     }
