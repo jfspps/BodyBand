@@ -18,10 +18,10 @@ import java.time.format.DateTimeFormatter;
 //this class handles exerciseChoice.fxml interfaces
 public class exerciseChoiceControl {
 
-    static int currentExerciseID;
-    static String currentDateTime;
-    static int currentSetID;
-    static String repString;
+    private static int currentExerciseID;
+    private static String currentDateTime;
+    private static int currentSetID;
+    private static String repString;
 
     @FXML
     private TableView<bbExercise> exerciseTable;
@@ -81,6 +81,26 @@ public class exerciseChoiceControl {
         } catch (NullPointerException nullError) {
             System.out.println("Null record processed\n" + nullError.getMessage());
         }
+    }
+
+    public static int getCurrentExerciseID() {
+        return currentExerciseID;
+    }
+
+    public static String getCurrentDateTime() {
+        return currentDateTime;
+    }
+
+    public static int getCurrentSetID() {
+        return currentSetID;
+    }
+
+    public static String getRepString() {
+        return repString;
+    }
+
+    public static void setRepString(String newRepString){
+        repString = newRepString;
     }
 }
 
