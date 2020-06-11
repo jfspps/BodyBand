@@ -30,8 +30,9 @@ public class exerciseSetControl implements Initializable {
     private int currentSetID;
 
     //for repetitions:
-    private int currentRepID;
     private String repStringExSet, currentDateTime;
+    private float TextFieldTension;
+    private int TextFieldReps;
 
     @FXML
     private TableView<bbRepetition> repTable;
@@ -59,7 +60,7 @@ public class exerciseSetControl implements Initializable {
             public void run() {
                 try (ResultSet tempExercise =
                              bbDatabase.getInstance().getExerciseSetWithKey(exerciseChoiceControl.getCurrentExerciseID())) {
-                    //get the exercise details
+                    // the only records which the user can change are rep-related
 
                     currentExerciseID = tempExercise.getInt(bbDatabase.ExerciseIdINDEX);
                     exerciseName = tempExercise.getString(bbDatabase.ExerciseNameINDEX);
@@ -102,15 +103,24 @@ public class exerciseSetControl implements Initializable {
     }
 
     @FXML
-    public void toggleAddButton() {
+    private void toggleAddButton() {
         addButton.setDisable(tensionTextField.getText().isBlank() || repsTextField.getText().isBlank());
     }
 
     @FXML
-    public void onClickedRow() {
-        System.out.println("Row " + repTable.getSelectionModel().getSelectedIndex() + " with rep ID " + repTable.getSelectionModel().getSelectedItem().getRepetitionId());
-        repsTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getReps()));
-        tensionTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getTension()));
+    private void onClickedRow() {
+        if (repTable.getSelectionModel().getSelectedItem() != null) {
+            updateButton.setDisable(false);
+            deleteButton.setDisable(false);
+            System.out.println("Row " + repTable.getSelectionModel().getSelectedIndex() + " with rep ID " + repTable.getSelectionModel().getSelectedItem().getRepetitionId());
+            repsTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getReps()));
+            tensionTextField.setText(String.valueOf(repTable.getSelectionModel().getSelectedItem().getTension()));
+        } else {
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
+            repsTextField.clear();
+            tensionTextField.clear();
+        }
     }
 
     @FXML
@@ -119,15 +129,16 @@ public class exerciseSetControl implements Initializable {
 
         // 1. exercise data initialised in Runnable (later will enable TextFields to be editable)
         // 2. verify that a repetition exists; if not, insert new repetition
-        // 3. currently, do not verify if a set exists, just use all above data to insert a new one
+        // 3. verify if the set exists, create one otherwise and then update repText
 
         // (2) Repetitions
-        float bandTension = Float.parseFloat(tensionTextField.getText());
-        int reps = Integer.parseInt(repsTextField.getText());
 
-        currentRepID = bbDatabase.getInstance().getIDOfFirstRepetitionOnFile(bandTension, reps);
+        TextFieldTension = Float.parseFloat(tensionTextField.getText());
+        TextFieldReps = Integer.parseInt(repsTextField.getText());
+
+        int currentRepID = bbDatabase.getInstance().getIDOfFirstRepetitionOnFile(TextFieldTension, TextFieldReps);
         if (currentRepID <= 0) {
-            currentRepID = bbDatabase.getInstance().insertNewRepetition(bandTension, reps);
+            currentRepID = bbDatabase.getInstance().insertNewRepetition(TextFieldTension, TextFieldReps);
         }
 
         // update the Rep string
@@ -136,7 +147,62 @@ public class exerciseSetControl implements Initializable {
             System.out.println("repString not updated");
         }
 
-        // (3) if the set exists, update it otherwise create a new one
+        // (3) update set records
+        updateSetScene(updatedRepString);
+    }
+
+    @FXML
+    private void onClickedUpdate() {
+        if (repTable.getSelectionModel().getSelectedItem() != null) {
+            //check with stored DB values to avoid unnecessary computation
+            TextFieldTension = Float.parseFloat(tensionTextField.getText());
+            TextFieldReps = Integer.parseInt(repsTextField.getText());
+
+            // use the newly entered values to build a new repString
+            int rowIndex = repTable.getSelectionModel().getSelectedIndex() + 1;
+            int oldRepID = repTable.getSelectionModel().getSelectedItem().getRepetitionId();
+            int newRepID = bbDatabase.getInstance().insertNewRepetition(TextFieldTension, TextFieldReps);
+
+            //update...
+            String updatedRepString = bbDatabase.getInstance().updateRepString(rowIndex, newRepID, oldRepID,
+                    repStringExSet);
+            if (updatedRepString.equals(repStringExSet)) {
+                System.out.println("repString not updated");
+            }
+
+            //update this set with the new repString
+            updateSetScene(updatedRepString);
+
+            deleteButton.setDisable(true);
+            updateButton.setDisable(true);
+            repsTextField.clear();
+            tensionTextField.clear();
+        }
+    }
+
+    @FXML
+    private void onClickedDelete() {
+        if (repTable.getSelectionModel().getSelectedItem() != null) {
+            int rowIndex = repTable.getSelectionModel().getSelectedIndex() + 1;
+
+            //delete...
+            String updatedRepString = bbDatabase.getInstance().deleteRep(repStringExSet, rowIndex);
+            if (updatedRepString.equals(repStringExSet)) {
+                System.out.println("record not deleted");
+            }
+
+            //update this set with the new repString
+            updateSetScene(updatedRepString);
+
+            deleteButton.setDisable(true);
+            updateButton.setDisable(true);
+            repsTextField.clear();
+            tensionTextField.clear();
+        }
+    }
+
+    private void updateSetScene(String updatedRepString){
+        //update this set with the new repString
         currentSetID = exerciseChoiceControl.getCurrentSetID();
         if (currentSetID > 0) {
             currentSetID = bbDatabase.getInstance().updateSet(
@@ -155,19 +221,12 @@ public class exerciseSetControl implements Initializable {
             System.out.println("Inserted new set with id " + currentSetID);
         }
 
-        //update the table
+        //update both scene's repString's
         exerciseChoiceControl.setRepString(updatedRepString);
+        repStringExSet = exerciseChoiceControl.getRepString();
+
+        //refresh the table
         listRepetitionsRepString();
-    }
-
-    @FXML
-    private void onClickedUpdate() {
-
-    }
-
-    @FXML
-    private void onClickedDelete() {
-
     }
 
     //adds a listener to a TextField and permits xxx.xx float values only

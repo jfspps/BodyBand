@@ -550,12 +550,14 @@ public class bbDatabase {
             System.out.println("repString empty");
             return false;
         }
+
         //check empty repString then one with IDs
         if (repString.equals("R_")) {
-//            System.out.println("New repString received, all clear.");
             return true;
-        } else if (repString.matches("^R_([0-9]?[0-9]?[1-9]_)+")) {
-//            System.out.println("repString with IDs formatted correctly");
+            //look for "R_xxxx_yyyy_zzzz_ etc.
+            // caret is the string starting point, [] numeric with 0-9, * is zero or more (+ is one or more),
+            // parenthesise groups XXXX_
+        } else if (repString.matches("^R_([0-9]?[0-9]?[0-9]?[0-9]_)*")) {
             return true;
         } else {
             System.out.println("Incorrectly formatted repString received");
@@ -568,38 +570,64 @@ public class bbDatabase {
      * Returns the same string if nothing built or format supplied was incorrect
      */
     public String buildRepString(String repBuild, int index) {
-        StringBuilder reversedIndex = new StringBuilder();
+        StringBuilder newRepString = new StringBuilder();
         if (checkRepString(repBuild)) {
-            String reversed = reversedIndex.append(index).reverse().toString();
-            repBuild = repBuild + reversed + "_";
-            System.out.println("New rep string: " + repBuild);
+            newRepString.append(repBuild).append(index).append("_");
+            System.out.println("New rep string: " + newRepString);
+            return newRepString.toString();
         }
         return repBuild;
+    }
+
+    /**Removes a given set from the repString at a given index, returning the original string if a deletion cannot be
+     *  carried out. Note that this method does not delete the repetition from the DB since it may be used later or
+     *  is already referenced by other sets.*/
+    public String deleteRep(String repDelete, int index) {
+        if (checkRepString(repDelete)){
+            String[] IDs = repDelete.split("_");
+            StringBuilder newRepString = new StringBuilder();
+
+            for (int i = 0; i < index; i++){
+                newRepString.append(IDs[i]).append("_");
+            }
+            for (int i = index+1; i < IDs.length; i++){
+                newRepString.append(IDs[i]).append("_");
+            }
+            return newRepString.toString();
+        }
+        return repDelete;
     }
 
     /**
      * Parses an repetition sequence string and returns a List<bbRepetition> related to the parsed string. Returns null
      * if a problem is encountered.
+     *
+     * Note here that missing repIDs from properly formatted repStrings are ignored and the method continues to parse
+     * the string until the end.
+     *
+     * Use checkRepStringOnFile to begin identifying which rep records are missing.
      */
     public List<bbRepetition> getRepListFromRepString(String repString) {
-        int length = repString.length();
 
         if (!checkRepString(repString)) {
             return null;
         } else {
             int repIndex;
             List<bbRepetition> repList = new ArrayList<>();
-            StringBuilder stringBuilder = new StringBuilder();
 
-            //skip to the penultimate character of the string
-            for (int i = length - 2; i >= 0; i--) {
+            //used to temporarily store a repID
+            StringBuilder tempRepID = new StringBuilder();
+
+            //skip to the first integer of the string
+            for (int i = 2; i < repString.length(); i++) {
                 if (repString.charAt(i) != '_') {
                     //build up the reversed integer (may be double or triple figured)
-                    stringBuilder.append(repString.charAt(i));
+                    tempRepID.append(repString.charAt(i));
                 } else if (repString.charAt(i) == '_') {
                     // stop processing repString for now, extract the index and add resultSet to the List<>
-                    repIndex = Integer.parseInt(stringBuilder.toString());
-                    stringBuilder.setLength(0);
+                    repIndex = Integer.parseInt(tempRepID.toString());
+                    tempRepID.setLength(0);
+
                     try {
                         selectRepetitionKey.setInt(1, repIndex);
                         ResultSet tempRepSet = selectRepetitionKey.executeQuery();
@@ -630,21 +658,21 @@ public class bbDatabase {
      * all records were found and -1 if an exception was caught or string formatted incorrectly
      */
     public int checkRepStringOnFile(String repString) {
-        int result;
+
         int length = repString.length();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder tempRepID = new StringBuilder();
         int repIndex = 0;
 
         if (checkRepString(repString)) {
-            for (int i = length - 2; i >= 0; i--) {
+            for (int i = 2; i < length; i++) {
 
                 if (repString.charAt(i) != '_') {
                     //build up the reversed integer (may be double or triple figured)
-                    stringBuilder.append(repString.charAt(i));
+                    tempRepID.append(repString.charAt(i));
                 } else if (repString.charAt(i) == '_') {
                     // stop processing repString for now, extract the index and reset stringBuilder
-                    repIndex = Integer.parseInt(stringBuilder.toString());
-                    stringBuilder.setLength(0);
+                    repIndex = Integer.parseInt(tempRepID.toString());
+                    tempRepID.setLength(0);
 
                     try {
                         selectRepetitionKey.setInt(1, repIndex);
@@ -667,6 +695,31 @@ public class bbDatabase {
         }
         //all good...
         return 0;
+    }
+
+    /**Updates a repString at the given index with a given repID. Index = 1 represents the first repID, index =
+     * 2 represents the second repID and so on. Returns the updated String if successful or "R_" if not.*/
+    public String updateRepString(int index, int newRepID, int oldRepID, String repString){
+        if (checkRepString(repString)){
+            //split the string up into an array and then replace the String at the given index. Then reassemble.
+            String[] IDs = repString.split("_");
+
+            if (IDs[index].equals(String.valueOf(oldRepID))){
+                IDs[index] = String.valueOf(newRepID);
+            } else {
+                System.out.println("Given index " + index + " holds a value of " + IDs[index] + ", not " + oldRepID);
+                return "R_";
+            }
+
+            //rebuild a new repString
+            StringBuilder newRepText = new StringBuilder();
+            for (String id : IDs) {
+                newRepText.append(id).append("_");
+            }
+            System.out.println("New repText: " + newRepText);
+            return newRepText.toString();
+        }
+        return "R_";
     }
 
     //tblSet =========================================================================================
@@ -837,6 +890,9 @@ public class bbDatabase {
     // Insertion methods -------------return value is the index of the inserted record---------------------------------
 
     //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
+    // these methods are the general user's equivalent of admin's updateXYZ methods, below. Essentially, the insert
+    // methods try to locate the record. If the record does not exist, then one is created as opposed to updated. This
+    // leaves the record available for all other records which may reference it.
 
     /**
      * Inserts a new exercise, first by checking of the supplied fields match any record on file. Returns the primary
@@ -1006,6 +1062,8 @@ public class bbDatabase {
     }
 
     // update methods ---return value is the index of the updated record; parameter checking provided UI controls-----
+    // these update methods are used by admin for which the PKs are known; the general user will use the above
+    // insertXYZ methods as update methods
 
     /**
      * Updates the selected exercise. Returns the exerciseID if update successful, 0 if no changes needed or no record
@@ -1068,7 +1126,7 @@ public class bbDatabase {
                 }
                 return repID;
             } catch (SQLException error) {
-                System.out.println("Problem updating exercise\n" + error.getMessage());
+                System.out.println("Problem updating repetition\n" + error.getMessage());
                 return -1;
             }
         }
@@ -1101,7 +1159,7 @@ public class bbDatabase {
                 }
                 return setID;
             } catch (SQLException error) {
-                System.out.println("Problem updating exercise\n" + error.getMessage());
+                System.out.println("Problem updating set\n" + error.getMessage());
                 return -1;
             }
         }
