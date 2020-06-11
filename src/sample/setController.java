@@ -216,9 +216,10 @@ public class setController implements Initializable {
     private void onUpdateClicked() {
         int outputInt = bbDatabase.getInstance().updateSet(
                 record,
+                Integer.parseInt(exerciseIDText.getText()),
                 commentsText.getText().trim(),
                 setDateText.getText().trim(),
-                setIDText.getText().trim()
+                repIDText.getText().trim()
         );
         System.out.println("Update code: " + outputInt);
     }

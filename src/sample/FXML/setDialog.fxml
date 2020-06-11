@@ -21,7 +21,7 @@
                 <Pane prefHeight="10.0" prefWidth="200.0" />
                 <Label text="Exercise ID*" />
                 <TextField fx:id="exerciseID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
-                <Label text="Repetitions ID* (use &quot;R_x_y_z_&quot; etc.)" />
+                <Label text="Repetition sequence* (use &quot;R_x_y_z_&quot; etc.)" />
                 <TextField fx:id="repetitionsID" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
                 <Label text="Comments" />
                 <TextField fx:id="comments" minHeight="60.0" />

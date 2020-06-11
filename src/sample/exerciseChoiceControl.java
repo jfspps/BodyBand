@@ -11,11 +11,17 @@ import sample.model.bbDatabase;
 import sample.model.bbExercise;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 //this class handles exerciseChoice.fxml interfaces
 public class exerciseChoiceControl {
 
-    static ResultSet currentExercise;
+    static int currentExerciseID;
+    static String currentDateTime;
+    static int currentSetID;
+    static String repString;
 
     @FXML
     private TableView<bbExercise> exerciseTable;
@@ -35,12 +41,8 @@ public class exerciseChoiceControl {
     private void clickRow() {
         // check the table's selected item and get selected item
         if (exerciseTable.getSelectionModel().getSelectedItem() != null) {
-            System.out.println("Exercise clicked: " + exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
-
-            //initialise new exerciseSet scene variables, passing exerciseTable.getSelectionModel().getSelectedItem()
-            // .getExerciseId()
-            currentExercise =
-                    bbDatabase.getInstance().getExerciseSetWithKey(exerciseTable.getSelectionModel().getSelectedItem().getExerciseId());
+            currentExerciseID = exerciseTable.getSelectionModel().getSelectedItem().getExerciseId();
+            setRepStringAndSet();
             sceneNavigation.getInstance().showExerciseSetPage();
         }
     }
@@ -54,6 +56,31 @@ public class exerciseChoiceControl {
 
         //run a separate thread to populate the list after the UI is prepared
         new Thread(task).start();
+    }
+
+    private void setRepStringAndSet(){
+        LocalDateTime dateTime = LocalDateTime.now();
+        currentDateTime = dateTime.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
+        try{
+            ResultSet currentSet = bbDatabase.getInstance().getSetSetWithExerciseIDDate(currentExerciseID,
+                    currentDateTime);
+
+            // the next exerciseSet page would have to create a set if one does not exist
+            // with a blank repString
+            if (currentSet != null) {
+                repString = currentSet.getString(bbDatabase.SetRepIdSeqINDEX);
+                currentSetID = currentSet.getInt(bbDatabase.SetIdINDEX);
+            } else {
+                currentSetID = 0;
+                repString = "R_";
+            }
+            System.out.println("Current exercise ID: " + currentExerciseID + ", date: " + currentDateTime + ", " +
+                    "repString: " + repString + " with set ID: " + currentSetID);
+        } catch (SQLException sqlError) {
+            System.out.println("Problem with extracting set data\n" + sqlError.getMessage());
+        } catch (NullPointerException nullError) {
+            System.out.println("Null record processed\n" + nullError.getMessage());
+        }
     }
 }
 

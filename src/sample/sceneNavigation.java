@@ -136,7 +136,8 @@ public class sceneNavigation {
         try {
             FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseSet.fxml"));
             Parent newSet = exerciseSetLoader.load();
-            exerciseSetControl controller = exerciseSetLoader.getController();
+            exerciseSetControl controller2 = exerciseSetLoader.getController();
+            controller2.listRepetitionsRepString();
 
             Main.mainWindow.setTitle("BodyBand - set details");
             Main.mainWindow.setScene(new Scene(newSet));;
