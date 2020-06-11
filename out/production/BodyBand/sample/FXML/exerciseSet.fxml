@@ -84,12 +84,13 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="35.0" prefWidth="100.0" />
+                  <Pane prefHeight="21.0" prefWidth="73.0" />
                   <Label text="Reps">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <Pane prefHeight="21.0" prefWidth="12.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="65.0" prefWidth="335.0">
@@ -110,13 +111,16 @@
             <HBox alignment="CENTER" prefWidth="200.0">
                <children>
                   <TableView fx:id="repTable" onMouseClicked="#onClickedRow" prefHeight="242.0" prefWidth="335.0">
+                     <placeholder>
+                        <Label text="Enter band tension and rep count" />
+                     </placeholder>
                     <columns>
-                      <TableColumn fx:id="tensionColumn" prefWidth="168.0">
+                      <TableColumn fx:id="tensionColumn" editable="false" prefWidth="168.0" resizable="false" sortType="DESCENDING" sortable="false" style="-fx-alignment: CENTER;">
                        <cellValueFactory>
                           <PropertyValueFactory property="tension" />
                        </cellValueFactory>
                       </TableColumn>
-                      <TableColumn fx:id="repsColumn" minWidth="0.0" prefWidth="166.0" resizable="false">
+                      <TableColumn fx:id="repsColumn" editable="false" minWidth="0.0" prefWidth="166.0" resizable="false" sortType="DESCENDING" sortable="false" style="-fx-alignment: CENTER;">
                          <cellValueFactory>
                             <PropertyValueFactory property="reps" />
                          </cellValueFactory>
