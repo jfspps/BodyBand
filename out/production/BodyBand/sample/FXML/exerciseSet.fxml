@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -106,12 +107,20 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox prefWidth="200.0">
+            <HBox alignment="CENTER" prefWidth="200.0">
                <children>
-                  <TableView prefHeight="242.0" prefWidth="335.0">
+                  <TableView fx:id="repTable" prefHeight="242.0" prefWidth="335.0">
                     <columns>
-                      <TableColumn prefWidth="168.0" />
-                      <TableColumn minWidth="0.0" prefWidth="166.0" resizable="false" />
+                      <TableColumn fx:id="tensionColumn" prefWidth="168.0">
+                       <cellValueFactory>
+                          <PropertyValueFactory property="tension" />
+                       </cellValueFactory>
+                      </TableColumn>
+                      <TableColumn fx:id="repsColumn" minWidth="0.0" prefWidth="166.0" resizable="false">
+                         <cellValueFactory>
+                            <PropertyValueFactory property="reps" />
+                         </cellValueFactory>
+                      </TableColumn>
                     </columns>
                   </TableView>
                </children>
