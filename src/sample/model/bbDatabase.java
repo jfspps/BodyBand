@@ -92,6 +92,9 @@ public class bbDatabase {
     public static final String querySelectSetByDateAndEx = "SELECT * FROM tblSet WHERE Exercise_id = ? AND " +
             "SetDate = ?";
 
+    public static final String queryExercisesByDate = "SELECT idExercise, ExerciseName, MuscleGroup, AnchorPosition, " +
+            "Description, VideoURL FROM tblSet JOIN tblExercise WHERE Exercise_id = idExercise AND SetDate = ?";
+
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
     //Prepared statements
@@ -115,6 +118,7 @@ public class bbDatabase {
     private PreparedStatement deleteRepetition;
     private PreparedStatement deleteSet;
     private PreparedStatement selectSetDateAndEx;
+    private PreparedStatement selectExerciseByDate;
 
     //bbDatabase admin routines -------------------------------------------------------------
 
@@ -145,6 +149,7 @@ public class bbDatabase {
             deleteRepetition = conn.prepareStatement(queryDeleteRepetition);
             deleteSet = conn.prepareStatement(queryDeleteSet);
             selectSetDateAndEx = conn.prepareStatement(querySelectSetByDateAndEx);
+            selectExerciseByDate = conn.prepareStatement(queryExercisesByDate);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -218,6 +223,9 @@ public class bbDatabase {
             if (selectSetDateAndEx != null) {
                 selectSetDateAndEx.close();
             }
+            if (selectExerciseByDate != null) {
+                selectExerciseByDate.close();
+            }
             //lastly, close conn
             if (conn != null) {
                 conn.close();
@@ -262,6 +270,36 @@ public class bbDatabase {
         //'statement' and 'results' are released on return
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(querySelectAllExercises)) {
+            List<bbExercise> exercises = new ArrayList<>();
+
+            while (results.next()) {
+                //build up each object bbExercise, transfer values from DB then add to the ArrayList
+                bbExercise exercise = new bbExercise();
+                exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
+                exercise.setExerciseName(results.getString(ExerciseNameINDEX));
+                exercise.setMuscleGroup(results.getString(ExerciseMuscleGroupINDEX));
+                exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
+                exercise.setExerciseDesc(results.getString(ExerciseDescINDEX));
+                exercise.setVideoURL(results.getString(ExerciseVideoURLINDEX));
+                exercises.add(exercise);
+            }
+            return exercises;
+        } catch (SQLException e) {
+            System.out.println("JDBC connection error to tblExercises:\n" + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Returns a List<> of all exercises by a given date and their fields on file. Returns null if none found.
+     */
+    public List<bbExercise> listAllExercisesByDate(String setDate) {
+        //note that conn is still open after this method returns
+        //'statement' and 'results' are released on return
+        try {
+            selectExerciseByDate.setString(1, setDate);
+            ResultSet results = selectExerciseByDate.executeQuery();
+
             List<bbExercise> exercises = new ArrayList<>();
 
             while (results.next()) {
@@ -1275,4 +1313,7 @@ public class bbDatabase {
             }
         }
     }
+
+    // ---- Previous set record related queries -----------------------------------------------------------
+
 }

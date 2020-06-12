@@ -118,6 +118,7 @@ public class sceneNavigation {
 
     // End-user UI -----------------------------------------------------------------------
 
+    // 1A: user selects an exercise...
     public void showMuscleExerciseList(){
         try {
             FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/exerciseChoice.fxml"));
@@ -132,12 +133,58 @@ public class sceneNavigation {
         }
     }
 
+    // 1B: user sets tension and rep count for given exercise
     public void showExerciseSetPage() {
         try {
             FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseSet.fxml"));
             Parent newSet = exerciseSetLoader.load();
             exerciseSetControl controller2 = exerciseSetLoader.getController();
             controller2.listRepetitionsRepString();
+
+            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setScene(new Scene(newSet));;
+        } catch (IOException e) {
+            System.out.println("Problem loading exercise set scene:\n" + e.getCause());
+        }
+    }
+
+    // 2A: user selects a previous date...
+    public void showPreviousDateSetPage(){
+        try {
+            FXMLLoader dateListLoader = new FXMLLoader(getClass().getResource("FXML/dateChoice.fxml"));
+            Parent newDateSet = dateListLoader.load();
+            dateChoiceControl controller3 = dateListLoader.getController();
+            controller3.listAllDates();
+
+            Main.mainWindow.setTitle("BodyBand - dates");
+            Main.mainWindow.setScene(new Scene(newDateSet));
+        } catch (IOException e) {
+            System.out.println("Problem loading Previous Dates scene:\n" + e.getCause());
+        }
+    }
+
+    // 2B: user then selects an exercise from the previous date
+    public void showPreviousExerciseSetPage() {
+        try {
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseHistoryPage.fxml"));
+            Parent newSet = exerciseSetLoader.load();
+            exerciseHistoryControl controller4 = exerciseSetLoader.getController();
+            controller4.listMuscleGroupAndExercises();
+
+            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setScene(new Scene(newSet));;
+        } catch (IOException e) {
+            System.out.println("Problem loading exercise set scene:\n" + e.getCause());
+        }
+    }
+
+    // 2C: user then views the band tensions and rep counts for the given exercise
+    public void showPreviousSetPage() {
+        try {
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/previousExerciseSet.fxml"));
+            Parent newSet = exerciseSetLoader.load();
+            previousExerciseSetControl controller5 = exerciseSetLoader.getController();
+            controller5.listPreviousRepetitionsRepString();
 
             Main.mainWindow.setTitle("BodyBand - set details");
             Main.mainWindow.setScene(new Scene(newSet));;
