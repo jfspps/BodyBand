@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewSetControl1A">
+<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewSetControl1A">
     <top>
         <Label text="Choose an exercise" BorderPane.alignment="CENTER">
             <font>
@@ -38,6 +37,8 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="buttonMainPage" mnemonicParsing="false" onAction="#onClickedMainPage" text="Main page" />
+            <Pane prefHeight="50.0" prefWidth="100.0" />
+            <Button mnemonicParsing="false" onAction="#onClickedEditExercises" text="Edit exercises" />
          </children>
       </HBox>
    </bottom>

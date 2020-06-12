@@ -118,6 +118,19 @@ public class sceneNavigation {
 
     // End-user UI -----------------------------------------------------------------------
 
+    //Directs the user to the BodyBnad options page
+    public void showOptionsPage(){
+        try {
+            FXMLLoader optionsLoader = new FXMLLoader(getClass().getResource("FXML/Options.fxml"));
+            Parent newSet = optionsLoader.load();
+
+            Main.mainWindow.setTitle("Options");
+            Main.mainWindow.setScene(new Scene(newSet));
+        } catch (IOException e) {
+            System.out.println("Problem loading options scene:\n" + e.getCause());
+        }
+    }
+
     // 1A: user selects an exercise for a new workout...
     public void showUserNewSet1A(){
         try {
@@ -126,10 +139,10 @@ public class sceneNavigation {
             userNewSetControl1A controller = exerciseListLoader.getController();
             controller.listMuscleGroupAndExercises();
 
-            Main.mainWindow.setTitle("BodyBand - Muscle groups");
+            Main.mainWindow.setTitle("Exercise list");
             Main.mainWindow.setScene(new Scene(newSet));
         } catch (IOException e) {
-            System.out.println("Problem loading Muscle Group scene:\n" + e.getCause());
+            System.out.println("Problem loading 1A scene:\n" + e.getCause());
         }
     }
 
@@ -141,12 +154,28 @@ public class sceneNavigation {
             userNewRepControl1B controller2 = exerciseSetLoader.getController();
             controller2.listRepetitionsRepString();
 
-            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setTitle("Exercise and workout records");
             Main.mainWindow.setScene(new Scene(newSet));;
         } catch (IOException e) {
-            System.out.println("Problem loading exercise set scene:\n" + e.getCause());
+            System.out.println("Problem loading 1B scene:\n" + e.getCause());
         }
     }
+
+    // shows the previous workout history for a given exercise
+    public void showExerciseHistory(){
+        try{
+            FXMLLoader exerciseHistoryLoader = new FXMLLoader(getClass().getResource("FXML/userExerciseHistory.fxml"));
+            Parent newHistorySet = exerciseHistoryLoader.load();
+            userExerciseHistory controller3 = exerciseHistoryLoader.getController();
+            controller3.listAllDates();
+
+            Main.mainWindow.setTitle("Exercise history");
+            Main.mainWindow.setScene(new Scene(newHistorySet));
+        } catch (IOException e) {
+            System.out.println("Problem loading exercise history scene:\n" + e.getCause());
+        }
+    }
+
 
     // 2A: user selects a previous date...
     public void showUserPrevDate2A(){
@@ -156,7 +185,7 @@ public class sceneNavigation {
             userPrevDateControl2A controller3 = dateListLoader.getController();
             controller3.listAllDates();
 
-            Main.mainWindow.setTitle("BodyBand - dates");
+            Main.mainWindow.setTitle("Workout dates");
             Main.mainWindow.setScene(new Scene(newDateSet));
         } catch (IOException e) {
             System.out.println("Problem loading Previous Dates scene:\n" + e.getCause());
@@ -171,7 +200,7 @@ public class sceneNavigation {
             userPrevExControl2B controller4 = exerciseSetLoader.getController();
             controller4.listMuscleGroupAndExercises();
 
-            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setTitle("Exercises found");
             Main.mainWindow.setScene(new Scene(newSet));;
         } catch (IOException e) {
             System.out.println("Problem loading exercise set scene:\n" + e.getCause());
@@ -186,7 +215,7 @@ public class sceneNavigation {
             userPrevRepControl2C controller5 = exerciseSetLoader.getController();
             controller5.listPreviousRepetitionsRepString();
 
-            Main.mainWindow.setTitle("BodyBand - set details");
+            Main.mainWindow.setTitle("Exercise and workout records");
             Main.mainWindow.setScene(new Scene(newSet));;
         } catch (IOException e) {
             System.out.println("Problem loading exercise set scene:\n" + e.getCause());

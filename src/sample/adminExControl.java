@@ -37,12 +37,22 @@ public class adminExControl implements Initializable {
     private Button buttonUpdate;
     @FXML
     private Button buttonDelete;
+    @FXML
+    private MenuItem menuRep, menuSet;
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private static int record;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (Main.getAdminMode()){
+            menuRep.setDisable(true);
+            menuSet.setDisable(true);
+        } else {
+            menuSet.setDisable(false);
+            menuRep.setDisable(false);
+        }
+
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstExercise();
         if (record == 0) {
@@ -86,8 +96,17 @@ public class adminExControl implements Initializable {
     // scene navigation --------------------------------------------------------------------------------
 
     @FXML
+    private void exerciseList(){
+        sceneNavigation.getInstance().showUserNewSet1A();
+    }
+    @FXML
     private void showMainPage() {
         sceneNavigation.getInstance().showMainPage();
+    }
+
+    @FXML
+    private void showOptionsPage(){
+        sceneNavigation.getInstance().showOptionsPage();
     }
 
     @FXML
@@ -126,7 +145,6 @@ public class adminExControl implements Initializable {
             descriptionText.setText("");
             videoURLText.setText("");
 
-            exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
             anchorPositionText.setDisable(true);
@@ -136,9 +154,10 @@ public class adminExControl implements Initializable {
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
+            buttonPrevious.setDefaultButton(true);
+            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
-                exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
                 anchorPositionText.setDisable(false);
@@ -189,6 +208,8 @@ public class adminExControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
+            buttonNext.setDefaultButton(true);
+            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getExerciseSetWithKey(record) == null) {
             System.out.println("No exercise with id: " + record);
@@ -199,7 +220,6 @@ public class adminExControl implements Initializable {
             descriptionText.setText("");
             videoURLText.setText("");
 
-            exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
             anchorPositionText.setDisable(true);
@@ -210,7 +230,6 @@ public class adminExControl implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
-                exerciseIDText.setDisable(false);
                 exerciseNameText.setDisable(false);
                 muscleGroupText.setDisable(false);
 
@@ -262,7 +281,6 @@ public class adminExControl implements Initializable {
                 descriptionText.setText("");
                 videoURLText.setText("");
 
-                exerciseIDText.setDisable(true);
                 exerciseNameText.setDisable(true);
                 muscleGroupText.setDisable(true);
                 anchorPositionText.setDisable(true);

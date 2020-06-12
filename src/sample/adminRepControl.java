@@ -18,13 +18,19 @@ public class adminRepControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (Main.getAdminMode()){
+            menuSet.setDisable(true);
+        } else {
+            menuSet.setDisable(false);
+        }
+        menuRep.setDisable(true);
+
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstRepetition();
         if (record == 0) {
             sceneNavigation.getInstance().showInfoAlert("Repetition", "Repetition DB empty", "Please add a new rep " +
                     "to proceed");
             //prevent user access to each field
-            repIDText.setDisable(true);
             tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
@@ -68,12 +74,19 @@ public class adminRepControl implements Initializable {
     private Button buttonUpdate;
     @FXML
     private Button buttonDelete;
+    @FXML
+    private MenuItem menuRep, menuSet;
 
     // scene navigation --------------------------------------------------------------------------------
 
     @FXML
     private void showMainPage() {
         sceneNavigation.getInstance().showMainPage();
+    }
+
+    @FXML
+    private void showOptionsPage(){
+        sceneNavigation.getInstance().showOptionsPage();
     }
 
     @FXML
@@ -107,16 +120,16 @@ public class adminRepControl implements Initializable {
             tensionText.setText("");
             repetitionsText.setText("");
 
-            repIDText.setDisable(true);
             tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
+            buttonPrevious.setDefaultButton(true);
+            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
-                repIDText.setDisable(false);
                 tensionText.setDisable(false);
                 repetitionsText.setDisable(false);
 
@@ -161,6 +174,8 @@ public class adminRepControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
+            buttonNext.setDefaultButton(true);
+            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getRepetitionSetWithKey(record) == null) {
             System.out.println("No rep with id: " + record);
@@ -168,7 +183,6 @@ public class adminRepControl implements Initializable {
             tensionText.setText("");
             repetitionsText.setText("");
 
-            repIDText.setDisable(true);
             tensionText.setDisable(true);
             repetitionsText.setDisable(true);
 
@@ -176,7 +190,6 @@ public class adminRepControl implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
-                repIDText.setDisable(false);
                 tensionText.setDisable(false);
                 repetitionsText.setDisable(false);
 
@@ -214,7 +227,6 @@ public class adminRepControl implements Initializable {
                 tensionText.setText("");
                 repetitionsText.setText("");
 
-                repIDText.setDisable(true);
                 tensionText.setDisable(true);
                 repetitionsText.setDisable(true);
 

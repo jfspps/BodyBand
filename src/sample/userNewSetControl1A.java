@@ -38,6 +38,11 @@ public class userNewSetControl1A {
     }
 
     @FXML
+    private void onClickedEditExercises(){
+        sceneNavigation.getInstance().showAdminExPage();
+    }
+
+    @FXML
     private void clickRow() {
         // check the table's selected item and get selected item
         if (exerciseTable.getSelectionModel().getSelectedItem() != null) {
@@ -101,6 +106,10 @@ public class userNewSetControl1A {
 
     public static void setRepString(String newRepString){
         repString = newRepString;
+    }
+
+    public static void setCurrentSetID(int newSetID){
+        currentSetID = newSetID;
     }
 }
 

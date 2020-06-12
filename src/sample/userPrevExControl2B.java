@@ -30,6 +30,11 @@ public class userPrevExControl2B {
     private TableColumn muscleColumn, exerciseColumn;
 
     @FXML
+    private void onClickedGoBack(){
+        sceneNavigation.getInstance().showUserPrevDate2A();
+    }
+
+    @FXML
     private void onClickedMainPage() {
         sceneNavigation.getInstance().showMainPage();
     }

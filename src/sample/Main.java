@@ -13,6 +13,17 @@ public class Main extends Application {
     //give access to the mainPage Stage
     static Stage mainWindow;
 
+    private static boolean adminMode = true;
+
+    public static void setAdminMode(boolean onOff) {
+        adminMode = onOff;
+    }
+
+    public static boolean getAdminMode() {
+        return adminMode;
+    }
+
+
     // Initialise everything when the JavaFX dialog box loads (init() runs before start(); init() and stop() are
     // abstract by default)
     @Override
@@ -33,7 +44,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //assign whatever primaryStage has to mainWindow
         mainWindow = primaryStage;
-        Parent mainPage = FXMLLoader.load(getClass().getResource("FXML/MainPage.fxml"));
+        FXMLLoader mainPageLoader = new FXMLLoader(getClass().getResource("FXML/MainPage.fxml"));
+        Parent mainPage = mainPageLoader.load();
+
         mainWindow.setTitle("BodyBand");
         mainWindow.setScene(new Scene(mainPage, 335, 600));
         mainWindow.show();
