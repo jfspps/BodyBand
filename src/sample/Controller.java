@@ -14,17 +14,17 @@ public class Controller {
 
     @FXML
     public void showExercises() {
-        sceneNavigation.getInstance().showExercisePage();
+        sceneNavigation.getInstance().showAdminExPage();
     }
 
     @FXML
     public void showSets() {
-        sceneNavigation.getInstance().showSetPage();
+        sceneNavigation.getInstance().showAdminSetPage();
     }
 
     @FXML
     public void showReps() {
-        sceneNavigation.getInstance().showRepPage();
+        sceneNavigation.getInstance().showAdminRepPage();
     }
 
 
@@ -38,14 +38,14 @@ public class Controller {
         // match then the user is automatically directed to the same set (this will allow the user to change exercise
         // or other records and then resume their workout)
 
-        sceneNavigation.getInstance().showMuscleExerciseList();
+        sceneNavigation.getInstance().showUserNewSet1A();
     }
 
     // this starts a sequence of scenes which enables the user to review previous workouts (set targets for
     // themselves etc.)
     @FXML
     public void showPreviousSet(){
-        sceneNavigation.getInstance().showPreviousDateSetPage();
+        sceneNavigation.getInstance().showUserPrevDate2A();
     }
 
 }
