@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevExControl2B">
+<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevExControl2B">
     <top>
         <Label text="Choose an exercise" BorderPane.alignment="CENTER">
             <font>
@@ -37,6 +36,8 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="335.0" BorderPane.alignment="CENTER">
             <children>
+            <Button mnemonicParsing="false" onAction="#onClickedGoBack" text="Go back" />
+            <Pane prefHeight="50.0" prefWidth="81.0" />
                 <Button fx:id="buttonMainPage" mnemonicParsing="false" onAction="#onClickedMainPage" text="Main page" />
             </children>
         </HBox>

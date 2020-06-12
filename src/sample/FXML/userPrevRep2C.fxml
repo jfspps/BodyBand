@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevRepControl2C">
+<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevRepControl2C">
     <top>
         <Label fx:id="exerciseSetHeadLabel" text="(Exercise label)" BorderPane.alignment="CENTER">
             <font>
@@ -43,14 +42,18 @@
                 </HBox>
                 <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Label prefWidth="120.0" text="Description">
+                        <VBox alignment="CENTER">
                             <HBox.margin>
                                 <Insets right="5.0" top="10.0" />
                             </HBox.margin>
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
+                            <children>
+                                <Label prefHeight="18.0" prefWidth="120.0" text="Description">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
                         <TextArea fx:id="descriptionArea" disable="true" editable="false" prefWidth="180.0" wrapText="true">
                             <HBox.margin>
                                 <Insets left="5.0" top="10.0" />
@@ -58,25 +61,10 @@
                         </TextArea>
                     </children>
                 </HBox>
-                <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="200.0">
-                    <children>
-                        <Label prefWidth="120.0" text="Video URL">
-                            <HBox.margin>
-                                <Insets right="5.0" top="10.0" />
-                            </HBox.margin>
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="videoURLField" disable="true" editable="false" prefWidth="180.0">
-                            <padding>
-                                <Insets left="5.0" />
-                            </padding>
-                            <HBox.margin>
-                                <Insets left="5.0" top="10.0" />
-                            </HBox.margin>
-                        </TextField>
-                    </children>
+                <HBox alignment="TOP_CENTER" prefHeight="26.0" prefWidth="335.0">
+               <children>
+                  <Hyperlink fx:id="videoURL" onAction="#clickURL" text="Video demo" />
+               </children>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="8.0" prefWidth="335.0">
                     <children>
@@ -136,7 +124,7 @@
     <bottom>
         <HBox alignment="CENTER" prefHeight="49.0" prefWidth="335.0" BorderPane.alignment="CENTER">
             <children>
-                <Button alignment="CENTER" minHeight="30.0" mnemonicParsing="false" onAction="#onClickChooseExercise" text="Choose exercise">
+                <Button alignment="CENTER" minHeight="30.0" mnemonicParsing="false" onAction="#onClickGoBack" text="Go back">
                     <HBox.margin>
                         <Insets right="5.0" />
                     </HBox.margin></Button>

@@ -7,19 +7,19 @@
 <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminSetControl">
    <top>
       <MenuBar>
-         <Menu text="Options">
+         <Menu text="Navigation">
             <items>
                <MenuItem onAction="#addSet" text="Add new set" />
-               <MenuItem onAction="#showMainPage" text="Main page" />
                <SeparatorMenuItem mnemonicParsing="false" />
+               <MenuItem onAction="#showMainPage" text="Main page" />
+               <MenuItem onAction="#showOptionsPage" text="Options" />
                <MenuItem onAction="#exitBB" text="Exit" />
             </items></Menu>
          <Menu text="Database">
             <items>
                <MenuItem onAction="#exerciseScene" text="Exercise DB" />
-               <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem onAction="#repScene" text="Repetition DB" />
-               <MenuItem disable="true" text="Set DB" />
+               <MenuItem fx:id="menuRep" onAction="#repScene" text="Repetition DB" />
+               <MenuItem fx:id="menuSet" disable="true" text="Set DB" />
             </items></Menu>
       </MenuBar>
    </top>
@@ -29,7 +29,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label minWidth="125.0" text="Set ID" />
-                  <TextArea fx:id="setIDText" prefHeight="200.0" wrapText="true" />
+                  <TextArea fx:id="setIDText" disable="true" editable="false" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -66,21 +66,24 @@
       <Pane prefHeight="200.0" prefWidth="5.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <HBox prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="68.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <children>
-             <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#onPreviousClicked" text="Previous">
+            <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#onPreviousClicked" text="Previous">
                <HBox.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" right="5.0" />
                </HBox.margin>
-             </Button>
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="buttonUpdate" layoutX="26.0" mnemonicParsing="false" onAction="#onUpdateClicked" text="Update" />
-                  <Button fx:id="buttonDelete" layoutX="115.0" mnemonicParsing="false" onAction="#onDeleteClicked" text="Delete" />
-               </children></Pane>
-            <Button fx:id="buttonNext" mnemonicParsing="false" onAction="#onNextClicked" text="Next">
+            </Button>
+            <Button fx:id="buttonUpdate" mnemonicParsing="false" onAction="#onUpdateClicked" text="Update">
                <HBox.margin>
-                  <Insets right="5.0" />
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin></Button>
+            <Button fx:id="buttonDelete" mnemonicParsing="false" onAction="#onDeleteClicked" text="Delete">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin></Button>
+            <Button fx:id="buttonNext" defaultButton="true" mnemonicParsing="false" onAction="#onNextClicked" text="Next">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </Button>
          </children>

@@ -34,10 +34,8 @@ INSERT INTO "tblExercise" VALUES (7,'Standing Pushdown','Chest','Top','Works the
 INSERT INTO "tblExercise" VALUES (8,'Squat','Legs','Floor','Compound exercise for the thighs','');
 INSERT INTO "tblExercise" VALUES (9,'Calf Raise','Legs','Base','','');
 INSERT INTO "tblExercise" VALUES (10,'Seated Bicep Curl','Arms','Base','Works the biceps','');
-INSERT INTO "tblExercise" VALUES (12,'Resisted Curl','Abs','Base','Challenge the core!','');
+INSERT INTO "tblExercise" VALUES (11,'Resisted Curl','Abs','Base','Challenge the core!','');
 INSERT INTO "tblSet" VALUES (1,10,'Now the hard work begins!','09 Mar 2020','R_1_2_');
 INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10 Mar 2020','R_3_');
 INSERT INTO "tblSet" VALUES (3,8,'As expected','11 Mar 2020','R_3_4_');
 COMMIT;
-
--- select SetDate, ExerciseName FROM tblSet JOIN tblExercise WHERE Exercise_id = idExercise;

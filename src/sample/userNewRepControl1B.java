@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import sample.model.bbDatabase;
 import sample.model.bbRepetition;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,10 +25,6 @@ public class userNewRepControl1B implements Initializable {
     //for exercises:
     private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
     private int currentExerciseID;
-
-    //for sets: comments might prove redundant since Description can provide custom user remarks
-    private final String comments = "";
-    private int currentSetID;
 
     //for repetitions:
     private String repStringExSet, currentDateTime;
@@ -44,13 +41,16 @@ public class userNewRepControl1B implements Initializable {
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorPositionField, videoURLField, repsTextField, tensionTextField;
+    private TextField anchorPositionField, repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
 
     @FXML
     private Button addButton, updateButton, deleteButton;
+
+    @FXML
+    private Hyperlink videoURL;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,9 +76,17 @@ public class userNewRepControl1B implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        if (exerciseVideoURL.isBlank()) {
+                            videoURL.setText("No video URL supplied");
+                            videoURL.setDisable(true);
+                        } else {
+                            videoURL = new Hyperlink(exerciseVideoURL);
+                            videoURL.setText("Click for a video demo");
+                            videoURL.setDisable(false);
+                        }
+
                         exerciseSetHeadLabel.setText(exerciseName);
                         anchorPositionField.setText(exerciseAnchorPosition);
-                        videoURLField.setText(exerciseVideoURL);
                         descriptionArea.setText(exerciseDescription);
                         addButton.setDisable(true);
                         updateButton.setDisable(true);
@@ -100,6 +108,20 @@ public class userNewRepControl1B implements Initializable {
     @FXML
     private void onClickChooseExercise() {
         sceneNavigation.getInstance().showUserNewSet1A();
+    }
+
+    @FXML
+    private void onClickedHistory() {
+        sceneNavigation.getInstance().showExerciseHistory();
+    }
+
+    @FXML
+    private void clickURL() {
+        try {
+            new ProcessBuilder("x-www-browser", exerciseVideoURL).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -125,7 +147,7 @@ public class userNewRepControl1B implements Initializable {
 
     @FXML
     private void onClickedAdd() {
-        // button is only enabled when both fields have a value
+        // button is only enabled when both TextFields have a value
 
         // 1. exercise data initialised in Runnable (later will enable TextFields to be editable)
         // 2. verify that a repetition exists; if not, insert new repetition
@@ -201,9 +223,11 @@ public class userNewRepControl1B implements Initializable {
         }
     }
 
-    private void updateSetScene(String updatedRepString){
+    private void updateSetScene(String updatedRepString) {
         //update this set with the new repString
-        currentSetID = userNewSetControl1A.getCurrentSetID();
+        int currentSetID = userNewSetControl1A.getCurrentSetID();
+        //for sets: comments might prove redundant since Description can provide custom user remarks
+        String comments = "";
         if (currentSetID > 0) {
             currentSetID = bbDatabase.getInstance().updateSet(
                     currentSetID,
@@ -221,8 +245,9 @@ public class userNewRepControl1B implements Initializable {
             System.out.println("Inserted new set with id " + currentSetID);
         }
 
-        //update both scene's repString's
+        //update both scene's repString's and setID
         userNewSetControl1A.setRepString(updatedRepString);
+        userNewSetControl1A.setCurrentSetID(currentSetID);
         repStringExSet = userNewSetControl1A.getRepString();
 
         //refresh the table
@@ -259,7 +284,7 @@ public class userNewRepControl1B implements Initializable {
     public void listRepetitionsRepString() {
         Task<ObservableList<bbRepetition>> task = new GetAllRepetitionsForSet();
 
-        //sync the FXML TableView with the data from GetAllExercisesTask
+        //sync the FXML TableView with the data from GetAllRepetitionsForSet
         repTable.itemsProperty().bind(task.valueProperty());
 
         //run a separate thread to populate the list after the UI is prepared

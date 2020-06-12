@@ -36,7 +36,7 @@ public class bbDatabase {
     //SELECT * queries
     public static final String querySelectAllExercises = "SELECT * FROM tblExercise";
     public static final String querySelectAllRepetitions = "SELECT * FROM tblRepetition";
-    public static final String querySelectAllSets = "SELECT * FROM tblSet";
+    public static final String querySelectAllSetsGroupDates = "SELECT * FROM tblSet GROUP BY SetDate";
 
     //SELECT the first entry
     public static final String querySelectFirstExercise = "SELECT * FROM tblExercise LIMIT 1";
@@ -92,8 +92,13 @@ public class bbDatabase {
     public static final String querySelectSetByDateAndEx = "SELECT * FROM tblSet WHERE Exercise_id = ? AND " +
             "SetDate = ?";
 
+    // lists all exercise data for a given date
     public static final String queryExercisesByDate = "SELECT idExercise, ExerciseName, MuscleGroup, AnchorPosition, " +
             "Description, VideoURL FROM tblSet JOIN tblExercise WHERE Exercise_id = idExercise AND SetDate = ?";
+
+    // lists all setDates for a given exercise
+    public static final String querySetDateRepSeqByExercise = "SELECT SetDate, RepIdSeq from tblSet WHERE Exercise_id" +
+            " = ?";
 
     //Precompiled SQL statements with PreparedStatement -------------------------------------
     private Connection conn;
@@ -119,6 +124,7 @@ public class bbDatabase {
     private PreparedStatement deleteSet;
     private PreparedStatement selectSetDateAndEx;
     private PreparedStatement selectExerciseByDate;
+    private PreparedStatement selectSetDateRepSeqByExercise;
 
     //bbDatabase admin routines -------------------------------------------------------------
 
@@ -150,6 +156,7 @@ public class bbDatabase {
             deleteSet = conn.prepareStatement(queryDeleteSet);
             selectSetDateAndEx = conn.prepareStatement(querySelectSetByDateAndEx);
             selectExerciseByDate = conn.prepareStatement(queryExercisesByDate);
+            selectSetDateRepSeqByExercise = conn.prepareStatement(querySetDateRepSeqByExercise);
             return true;
         } catch (SQLException e) {
             System.out.println("Database connection error:\n" + e.getMessage());
@@ -225,6 +232,9 @@ public class bbDatabase {
             }
             if (selectExerciseByDate != null) {
                 selectExerciseByDate.close();
+            }
+            if (selectSetDateRepSeqByExercise != null) {
+                selectSetDateRepSeqByExercise.close();
             }
             //lastly, close conn
             if (conn != null) {
@@ -763,11 +773,12 @@ public class bbDatabase {
     //tblSet =========================================================================================
 
     /**
-     * Returns a List<> of all sets and their fields on file. Returns null if none found.
+     * Returns a List<> of all sets by a given date and the first row of each group (by SetDate) on file.
+     * Returns null if none found.
      */
     public List<bbSet> listAllSets() {
         try (Statement statement = conn.createStatement();
-             ResultSet results = statement.executeQuery(querySelectAllSets)) {
+             ResultSet results = statement.executeQuery(querySelectAllSetsGroupDates)) {
             List<bbSet> sets = new ArrayList<>();
 
             while (results.next()) {
@@ -921,6 +932,27 @@ public class bbDatabase {
             }
         } catch (SQLException err) {
             System.out.println("SQLException of setOnFileDateEx\n" + err.getMessage());
+            return null;
+        }
+    }
+
+    /**Returns a List<> of setDate and repetition sequence RepSeq from tblSet, with the given exerciseID. Returns
+     * null if an exception was caught.*/
+    public List<bbSet> getSetDateRepSeqByExercise(int exerciseID){
+        List<bbSet> tempSet = new ArrayList<>();
+        try{
+            selectSetDateRepSeqByExercise.setInt(1, exerciseID);
+            ResultSet results = selectSetDateRepSeqByExercise.executeQuery();
+
+            while (results.next()){
+                bbSet bb_Set = new bbSet();
+                bb_Set.setSetDate(results.getString(1));
+                bb_Set.setRepIdSequence(results.getString(2));
+                tempSet.add(bb_Set);
+            }
+            return tempSet;
+        } catch (SQLException err) {
+            System.out.println("Problem extracting tblSet data by exerciseID\n" + err.getMessage());
             return null;
         }
     }
@@ -1202,37 +1234,6 @@ public class bbDatabase {
             }
         }
     }
-
-//    /**
-//     * Updates the selected set's date and repetition sequence, repSeq. Returns the setID if update successful, 0 if no
-//     * changes needed or no record found, and -1 if an exception was caught
-//     */
-//    public int updateSetDateRep(Integer setID, String setDate, String repSeq) {
-//        // check the index is already on the DB, return 0 if not
-//
-//        if (getSetSetWithKey(setID) == null) {
-//            System.out.println("Record with ID " + setID + " not found. No changes made.");
-//            return 0;
-//        } else {
-//            try {
-//                updateSet_DateRep.setString(1, setDate);
-//                updateSet_DateRep.setString(2, repSeq);
-//                updateSet_DateRep.setInt(3, setID);
-//
-//                //should only return 1 row update (index = 1)
-//                int index = updateSet_DateRep.executeUpdate();
-//
-//                if (index != 1) {
-//                    System.out.println("No records updated");
-//                    return 0;
-//                }
-//                return setID;
-//            } catch (SQLException error) {
-//                System.out.println("Problem updating exercise\n" + error.getMessage());
-//                return -1;
-//            }
-//        }
-//    }
 
     // DELETE queries...a separate Dialog alert will be needed to confirm DELETE...deleted record ID is returned
 

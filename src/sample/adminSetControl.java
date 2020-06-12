@@ -18,6 +18,13 @@ public class adminSetControl implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (Main.getAdminMode()){
+            menuRep.setDisable(true);
+        } else {
+            menuSet.setDisable(false);
+        }
+        menuSet.setDisable(true);
+
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstSet();
         if (record == 0) {
@@ -76,12 +83,19 @@ public class adminSetControl implements Initializable {
     private Button buttonUpdate;
     @FXML
     private Button buttonDelete;
+    @FXML
+    private MenuItem menuRep, menuSet;
 
     // scene navigation --------------------------------------------------------------------------------
 
     @FXML
     private void showMainPage() {
         sceneNavigation.getInstance().showMainPage();
+    }
+
+    @FXML
+    private void showOptionsPage(){
+        sceneNavigation.getInstance().showOptionsPage();
     }
 
     @FXML
@@ -117,7 +131,6 @@ public class adminSetControl implements Initializable {
             commentsText.setText("");
             setDateText.setText("");
 
-            setIDText.setDisable(true);
             repIDText.setDisable(true);
             commentsText.setDisable(true);
             setDateText.setDisable(true);
@@ -125,9 +138,10 @@ public class adminSetControl implements Initializable {
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
+            buttonPrevious.setDefaultButton(true);
+            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
-                setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
                 setDateText.setDisable(false);
@@ -175,6 +189,8 @@ public class adminSetControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
+            buttonNext.setDefaultButton(true);
+            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getSetSetWithKey(record) == null) {
             System.out.println("No set with id: " + record);
@@ -184,7 +200,6 @@ public class adminSetControl implements Initializable {
             commentsText.setText("");
             setDateText.setText("");
 
-            setIDText.setDisable(true);
             repIDText.setDisable(true);
             commentsText.setDisable(true);
             setDateText.setDisable(true);
@@ -193,7 +208,6 @@ public class adminSetControl implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
-                setIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
                 setDateText.setDisable(false);
@@ -238,7 +252,6 @@ public class adminSetControl implements Initializable {
                 commentsText.setText("");
                 setDateText.setText("");
 
-                setIDText.setDisable(true);
                 repIDText.setDisable(true);
                 commentsText.setDisable(true);
                 setDateText.setDisable(true);

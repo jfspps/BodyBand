@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import sample.model.bbDatabase;
 import sample.model.bbRepetition;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,13 +44,16 @@ public class userPrevRepControl2C implements Initializable {
     private Label exerciseSetHeadLabel;
 
     @FXML
-    private TextField anchorPositionField, videoURLField, repsTextField, tensionTextField;
+    private TextField anchorPositionField, repsTextField, tensionTextField;
 
     @FXML
     private TextArea descriptionArea;
 
     @FXML
     private Button addButton, updateButton, deleteButton;
+
+    @FXML
+    private Hyperlink videoURL;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,9 +79,16 @@ public class userPrevRepControl2C implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
+                        if(exerciseVideoURL.isBlank()){
+                            videoURL.setText("No video URL supplied");
+                            videoURL.setDisable(true);
+                        } else {
+                            videoURL.setText("Click for a video demo");
+                            videoURL.setDisable(false);
+                        }
+
                         exerciseSetHeadLabel.setText(exerciseName);
                         anchorPositionField.setText(exerciseAnchorPosition);
-                        videoURLField.setText(exerciseVideoURL);
                         descriptionArea.setText(exerciseDescription);
                         addButton.setDisable(true);
                         updateButton.setDisable(true);
@@ -97,13 +108,22 @@ public class userPrevRepControl2C implements Initializable {
     // interface related methods -----------------------------------------------------------------------------
 
     @FXML
-    private void onClickChooseExercise() {
-        sceneNavigation.getInstance().showUserNewSet1A();
+    private void onClickGoBack() {
+        sceneNavigation.getInstance().showUserPrevEx2B();
     }
 
     @FXML
     private void toggleAddButton() {
         addButton.setDisable(tensionTextField.getText().isBlank() || repsTextField.getText().isBlank());
+    }
+
+    @FXML
+    private void clickURL() {
+        try {
+            new ProcessBuilder("x-www-browser", exerciseVideoURL).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
