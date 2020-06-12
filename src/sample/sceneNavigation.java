@@ -30,9 +30,9 @@ public class sceneNavigation {
         }
     }
 
-    public void showExercisePage() {
+    public void showAdminExPage() {
         try {
-            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/ExercisePage.fxml"));
+            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/adminExPage.fxml"));
             Main.mainWindow.setTitle("BodyBand exercises");
             Main.mainWindow.setScene(new Scene(exercisePage));
         } catch (
@@ -41,9 +41,9 @@ public class sceneNavigation {
         }
     }
 
-    public void showSetPage() {
+    public void showAdminSetPage() {
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/SetPage.fxml"));
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/adminSetPage.fxml"));
             Main.mainWindow.setTitle("BodyBand sets");
             Main.mainWindow.setScene(new Scene(setPage));
         } catch (
@@ -52,9 +52,9 @@ public class sceneNavigation {
         }
     }
 
-    public void showRepPage() {
+    public void showAdminRepPage() {
         try {
-            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/RepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/adminRepPage.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
             Main.mainWindow.setScene(new Scene(repPage));
         } catch (
@@ -69,9 +69,9 @@ public class sceneNavigation {
 
     // pages to add new records ----------------------------------------------------------------------------
 
-    public void addExercise() {
+    public void showAdminNewExPage() {
         try {
-            Parent addExercise = FXMLLoader.load(getClass().getResource("FXML/exerciseDialog.fxml"));
+            Parent addExercise = FXMLLoader.load(getClass().getResource("FXML/adminNewEx.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new exercise");
             Main.mainWindow.setScene(new Scene(addExercise));
         } catch (IOException e) {
@@ -79,9 +79,9 @@ public class sceneNavigation {
         }
     }
 
-    public void addRep() {
+    public void showAdminNewRepPage() {
         try {
-            Parent addRep = FXMLLoader.load(getClass().getResource("FXML/repDialog.fxml"));
+            Parent addRep = FXMLLoader.load(getClass().getResource("FXML/adminNewRep.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new rep");
             Main.mainWindow.setScene(new Scene(addRep));
         } catch (IOException e) {
@@ -89,9 +89,9 @@ public class sceneNavigation {
         }
     }
 
-    public void addSet() {
+    public void showAdminNewSetPage() {
         try {
-            Parent addSet = FXMLLoader.load(getClass().getResource("FXML/setDialog.fxml"));
+            Parent addSet = FXMLLoader.load(getClass().getResource("FXML/adminNewSet.fxml"));
             Main.mainWindow.setTitle("BodyBand - add new set");
             Main.mainWindow.setScene(new Scene(addSet));
         } catch (IOException e) {
@@ -118,12 +118,12 @@ public class sceneNavigation {
 
     // End-user UI -----------------------------------------------------------------------
 
-    // 1A: user selects an exercise...
-    public void showMuscleExerciseList(){
+    // 1A: user selects an exercise for a new workout...
+    public void showUserNewSet1A(){
         try {
-            FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/exerciseChoice.fxml"));
+            FXMLLoader exerciseListLoader = new FXMLLoader(getClass().getResource("FXML/userNewSet1A.fxml"));
             Parent newSet = exerciseListLoader.load();
-            exerciseChoiceControl controller = exerciseListLoader.getController();
+            userNewSetControl1A controller = exerciseListLoader.getController();
             controller.listMuscleGroupAndExercises();
 
             Main.mainWindow.setTitle("BodyBand - Muscle groups");
@@ -134,11 +134,11 @@ public class sceneNavigation {
     }
 
     // 1B: user sets tension and rep count for given exercise
-    public void showExerciseSetPage() {
+    public void showUserNewRep1B() {
         try {
-            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseSet.fxml"));
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/userNewRep1B.fxml"));
             Parent newSet = exerciseSetLoader.load();
-            exerciseSetControl controller2 = exerciseSetLoader.getController();
+            userNewRepControl1B controller2 = exerciseSetLoader.getController();
             controller2.listRepetitionsRepString();
 
             Main.mainWindow.setTitle("BodyBand - set details");
@@ -149,11 +149,11 @@ public class sceneNavigation {
     }
 
     // 2A: user selects a previous date...
-    public void showPreviousDateSetPage(){
+    public void showUserPrevDate2A(){
         try {
-            FXMLLoader dateListLoader = new FXMLLoader(getClass().getResource("FXML/dateChoice.fxml"));
+            FXMLLoader dateListLoader = new FXMLLoader(getClass().getResource("FXML/userPrevDate2A.fxml"));
             Parent newDateSet = dateListLoader.load();
-            dateChoiceControl controller3 = dateListLoader.getController();
+            userPrevDateControl2A controller3 = dateListLoader.getController();
             controller3.listAllDates();
 
             Main.mainWindow.setTitle("BodyBand - dates");
@@ -163,12 +163,12 @@ public class sceneNavigation {
         }
     }
 
-    // 2B: user then selects an exercise from the previous date
-    public void showPreviousExerciseSetPage() {
+    // 2B: user then selects an exercise from the previous date...
+    public void showUserPrevEx2B() {
         try {
-            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/exerciseHistoryPage.fxml"));
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/userPrevEx2B.fxml"));
             Parent newSet = exerciseSetLoader.load();
-            exerciseHistoryControl controller4 = exerciseSetLoader.getController();
+            userPrevExControl2B controller4 = exerciseSetLoader.getController();
             controller4.listMuscleGroupAndExercises();
 
             Main.mainWindow.setTitle("BodyBand - set details");
@@ -178,12 +178,12 @@ public class sceneNavigation {
         }
     }
 
-    // 2C: user then views the band tensions and rep counts for the given exercise
-    public void showPreviousSetPage() {
+    // 2C: user then views the band tensions and rep counts for the given exercise at the given date
+    public void showUserPrevRep2C() {
         try {
-            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/previousExerciseSet.fxml"));
+            FXMLLoader exerciseSetLoader = new FXMLLoader(getClass().getResource("FXML/userPrevRep2C.fxml"));
             Parent newSet = exerciseSetLoader.load();
-            previousExerciseSetControl controller5 = exerciseSetLoader.getController();
+            userPrevRepControl2C controller5 = exerciseSetLoader.getController();
             controller5.listPreviousRepetitionsRepString();
 
             Main.mainWindow.setTitle("BodyBand - set details");

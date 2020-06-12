@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewSetControl1A">
+    <top>
+        <Label text="Choose an exercise" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </BorderPane.margin>
+        </Label>
+    </top>
+   <center>
+      <TableView fx:id="exerciseTable" onMouseClicked="#clickRow" prefHeight="200.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="muscleColumn" prefWidth="115.0" text="Muscle group">
+            <cellValueFactory>
+                <PropertyValueFactory property="muscleGroup" />
+            </cellValueFactory>
+          </TableColumn>
+            <TableColumn fx:id="exerciseColumn" prefWidth="215.0" text="Exercise">
+                <cellValueFactory>
+                    <PropertyValueFactory property="exerciseName" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="335.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="buttonMainPage" mnemonicParsing="false" onAction="#onClickedMainPage" text="Main page" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminNewExControl">
+
+    <top>
+        <Label text="Enter new exercise details here (required*):" BorderPane.alignment="CENTER" />
+    </top>
+    <left>
+        <Pane prefHeight="10.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <Pane prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Pane prefHeight="10.0" prefWidth="200.0" />
+                <Label text="Exercise name*" />
+                <TextField fx:id="exerciseName" minHeight="50.0" onKeyReleased="#nameFieldCheck" />
+                <Label text="Muscle group" />
+                <TextField fx:id="muscleGroup" minHeight="50.0" />
+                <Label text="Anchor position" />
+                <TextField fx:id="anchorPosition" minHeight="50.0" />
+                <Label text="Description" />
+                <TextField fx:id="description" minHeight="50.0" />
+                <Label text="Video URL" />
+                <TextField fx:id="videoURL" minHeight="50.0" />
+                <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></TextArea>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveData" text="Save">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#showExercises" text="Close">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
