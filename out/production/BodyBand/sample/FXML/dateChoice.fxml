@@ -7,9 +7,9 @@
 <?import javafx.scene.text.*?>
 
 <BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.exerciseChoiceControl">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.dateChoiceControl">
     <top>
-        <Label text="Choose an exercise" BorderPane.alignment="CENTER">
+        <Label text="Choose a date" BorderPane.alignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
@@ -19,18 +19,13 @@
         </Label>
     </top>
    <center>
-      <TableView fx:id="exerciseTable" onMouseClicked="#clickRow" prefHeight="200.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="dateTable" onMouseClicked="#clickRow" prefHeight="200.0" prefWidth="355.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="muscleColumn" prefWidth="115.0" text="Muscle group">
+          <TableColumn fx:id="dateColumn" prefWidth="355.0" resizable="false" style="-fx-alignment: CENTER;">
             <cellValueFactory>
-                <PropertyValueFactory property="muscleGroup" />
+                <PropertyValueFactory property="SetDate" />
             </cellValueFactory>
           </TableColumn>
-            <TableColumn fx:id="exerciseColumn" prefWidth="215.0" text="Exercise">
-                <cellValueFactory>
-                    <PropertyValueFactory property="exerciseName" />
-                </cellValueFactory>
-            </TableColumn>
         </columns>
       </TableView>
    </center>

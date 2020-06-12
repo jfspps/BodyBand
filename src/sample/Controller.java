@@ -45,7 +45,7 @@ public class Controller {
     // themselves etc.)
     @FXML
     public void showPreviousSet(){
-
+        sceneNavigation.getInstance().showPreviousDateSetPage();
     }
 
 }
