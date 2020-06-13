@@ -25,10 +25,6 @@ public class userPrevRepControl2C implements Initializable {
     private String exerciseName, exerciseAnchorPosition, exerciseDescription, exerciseVideoURL;
     private int currentExerciseID;
 
-    //for sets: comments might prove redundant since Description can provide custom user remarks
-    private final String comments = "";
-    private int currentSetID;
-
     //for repetitions:
     private String repStringExSet, currentDateTime;
     private float TextFieldTension;
@@ -79,7 +75,7 @@ public class userPrevRepControl2C implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if(exerciseVideoURL.isBlank()){
+                        if (exerciseVideoURL.isEmpty() || exerciseVideoURL.isBlank()) {
                             videoURL.setText("No video URL supplied");
                             videoURL.setDisable(true);
                         } else {
@@ -98,6 +94,7 @@ public class userPrevRepControl2C implements Initializable {
                         repStringExSet = userPrevExControl2B.getRepString();
                         setFloatField(tensionTextField);
                         setIntField(repsTextField);
+                        tensionTextField.requestFocus();
                     }
                 });
             }
@@ -222,7 +219,9 @@ public class userPrevRepControl2C implements Initializable {
 
     private void updateSetScene(String updatedRepString){
         //update this set with the new repString
-        currentSetID = userPrevExControl2B.getCurrentSetID();
+        int currentSetID = userPrevExControl2B.getCurrentSetID();
+        //for sets: comments might prove redundant since Description can provide custom user remarks
+        String comments = "";
         if (currentSetID > 0) {
             currentSetID = bbDatabase.getInstance().updateSet(
                     currentSetID,

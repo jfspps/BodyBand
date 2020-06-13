@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Options">
+<BorderPane prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Options">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -15,7 +15,7 @@
             </Label>
             <HBox alignment="CENTER" prefHeight="151.0" prefWidth="285.0">
                <children>
-                  <CheckBox fx:id="adminCheckBox" mnemonicParsing="false" onAction="#onCheckBox" prefHeight="97.0" prefWidth="236.0" text="Tick this box to enable admin mode. This option grants the user access to the database entries and all options below." wrapText="true">
+                  <CheckBox fx:id="adminCheckBox" mnemonicParsing="false" onAction="#onCheckBox" prefHeight="97.0" prefWidth="236.0" text="Tick this box to ENABLE admin mode. This option allows users to access all database record editing pages." wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -24,7 +24,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                     <Button mnemonicParsing="false" onAction="#showExercises" prefHeight="30.0" prefWidth="230.0" text="Exercise page" textAlignment="CENTER">
+                     <Button mnemonicParsing="false" onAction="#showExercises" prefHeight="30.0" prefWidth="230.0" text="Edit exercise records" textAlignment="CENTER">
                          <font>
                              <Font size="18.0" />
                          </font>
@@ -33,7 +33,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                     <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps" prefHeight="30.0" prefWidth="230.0" text="Repetition page" textAlignment="CENTER">
+                     <Button fx:id="buttonShowReps" mnemonicParsing="false" onAction="#showReps" prefHeight="30.0" prefWidth="230.0" text="Edit repetition records" textAlignment="CENTER">
                          <font>
                              <Font size="18.0" />
                          </font>
@@ -42,7 +42,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                     <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets" prefHeight="30.0" prefWidth="230.0" text="Set page" textAlignment="CENTER">
+                     <Button fx:id="buttonShowSets" mnemonicParsing="false" onAction="#showSets" prefHeight="30.0" prefWidth="230.0" text="Edit set records" textAlignment="CENTER">
                          <font>
                              <Font size="18.0" />
                          </font>
@@ -63,7 +63,7 @@
       </VBox>
    </center>
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #99c2ff;" BorderPane.alignment="CENTER">
          <children>
             <Label text="BodyBand Options">
                <font>

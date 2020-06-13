@@ -76,11 +76,10 @@ public class userNewRepControl1B implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (exerciseVideoURL.isBlank()) {
+                        if (exerciseVideoURL.isEmpty() || exerciseVideoURL.isBlank()) {
                             videoURL.setText("No video URL supplied");
                             videoURL.setDisable(true);
                         } else {
-                            videoURL = new Hyperlink(exerciseVideoURL);
                             videoURL.setText("Click for a video demo");
                             videoURL.setDisable(false);
                         }
@@ -96,6 +95,7 @@ public class userNewRepControl1B implements Initializable {
                         repStringExSet = userNewSetControl1A.getRepString();
                         setFloatField(tensionTextField);
                         setIntField(repsTextField);
+                        tensionTextField.requestFocus();
                     }
                 });
             }

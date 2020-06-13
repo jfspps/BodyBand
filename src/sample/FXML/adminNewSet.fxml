@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminNewSetControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminNewSetControl">
 
     <top>
         <Label text="Enter new sets here (required*):" BorderPane.alignment="CENTER" />
@@ -28,7 +28,7 @@
                 <Label text="Set date (applied automatically)" />
                 <TextField fx:id="setDate" minHeight="60.0" onKeyReleased="#requiredFieldsCheck" />
 
-                <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
+                <TextArea fx:id="alertLabel" editable="false" prefHeight="100.0" wrapText="true">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin></TextArea>

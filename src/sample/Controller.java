@@ -2,6 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 
 public class Controller {
 
@@ -9,6 +10,9 @@ public class Controller {
     private Button buttonShowExercises;
     @FXML
     private Button buttonShowBandStats;
+
+    @FXML
+    private BorderPane borderPane;
 
     @FXML
     public void viewExercises(){

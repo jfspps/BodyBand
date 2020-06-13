@@ -13,7 +13,7 @@ public class Main extends Application {
     //give access to the mainPage Stage
     static Stage mainWindow;
 
-    private static boolean adminMode = true;
+    private static boolean adminMode = false;
 
     public static void setAdminMode(boolean onOff) {
         adminMode = onOff;

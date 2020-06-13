@@ -19,11 +19,12 @@ public class adminRepControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.getAdminMode()){
-            menuSet.setDisable(true);
-        } else {
             menuSet.setDisable(false);
+        } else {
+            menuSet.setDisable(true);
         }
         menuRep.setDisable(true);
+        repIDText.setDisable(true);
 
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstRepetition();
@@ -126,8 +127,6 @@ public class adminRepControl implements Initializable {
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
-            buttonPrevious.setDefaultButton(true);
-            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet repSet = bbDatabase.getInstance().getRepetitionSetWithKey(record)) {
                 tensionText.setDisable(false);
@@ -174,8 +173,6 @@ public class adminRepControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
-            buttonNext.setDefaultButton(true);
-            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getRepetitionSetWithKey(record) == null) {
             System.out.println("No rep with id: " + record);
