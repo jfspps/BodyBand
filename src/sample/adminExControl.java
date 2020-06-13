@@ -38,7 +38,7 @@ public class adminExControl implements Initializable {
     @FXML
     private Button buttonDelete;
     @FXML
-    private MenuItem menuRep, menuSet;
+    private MenuItem menuRep, menuSet, menuExercise;
 
     //record is the index of each record in bbExercise, the PK of which is one-based
     private static int record;
@@ -46,12 +46,14 @@ public class adminExControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.getAdminMode()){
-            menuRep.setDisable(true);
-            menuSet.setDisable(true);
-        } else {
-            menuSet.setDisable(false);
             menuRep.setDisable(false);
+            menuSet.setDisable(false);
+        } else {
+            menuSet.setDisable(true);
+            menuRep.setDisable(true);
         }
+        exerciseIDText.setDisable(true);
+        menuExercise.setDisable(true);
 
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstExercise();
@@ -59,7 +61,6 @@ public class adminExControl implements Initializable {
             sceneNavigation.getInstance().showInfoAlert("Exercise", "Exercise DB empty", "Please add a new exercise " +
                     "to proceed");
             //prevent user access to each field
-            exerciseIDText.setDisable(true);
             exerciseNameText.setDisable(true);
             muscleGroupText.setDisable(true);
             anchorPositionText.setDisable(true);
@@ -154,8 +155,6 @@ public class adminExControl implements Initializable {
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
-            buttonPrevious.setDefaultButton(true);
-            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet exerciseSet = bbDatabase.getInstance().getExerciseSetWithKey(record)) {
                 exerciseNameText.setDisable(false);
@@ -208,8 +207,6 @@ public class adminExControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
-            buttonNext.setDefaultButton(true);
-            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getExerciseSetWithKey(record) == null) {
             System.out.println("No exercise with id: " + record);

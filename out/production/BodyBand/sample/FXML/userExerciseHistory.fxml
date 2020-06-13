@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userExerciseHistory">
+<BorderPane prefHeight="600.0" prefWidth="335.0" style="-fx-background-color: #99c2ff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userExerciseHistory">
    <top>
       <HBox alignment="CENTER" prefHeight="34.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Repetition history">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>
@@ -23,7 +23,7 @@
             <Label text="No records on file" />
          </placeholder>
         <columns>
-          <TableColumn prefWidth="130.0" text="Date">
+          <TableColumn prefWidth="130.0" style="-fx-alignment: CENTER;" text="Date">
              <cellValueFactory>
                 <PropertyValueFactory property="SetDate" />
              </cellValueFactory>
@@ -47,21 +47,21 @@
                   <Label text="Select a date" />
                </placeholder>
               <columns>
-                <TableColumn prefWidth="105.0" text="Tension">
+                <TableColumn prefWidth="105.0" style="-fx-alignment: CENTER;" text="Tension">
                    <cellValueFactory>
                       <PropertyValueFactory property="tension" />
                    </cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="100.0" text="Rep count">
+                <TableColumn prefWidth="100.0" style="-fx-alignment: CENTER;" text="Rep count">
                    <cellValueFactory>
                       <PropertyValueFactory property="reps" />
                    </cellValueFactory>
                 </TableColumn>
               </columns>
             </TableView>
-            <Label prefHeight="40.0" prefWidth="185.0" text="Select a tension to estimate your rep max" textAlignment="CENTER" wrapText="true">
+            <Label prefHeight="75.0" prefWidth="185.0" text="Select a tension to estimate your rep max" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
             <Pane prefHeight="25.0" prefWidth="185.0" />

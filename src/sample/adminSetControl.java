@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,11 +20,12 @@ public class adminSetControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.getAdminMode()){
-            menuRep.setDisable(true);
+            menuRep.setDisable(false);
         } else {
-            menuSet.setDisable(false);
+            menuSet.setDisable(true);
         }
         menuSet.setDisable(true);
+        setIDText.setDisable(true);
 
         //Note that this page does not load is the table is empty (giving NullPointerException) hence the second catch
         record = bbDatabase.getInstance().getFirstSet();
@@ -31,7 +33,6 @@ public class adminSetControl implements Initializable {
             sceneNavigation.getInstance().showInfoAlert("Set", "Set DB empty", "Please add a new set " +
                     "to proceed");
             //prevent user access to each field
-            setIDText.setDisable(true);
             exerciseIDText.setDisable(true);
             repIDText.setDisable(true);
             commentsText.setDisable(true);
@@ -58,6 +59,12 @@ public class adminSetControl implements Initializable {
             sceneNavigation.getInstance().showInfoAlert("Set", "Problem with accessing Set DB");
             showMainPage();
         }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                exerciseIDText.requestFocus();
+            }
+        });
     }
 
     @FXML
@@ -131,6 +138,7 @@ public class adminSetControl implements Initializable {
             commentsText.setText("");
             setDateText.setText("");
 
+            exerciseIDText.setDisable(true);
             repIDText.setDisable(true);
             commentsText.setDisable(true);
             setDateText.setDisable(true);
@@ -138,10 +146,9 @@ public class adminSetControl implements Initializable {
             buttonPrevious.setDisable(false);
             buttonUpdate.setDisable(true);
             buttonDelete.setDisable(true);
-            buttonPrevious.setDefaultButton(true);
-            buttonNext.setDefaultButton(false);
         } else {
             try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
+                exerciseIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
                 setDateText.setDisable(false);
@@ -155,6 +162,7 @@ public class adminSetControl implements Initializable {
                 commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
                 setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
                 repIDText.setText(setSet.getString(bbDatabase.SetRepIdSeqINDEX));
+                exerciseIDText.requestFocus();
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -189,8 +197,6 @@ public class adminSetControl implements Initializable {
         record--;
         if(record == 1){
             buttonPrevious.setDisable(true);
-            buttonNext.setDefaultButton(true);
-            buttonPrevious.setDefaultButton(false);
         }
         if (bbDatabase.getInstance().getSetSetWithKey(record) == null) {
             System.out.println("No set with id: " + record);
@@ -200,6 +206,7 @@ public class adminSetControl implements Initializable {
             commentsText.setText("");
             setDateText.setText("");
 
+            exerciseIDText.setDisable(true);
             repIDText.setDisable(true);
             commentsText.setDisable(true);
             setDateText.setDisable(true);
@@ -208,6 +215,7 @@ public class adminSetControl implements Initializable {
             buttonDelete.setDisable(true);
         } else {
             try (ResultSet setSet = bbDatabase.getInstance().getSetSetWithKey(record)) {
+                exerciseIDText.setDisable(false);
                 repIDText.setDisable(false);
                 commentsText.setDisable(false);
                 setDateText.setDisable(false);
@@ -220,6 +228,7 @@ public class adminSetControl implements Initializable {
                 commentsText.setText(setSet.getString(bbDatabase.SetCommentsINDEX));
                 setDateText.setText(setSet.getString(bbDatabase.SetDateINDEX));
                 repIDText.setText(setSet.getString(bbDatabase.SetRepIdSeqINDEX));
+                exerciseIDText.requestFocus();
             } catch (SQLException error) {
                 System.out.println("Problem with pairing tblSet to UI\n" + error.getMessage());
             }
@@ -236,6 +245,7 @@ public class adminSetControl implements Initializable {
                 repIDText.getText().trim()
         );
         System.out.println("Update code: " + outputInt);
+        exerciseIDText.requestFocus();
     }
 
     @FXML
@@ -252,6 +262,7 @@ public class adminSetControl implements Initializable {
                 commentsText.setText("");
                 setDateText.setText("");
 
+                exerciseIDText.setDisable(true);
                 repIDText.setDisable(true);
                 commentsText.setDisable(true);
                 setDateText.setDisable(true);
@@ -260,5 +271,6 @@ public class adminSetControl implements Initializable {
                 buttonDelete.setDisable(true);
             }
         });
+        exerciseIDText.requestFocus();
     }
 }

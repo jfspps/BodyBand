@@ -6,12 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevDateControl2A">
+<BorderPane prefHeight="600.0" prefWidth="335.0" style="-fx-background-color: #99c2ff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userPrevDateControl2A">
     <top>
         <Label text="Choose a date" BorderPane.alignment="CENTER">
             <font>
-                <Font size="18.0" />
+                <Font name="System Bold" size="18.0" />
             </font>
          <BorderPane.margin>
             <Insets bottom="5.0" top="5.0" />
@@ -20,6 +19,9 @@
     </top>
    <center>
       <TableView fx:id="dateTable" onMouseClicked="#clickRow" prefHeight="200.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+          <placeholder>
+              <Label text="No workouts on file" />
+          </placeholder>
         <columns>
           <TableColumn fx:id="dateColumn" prefWidth="355.0" resizable="false" style="-fx-alignment: CENTER;">
             <cellValueFactory>

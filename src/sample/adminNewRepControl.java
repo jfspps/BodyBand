@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,6 +16,12 @@ public class adminNewRepControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         saveButton.setDisable(true);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                tension.requestFocus();
+            }
+        });
     }
 
     @FXML
@@ -35,7 +42,7 @@ public class adminNewRepControl implements Initializable {
     private void requiredFieldsCheck(){
         if (tension.getText().isBlank() || repetitions.getText().isBlank()){
             saveButton.setDisable(true);
-            alertLabel.setText("Please enter Band stat ID and repetitions");
+            alertLabel.setText("Please enter band tension and repetition count");
         } else {
             saveButton.setDisable(false);
             alertLabel.setText("");

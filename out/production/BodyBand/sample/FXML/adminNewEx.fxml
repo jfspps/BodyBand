@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminNewExControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminNewExControl">
 
     <top>
         <Label text="Enter new exercise details here (required*):" BorderPane.alignment="CENTER" />
@@ -29,7 +29,7 @@
                 <TextField fx:id="description" minHeight="50.0" />
                 <Label text="Video URL" />
                 <TextField fx:id="videoURL" minHeight="50.0" />
-                <TextArea fx:id="alertLabel" disable="true" prefHeight="100.0" wrapText="true">
+                <TextArea fx:id="alertLabel" editable="false" prefHeight="100.0" wrapText="true">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin></TextArea>

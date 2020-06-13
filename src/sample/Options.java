@@ -20,12 +20,12 @@ public class Options implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (Main.getAdminMode()){
             adminCheckBox.setSelected(true);
-            buttonShowReps.setDisable(true);
-            buttonShowSets.setDisable(true);
+            buttonShowReps.setDisable(false);
+            buttonShowSets.setDisable(false);
         } else {
             adminCheckBox.setSelected(false);
-            buttonShowSets.setDisable(false);
-            buttonShowReps.setDisable(false);
+            buttonShowSets.setDisable(true);
+            buttonShowReps.setDisable(true);
         }
     }
 
@@ -33,12 +33,12 @@ public class Options implements Initializable {
     public void onCheckBox(){
         if (adminCheckBox.isSelected()){
             Main.setAdminMode(true);
-            buttonShowReps.setDisable(true);
-            buttonShowSets.setDisable(true);
+            buttonShowReps.setDisable(false);
+            buttonShowSets.setDisable(false);
         } else {
             Main.setAdminMode(false);
-            buttonShowSets.setDisable(false);
-            buttonShowReps.setDisable(false);
+            buttonShowSets.setDisable(true);
+            buttonShowReps.setDisable(true);
         }
     }
 

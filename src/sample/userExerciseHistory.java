@@ -40,6 +40,7 @@ public class userExerciseHistory {
         } else {
             repTable.itemsProperty().setValue(null);
         }
+        repMaxLabel.setText("");
     }
 
     //this method estimates the 1 rep max from the selected repTable row

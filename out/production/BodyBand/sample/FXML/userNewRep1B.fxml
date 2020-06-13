@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewRepControl1B">
+<BorderPane prefHeight="600.0" prefWidth="335.0" style="-fx-background-color: #99c2ff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewRepControl1B">
    <top>
       <Label fx:id="exerciseSetHeadLabel" text="(Exercise label)" BorderPane.alignment="CENTER">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
          <BorderPane.margin>
             <Insets top="5.0" />
@@ -30,7 +30,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="anchorPositionField" disable="true" editable="false" prefWidth="180.0">
+                  <TextField fx:id="anchorPositionField" editable="false" prefWidth="180.0">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -56,7 +56,7 @@
                         <Button mnemonicParsing="false" onAction="#onClickedHistory" text="Exercise history" />
                      </children>
                   </VBox>
-                  <TextArea fx:id="descriptionArea" disable="true" editable="false" prefWidth="180.0" wrapText="true">
+                  <TextArea fx:id="descriptionArea" editable="false" prefWidth="180.0" wrapText="true">
                      <HBox.margin>
                         <Insets left="5.0" top="10.0" />
                      </HBox.margin>
@@ -65,7 +65,7 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="335.0">
                <children>
-                  <Hyperlink fx:id="videoURL" onAction="#clickURL" text="Video Demo" />
+                  <Hyperlink fx:id="videoURL" onAction="#clickURL" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="8.0" prefWidth="335.0">
