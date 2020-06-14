@@ -40,7 +40,7 @@ public class adminNewRepControl implements Initializable {
 
     @FXML
     private void requiredFieldsCheck(){
-        if (tension.getText().isBlank() || repetitions.getText().isBlank()){
+        if (tension.getText().isEmpty() || repetitions.getText().isEmpty()){
             saveButton.setDisable(true);
             alertLabel.setText("Please enter band tension and repetition count");
         } else {

@@ -41,7 +41,7 @@ public class adminNewExControl implements Initializable {
 
     @FXML
     private void nameFieldCheck(){
-        if (exerciseName.getText().isBlank()){
+        if (exerciseName.getText().isEmpty()){
             saveButton.setDisable(true);
             alertLabel.setText("Please enter a name");
         } else {

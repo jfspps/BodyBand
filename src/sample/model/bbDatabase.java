@@ -594,7 +594,7 @@ public class bbDatabase {
      */
     public boolean checkRepString(String repString) {
 
-        if (repString.isEmpty() || repString.isBlank()) {
+        if (repString.isEmpty() || repString.isEmpty()) {
             System.out.println("repString empty");
             return false;
         }
@@ -981,7 +981,7 @@ public class bbDatabase {
         }
 
         //testing for null is eventually handled by the controller and used here for test purposes
-        if (name == null || name.isBlank()) {
+        if (name == null || name.isEmpty()) {
             System.out.println("Name of exercise needed");
             return -1;
         }

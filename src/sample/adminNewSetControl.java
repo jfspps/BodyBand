@@ -47,7 +47,7 @@ public class adminNewSetControl implements Initializable {
 
     @FXML
     private void requiredFieldsCheck(){
-        if (exerciseID.getText().isBlank()){
+        if (exerciseID.getText().isEmpty()){
             saveButton.setDisable(true);
             alertLabel.setText("Please enter exercise ID");
         } else {

@@ -76,7 +76,7 @@ public class userNewRepControl1B implements Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        if (exerciseVideoURL.isEmpty() || exerciseVideoURL.isBlank()) {
+                        if (exerciseVideoURL.isEmpty()) {
                             videoURL.setText("No video URL supplied");
                             videoURL.setDisable(true);
                         } else {
@@ -126,7 +126,7 @@ public class userNewRepControl1B implements Initializable {
 
     @FXML
     private void toggleAddButton() {
-        addButton.setDisable(tensionTextField.getText().isBlank() || repsTextField.getText().isBlank());
+        addButton.setDisable(tensionTextField.getText().isEmpty() || repsTextField.getText().isEmpty());
     }
 
     @FXML
