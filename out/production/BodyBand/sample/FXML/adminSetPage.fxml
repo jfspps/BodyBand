@@ -38,7 +38,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Repetition ID sequence" wrapText="true" />
+                  <Label minWidth="125.0" text="Repetition ID sequence (use R_x_y_z_ etc. where x, y, z are the rep IDs)" wrapText="true" />
                   <TextArea fx:id="repIDText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
@@ -92,7 +92,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="72.0" prefWidth="335.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addSet" prefHeight="35.0" text="Add new set" />
+                  <Button mnemonicParsing="false" onAction="#addSet" prefHeight="35.0" text="Add new workout" />
                </children>
             </HBox>
          </children>

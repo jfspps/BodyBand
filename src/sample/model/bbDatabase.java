@@ -1314,7 +1314,4 @@ public class bbDatabase {
             }
         }
     }
-
-    // ---- Previous set record related queries -----------------------------------------------------------
-
 }

@@ -2,7 +2,9 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 
 import java.net.URL;
@@ -18,7 +20,7 @@ public class Options implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (Main.getAdminMode()){
+        if (Main.getAdminMode()) {
             adminCheckBox.setSelected(true);
             buttonShowReps.setDisable(false);
             buttonShowSets.setDisable(false);
@@ -30,8 +32,8 @@ public class Options implements Initializable {
     }
 
     @FXML
-    public void onCheckBox(){
-        if (adminCheckBox.isSelected()){
+    public void onCheckBox() {
+        if (adminCheckBox.isSelected()) {
             Main.setAdminMode(true);
             buttonShowReps.setDisable(false);
             buttonShowSets.setDisable(false);
@@ -58,7 +60,12 @@ public class Options implements Initializable {
     }
 
     @FXML
-    public void onClickedMainPage(){
+    public void onClickedAbout() {
+        sceneNavigation.getInstance().showAboutPage();
+    }
+
+    @FXML
+    public void onClickedMainPage() {
         sceneNavigation.getInstance().showMainPage();
     }
 }

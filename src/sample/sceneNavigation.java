@@ -18,7 +18,7 @@ public class sceneNavigation {
         return instance;
     }
 
-    //main pages ------------------------------------------------------------------------------------------
+    //main and admin pages ------------------------------------------------------------------------------------------
 
     public void showMainPage() {
         try {
@@ -219,6 +219,19 @@ public class sceneNavigation {
             Main.mainWindow.setScene(new Scene(newSet));;
         } catch (IOException e) {
             System.out.println("Problem loading exercise set scene:\n" + e.getCause());
+        }
+    }
+
+    // About page
+    public void showAboutPage() {
+        try {
+            FXMLLoader aboutLoader = new FXMLLoader(getClass().getResource("FXML/About.fxml"));
+            Parent aboutScene = aboutLoader.load();
+
+            Main.mainWindow.setTitle("About BodyBand");
+            Main.mainWindow.setScene(new Scene(aboutScene));;
+        } catch (IOException e) {
+            System.out.println("Problem loading About scene:\n" + e.getCause());
         }
     }
 }
