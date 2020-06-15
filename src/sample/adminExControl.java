@@ -177,29 +177,6 @@ public class adminExControl implements Initializable {
                 System.out.println("Problem with pairing tblExercise to UI\n" + error.getMessage());
             }
         }
-
-//        //example of running "background" processes on the JavaFX "UI thread" (separate, single thread)
-//        Runnable background = new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(10000);
-//                    //background thread pauses for 10 seconds and ten runs runLater()
-//
-//                    Platform.runLater(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            System.out.println("10 seconds have elapsed");
-//                        }
-//                    });
-//                } catch (InterruptedException event) {
-//                    //what happens if the background task is interrupted (independent of the UI controls)
-//                    System.out.println("Some background task caused an interrupt: " + event.getMessage());
-//                }
-//            }
-//        };
-//        new Thread(background).start();
-
     }
 
     @FXML

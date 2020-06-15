@@ -6,7 +6,7 @@
 
 <BorderPane prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Options">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="353.0" prefWidth="285.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="103.0" prefWidth="285.0" text="These options allow you to change the database entries. Use with care!" textAlignment="CENTER" wrapText="true">
                <font>
@@ -24,7 +24,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                     <Button mnemonicParsing="false" onAction="#showExercises" prefHeight="30.0" prefWidth="230.0" text="Edit exercise records" textAlignment="CENTER">
+                     <Button mnemonicParsing="false" onAction="#showExercises" prefHeight="30.0" prefWidth="230.0" text="Edit exercise records">
                          <font>
                              <Font size="18.0" />
                          </font>
@@ -47,6 +47,15 @@
                              <Font size="18.0" />
                          </font>
                      </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onClickedAbout" prefHeight="30.0" prefWidth="230.0" text="About">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
