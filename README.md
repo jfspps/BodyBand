@@ -5,7 +5,7 @@ The SQLite 3 libraries are included in this repo. The JavaFX 11 libraries refere
 
 ## Running BodyBand.jar from the command line ##
 
-A compiled of BodyBand can be found in /JAR, with instructions, for Linux and Windows users. Note that the video URL function does not work in Windows (BodyBand is developed in Linux).
+A compiled copy of BodyBand can be found in /JAR, with instructions, for Linux and Windows users. Note that the video URL function does not work in Windows (BodyBand is developed in Linux).
 
 ## Setting up the SQLite3 driver
 
