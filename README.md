@@ -3,6 +3,10 @@
 
 The SQLite 3 libraries are included in this repo. The JavaFX 11 libraries reference to a folder elsewhere.
 
+## Running BodyBand.jar from the command line ##
+
+A copy of the compiled version of BodyBand can be found in /JAR, with instructions, for Linux users (Windows tbc).
+
 ## Setting up the SQLite3 driver
 
 SQLite3 driver is [here](https://bitbucket.org/xerial/sqlite-jdbc/downloads/). The SQLite browser is [here](https://sqlitebrowser.org/) with installation instructions.
@@ -22,7 +26,9 @@ module BodyBand {
 }
 ```
 
-Module in this case is the project name. The folder under the src folder was set to 'sample' (as project defaults) but can be changed there and above as required.
+Module in this case is the project name. The folder under the src folder was set to 'sample' (as project defaults) but can be changed there and above as required. 
+
+The module-info-java file for BodyBand is included in /src. JUnit5 tests are also included for many of the fundamental methods defined in bbDatabase.
 
 ## Database schema
 
@@ -56,7 +62,6 @@ The initial development stages are:
 + Create SQLite3 tables, including primary and foreign keys (Model)
 + Build simple CRUD framework through Java (Controller)
 + Implement simple JavaFX interface (Viewer)
-+ Port to Android and iOS using the SDKs from Gluon
 
 ## Basic setup
 
@@ -66,19 +71,22 @@ The initial development stages are:
 
 ## User interface flow
 
-+ Initially, an admin version (raw exercise, band stat, repetition and set pages) will be added temporarily to test JDBC PreparedStatement queries and facilitate DB entry management.
-+ "New workout" ------>   "Choose muscle group and exercise" ------>  "Rep page"
-+ Previous workout --->  Date (calendar) --->  Summary -->--(Rep page)---^
++ Initially, an admin version (raw exercise, band stat, repetition and set pages) will be added temporarily to test JDBC PreparedStatement queries and facilitate DB entry management. The admin version will then be adapted for the user but disabled by default.
 
-The Rep page is shared, with option for CRUD of reps and tensions. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
+In addition to the "Options" page, there are two main UI workflows for the general user:
+
++ "New workout" ------>   "Choose muscle group and exercise" ------>  "Rep page"
++ "Previous workout" --->  "Date"  ----->  "Exercises on the given date" ----> "Rep page"
+
+The rep page is where the user can enter current rep count for a given exercise. For new workouts, the user can also view previous rep counts for the same exercise and estimate the _repetition maximum_ (or just "rep max", the maximum weight lifted for a given number of repetitions e.g. "1RM" is the "one rep-max" which represents the heaviest weight lifted _once_, "4RM" represents the heaviest weight lifted four times and so on. Additionally, the Exercise page will have menu bar to create, update and delete exercises.
 
 ## Future development
 
-More advanced features which would ideally be provided include:
+More advanced features and functionality could include:
+
+- Port to Android and iOS using the JavaFXPorts plugin in Gradle (may require downgrading to Java 8??)
 
 - Recording of personal bests
-
-- Repetition max prediction (heaviest weight for a given fixed number of reps) e.g. '1 rep max' or sometimes denoted 1RM represents the heaviest weight lifted once. Other rep max's for other repetitions e.g. 4RM, 8RM, will be made available. Generally, the 1RM weight is usually higher than all other 'xRMs'.
 
 - Volume training trends (accumulated sum of weight lifted in a given session) plotted graphically.
 

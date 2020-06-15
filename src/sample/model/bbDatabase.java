@@ -247,11 +247,13 @@ public class bbDatabase {
         }
     }
 
-    // Object instance which provides JavaFX access to bbDatabase methods ----------------------------------------
-    // call any of the methods below from an external class (JavaFX controller) using bbDatabase.getInstance
-    // .methodName()
-    // this is a Singleton Pattern (static is needed), where multiple JavaFX Controllers can only access one instance
-    // of bbDatabase
+     /**Object instance which provides JavaFX access to bbDatabase methods ----------------------------------------
+      *
+      * call any of the methods below from an external class (JavaFX controller) using
+      * bbDatabase.getInstance.methodName(). This is a Singleton Pattern (static is needed), where multiple JavaFX
+      * Controllers can only access one instance of bbDatabase
+      *
+      */
 
     // create the instance here instead of in the getter (this approach is more thread-safe than instantiating in
     // getInstance())
@@ -276,8 +278,6 @@ public class bbDatabase {
      * Returns a List<> of all exercises and their fields on file. Returns null if none found.
      */
     public List<bbExercise> listAllExercises() {
-        //note that conn is still open after this method returns
-        //'statement' and 'results' are released on return
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(querySelectAllExercises)) {
             List<bbExercise> exercises = new ArrayList<>();
@@ -301,33 +301,35 @@ public class bbDatabase {
     }
 
     /**
-     * Returns a List<> of all exercises by a given date and their fields on file. Returns null if none found.
+     * Returns a List<> of all exercises by a given date and their fields on file. Returns null if setDate is
+     * formatted incorrectly, or no exercise is found.
      */
     public List<bbExercise> listAllExercisesByDate(String setDate) {
-        //note that conn is still open after this method returns
-        //'statement' and 'results' are released on return
-        try {
-            selectExerciseByDate.setString(1, setDate);
-            ResultSet results = selectExerciseByDate.executeQuery();
+        if (checkDateFormatOrIsEmpty(setDate)) {
+            try {
+                selectExerciseByDate.setString(1, setDate);
+                ResultSet results = selectExerciseByDate.executeQuery();
 
-            List<bbExercise> exercises = new ArrayList<>();
+                List<bbExercise> exercises = new ArrayList<>();
 
-            while (results.next()) {
-                //build up each object bbExercise, transfer values from DB then add to the ArrayList
-                bbExercise exercise = new bbExercise();
-                exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
-                exercise.setExerciseName(results.getString(ExerciseNameINDEX));
-                exercise.setMuscleGroup(results.getString(ExerciseMuscleGroupINDEX));
-                exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
-                exercise.setExerciseDesc(results.getString(ExerciseDescINDEX));
-                exercise.setVideoURL(results.getString(ExerciseVideoURLINDEX));
-                exercises.add(exercise);
+                while (results.next()) {
+                    //build up each object bbExercise, transfer values from DB then add to the ArrayList
+                    bbExercise exercise = new bbExercise();
+                    exercise.setExerciseId(results.getInt(ExerciseIdINDEX));
+                    exercise.setExerciseName(results.getString(ExerciseNameINDEX));
+                    exercise.setMuscleGroup(results.getString(ExerciseMuscleGroupINDEX));
+                    exercise.setAnchorPosition(results.getString(ExerciseAnchorPositionINDEX));
+                    exercise.setExerciseDesc(results.getString(ExerciseDescINDEX));
+                    exercise.setVideoURL(results.getString(ExerciseVideoURLINDEX));
+                    exercises.add(exercise);
+                }
+                return exercises;
+            } catch (SQLException e) {
+                System.out.println("JDBC connection error to tblExercises:\n" + e.getMessage());
+                return null;
             }
-            return exercises;
-        } catch (SQLException e) {
-            System.out.println("JDBC connection error to tblExercises:\n" + e.getMessage());
-            return null;
         }
+        return null;
     }
 
     /**
@@ -369,11 +371,9 @@ public class bbDatabase {
             }
 
             if (rowCount > 0) {
-//                System.out.println(name + " is already on file");
                 resultSet.close();
                 return rowCount;
             } else if (rowCount == 0) {
-//                System.out.println(name + " not on file");
                 resultSet.close();
             }
             return 0;
@@ -419,13 +419,11 @@ public class bbDatabase {
      * found or if an exception is caught.
      */
     public ResultSet getExerciseSetWithKey(int idExercise) {
-//        System.out.println("Trying to find exercise with id = " + idExercise);
         try {
             selectExerciseKey.setInt(ExerciseIdINDEX, idExercise);
             ResultSet resultSet = selectExerciseKey.executeQuery();
 
             if (resultSet.next()) {
-//                System.out.println("Record with the key " + idExercise + " found");
                 return resultSet;
             } else {
                 System.out.println("No record with the key " + idExercise + " found");
@@ -552,11 +550,9 @@ public class bbDatabase {
             }
 
             if (rowCount > 0) {
-//                System.out.println("Repetitions already on file");
                 resultSet.close();
                 return rowCount;
             } else if (rowCount == 0) {
-//                System.out.println("Repetitions not on file");
                 resultSet.close();
             }
             return 0;
@@ -602,10 +598,13 @@ public class bbDatabase {
         //check empty repString then one with IDs
         if (repString.equals("R_")) {
             return true;
-            //look for "R_xxxx_yyyy_zzzz_ etc.
-            // caret is the string starting point, [] numeric with 0-9, * is zero or more (+ is one or more),
+            // look for "R_xxxx_yyyy_zzzz_ etc.
+            // For reference: caret is the string starting point, $ is end point, [0-3] is numeric
+            // 0, 1, 2 or 3, * and ? is zero or more (+ is one or more) of the preceding element,
             // parenthesise groups XXXX_
-        } else if (repString.matches("^R_([0-9]?[0-9]?[0-9]?[0-9]_)*")) {
+
+            // value range for each repID can comprise of 1 to 5 digits, hence ? quantifier proceeding the [] numerical
+        } else if (repString.matches("^R_([1-9]?[0-9]?[0-9]?[0-9]?[0-9]_)*")) {
             return true;
         } else {
             System.out.println("Incorrectly formatted repString received");
@@ -817,38 +816,42 @@ public class bbDatabase {
     }
 
     /**
-     * Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found and -1 if an
-     * exception was caught.
+     * Returns the first id found from the supplied fields, ignoring all others. Returns 0 if none found, -1 if an
+     * exception was caught or -2 if setDate was incorrectly formatted
      */
     public int getIDOfFirstSetOnFile(Integer exerciseID, String comments, String setDate, String repSeq) {
-        try {
-            selectSetId.setInt(1, exerciseID);
-            selectSetId.setString(2, comments);
-            selectSetId.setString(3, setDate);
-            selectSetId.setString(4, repSeq);
 
-            //this returns a ResultSet with one field, idExercise
-            ResultSet resultSet = selectSetId.executeQuery();
+        if (checkDateFormatOrIsEmpty(setDate)){
+            try {
+                selectSetId.setInt(1, exerciseID);
+                selectSetId.setString(2, comments);
+                selectSetId.setString(3, setDate);
+                selectSetId.setString(4, repSeq);
 
-            if (resultSet.next()) {
-                System.out.println("Set found with id " + resultSet.getString(1));
-                return resultSet.getInt(1);
-            } else {
-                System.out.println("Set not found");
-                return 0;
+                //this returns a ResultSet with one field, idExercise
+                ResultSet resultSet = selectSetId.executeQuery();
+
+                if (resultSet.next()) {
+                    System.out.println("Set found with id " + resultSet.getString(1));
+                    return resultSet.getInt(1);
+                } else {
+                    System.out.println("Set not found");
+                    return 0;
+                }
+
+            } catch (SQLException e) {
+                System.out.println("getFirstSetID problem querying tblSet:\n" + e.getMessage());
+                return -1;
             }
-
-        } catch (SQLException e) {
-            System.out.println("getFirstSetID problem querying tblSet:\n" + e.getMessage());
-            return -1;
         }
+        return -2;
     }
 
     /**
      * Returns the number of records with supplied fields, on file.
      * Compared to most of the other query methods, numberOfSetsOnFile also checks tblRepetition and tblExercise using
-     * repetitionOnFileKey and exerciseOnFileKey, respectively. Returns -1 if an DB record error occurred or
-     * an exception was caught.
+     * repetitionOnFileKey and exerciseOnFileKey, respectively. Returns -1 if at least one record is missing, a DB
+     * query error occurred, or an exception was caught. Finally, returns -2 is setDate was incorrectly formatted.
      */
     public int numberOfSetsOnFile(int exerciseId, String comments, String setDate, String repSeq) {
         try (ResultSet exercisePack = getExerciseSetWithKey(exerciseId)) {
@@ -858,6 +861,10 @@ public class bbDatabase {
             }
         } catch (SQLException err) {
             System.out.println("Error with exerciseId in set parameter list\n" + err.getMessage());
+        }
+
+        if (!checkDateFormatOrIsEmpty(setDate)){
+            return -2;
         }
 
         if (checkRepStringOnFile(repSeq) == 0) {
@@ -875,11 +882,9 @@ public class bbDatabase {
                 }
 
                 if (rowCount > 0) {
-//                System.out.println("Set is already on file");
                     resultSet.close();
                     return rowCount;
                 } else if (rowCount == 0) {
-//                System.out.println("Set not on file");
                     resultSet.close();
                 }
                 return 0;
@@ -915,25 +920,28 @@ public class bbDatabase {
     }
 
     /**
-     * Returns a List<bbSet> of a set with the supplied SetDate and Exercise_id. Returns null if an
-     * exception was caught.
+     * Returns a List<bbSet> of a set with the supplied SetDate and Exercise_id. Returns null if timeDate was
+     * incorrectly formatted or an exception was caught.
      */
     public ResultSet getSetSetWithExerciseIDDate(int ExerciseID, String timeDate) {
-        try {
-            selectSetDateAndEx.setInt(1, ExerciseID);
-            selectSetDateAndEx.setString(2, timeDate);
-            ResultSet newSet = selectSetDateAndEx.executeQuery();
+        if (checkDateFormatOrIsEmpty(timeDate)){
+            try {
+                selectSetDateAndEx.setInt(1, ExerciseID);
+                selectSetDateAndEx.setString(2, timeDate);
+                ResultSet newSet = selectSetDateAndEx.executeQuery();
 
-            if (newSet.next()) {
-                return newSet;
-            } else {
-                System.out.println("newSet is empty");
+                if (newSet.next()) {
+                    return newSet;
+                } else {
+                    System.out.println("newSet is empty");
+                    return null;
+                }
+            } catch (SQLException err) {
+                System.out.println("SQLException of setOnFileDateEx\n" + err.getMessage());
                 return null;
             }
-        } catch (SQLException err) {
-            System.out.println("SQLException of setOnFileDateEx\n" + err.getMessage());
-            return null;
         }
+        return null;
     }
 
     /**Returns a List<> of setDate and repetition sequence RepSeq from tblSet, with the given exerciseID. Returns
@@ -957,12 +965,36 @@ public class bbDatabase {
         }
     }
 
+    /**
+     * Determines if a setDate string is formatted correctly. Returns the true if correctly
+     * formatted or false if not.
+     */
+    public boolean checkDateFormatOrIsEmpty(String setDate) {
+
+        if (setDate.isEmpty() || setDate.isBlank()) {
+            System.out.println("setDate empty");
+            return false;
+        }
+
+        // For reference: caret is the string starting point, $ is end point, [0-3] is numeric
+        // 0, 1, 2 or 3, * and ? is zero or more (+ is one or more) of the preceding element,
+        // parenthesise groups XXXX_
+
+        // we require precisely one of each element [], so no quantifiers are needed
+        if (setDate.matches("^([0-3][0-9]) ([A-Z][a-z][a-z]) ([1-2][0-9][0-9][0-9])$")) {
+            return true;
+        } else {
+            System.out.println("Incorrectly formatted setDate received");
+            return false;
+        }
+    }
+
     // Insertion methods -------------return value is the index of the inserted record---------------------------------
 
-    //the controller would read all given values on a form, verify the correct Java type and then assign "" to blank entries
-    // these methods are the general user's equivalent of admin's updateXYZ methods, below. Essentially, the insert
-    // methods try to locate the record. If the record does not exist, then one is created as opposed to updated. This
-    // leaves the record available for all other records which may reference it.
+     /**The controller would read all given values on a form, verify the correct Java type and then assign "" to blank
+     entries. These methods are the general user's equivalent of admin's updateXYZ methods, below. That is, the
+      insert methods try to locate the record. If the record does not exist, then one is created as opposed to updated. This
+     leaves the aforementioned record available for all other records which may reference it.*/
 
     /**
      * Inserts a new exercise, first by checking of the supplied fields match any record on file. Returns the primary
@@ -1078,6 +1110,10 @@ public class bbDatabase {
             return index;
         }
 
+        if (!checkDateFormatOrIsEmpty(setDate)){
+            return -4;
+        }
+
         //check if exerciseID is valid and record from tblExercise actually exists
         if (exerciseId == 0) {
             System.out.println("Exercise info needed ( >0 )");
@@ -1086,17 +1122,11 @@ public class bbDatabase {
 
         try (ResultSet exercise = getExerciseSetWithKey(exerciseId)) {
             if (exercise == null) {
-                System.out.println("The exercise with id " + exerciseId + " is not in its table");
                 return -2;
             }
         } catch (SQLException err) {
             System.out.println("Insert set: SQL problem finding exercise with given exerciseID\n" + err.getMessage());
             return -1;
-        }
-
-        if (setDate == null) {
-            System.out.println("Date of workout needed");
-            return -4;
         }
 
         if (checkRepStringOnFile(repSeq) == 0){
@@ -1204,7 +1234,7 @@ public class bbDatabase {
 
     /**
      * Updates the selected set. Returns the setID if update successful, 0 if no changes needed or no record
-     * found, and -1 if an exception was caught
+     * found, -1 if an exception was caught or -2 if setDate was incorrectly formatted
      */
     public int updateSet(Integer setID, Integer exerciseID, String comments, String setDate, String repSeq) {
         // check the index is already on the DB, return 0 if not
@@ -1212,7 +1242,7 @@ public class bbDatabase {
         if (getSetSetWithKey(setID) == null) {
             System.out.println("Record with ID " + setID + " not found. No changes made.");
             return 0;
-        } else {
+        } else if (checkDateFormatOrIsEmpty(setDate)){
             try {
                 updateSet.setInt(1, exerciseID);
                 updateSet.setString(2, comments);
@@ -1232,7 +1262,8 @@ public class bbDatabase {
                 System.out.println("Problem updating set\n" + error.getMessage());
                 return -1;
             }
-        }
+        } else
+            return -2;
     }
 
     // DELETE queries...a separate Dialog alert will be needed to confirm DELETE...deleted record ID is returned

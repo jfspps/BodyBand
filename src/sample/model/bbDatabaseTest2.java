@@ -4,6 +4,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class bbDatabaseTest2 {
@@ -20,27 +24,53 @@ class bbDatabaseTest2 {
 
     @Test
     void listAllExercises() {
-        fail("Test not implemented yet");
+        List<bbExercise> tempList = bbDatabase.getInstance().listAllExercises();
+        //pick INSERT INTO "tblExercise" VALUES (2,'Lying pulldown','Lats','Base','Models a lateral pulldown','');
+
+        int ID = tempList.get(1).getExerciseId();
+        String exerciseName = tempList.get(1).getExerciseName();
+        String muscleGroup = tempList.get(1).getMuscleGroup();
+        String position = tempList.get(1).getAnchorPosition();
+        String description = tempList.get(1).getExerciseDesc();
+        String URL = tempList.get(1).getVideoURL();
+
+        assertEquals(ID, 2);
+        assertEquals(exerciseName, "Lying pulldown");
+        assertEquals(muscleGroup, "Lats");
+        assertEquals(position, "Base");
+        assertEquals(description, "Models a lateral pulldown");
+        assertEquals(URL, "");
     }
 
     @Test
     void getFirstExercise() {
-        fail("Test not implemented yet");
+        assertEquals(1, bbDatabase.getInstance().getFirstExercise());
     }
 
     @Test
     void numberOfExercisesOnFile() {
-        fail("Test not implemented yet");
+
+        int numberOfExercises = bbDatabase.getInstance().numberOfExercisesOnFile("Lying pulldown", "Lats", "Base",
+                "Models a lateral pulldown", "");
+        assertEquals(1, numberOfExercises);
     }
 
     @Test
     void getIDOfFirstExerciseOnFile() {
-        fail("Test not implemented yet");
+
+        assertEquals(2, bbDatabase.getInstance().getIDOfFirstExerciseOnFile("Lying pulldown", "Lats", "Base",
+                "Models a lateral pulldown", ""));
     }
 
     @Test
     void getExerciseSetWithKey() {
-        fail("Test not implemented yet");
+        ResultSet tempSet = bbDatabase.getInstance().getExerciseSetWithKey(2);
+        try {
+            assertEquals("Lying pulldown", tempSet.getString(bbDatabase.ExerciseNameINDEX));
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+
     }
 
     @Test
@@ -80,7 +110,20 @@ class bbDatabaseTest2 {
     }
 
     @Test
+    void checkRepString_LargeRepIDs() {
+        String test = "R_12003_3413_14_1567_16_17_1999_20_1000_";
+        assertTrue(bbDatabase.getInstance().checkRepString(test));
+    }
+
+    @Test
     void buildRepString() {
+        String test = "R_32_1_";
+        int newRepID = 67;
+        assertEquals("R_32_1_67_", bbDatabase.getInstance().buildRepString(test, newRepID));
+    }
+
+    @Test
+    void buildRepString2() {
         String test = "R_32_1_";
         int newRepID = 67;
         assertEquals("R_32_1_67_", bbDatabase.getInstance().buildRepString(test, newRepID));
@@ -95,6 +138,13 @@ class bbDatabaseTest2 {
     void checkRepStringOnFile() {
         int result = bbDatabase.getInstance().checkRepStringOnFile("R_17_12_13_14_");
         assertEquals(0, result);
+
+    }
+
+    @Test
+    void checkRepStringOnFile_WRONG() {
+        int result = bbDatabase.getInstance().checkRepStringOnFile("R_wrong_");
+        assertEquals(-1, result);
 
     }
 
@@ -115,7 +165,21 @@ class bbDatabaseTest2 {
 
     @Test
     void numberOfSetsOnFile() {
-        fail("Test not implemented yet");
+        // pick INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10 Mar 2020','R_3_');
+        assertEquals(1, bbDatabase.getInstance().numberOfSetsOnFile(8, "Getting there!", "10 Mar 2020", "R_3_"));
+    }
+
+    @Test
+    void numberOfSetsOnFile_WWRONG_Ex() {
+        // pick INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10 Mar 2020','R_3_');
+        assertEquals(0, bbDatabase.getInstance().numberOfSetsOnFile(3, "Getting there!", "10 Mar 2020", "R_3_"));
+    }
+
+    @Test
+    void numberOfSetsOnFile_WRONG_RepSeq() {
+        // pick INSERT INTO "tblSet" VALUES (2,8,'Getting there!','10 Mar 2020','R_3_');
+        assertEquals(-1, bbDatabase.getInstance().numberOfSetsOnFile(8, "Getting there!", "10 Mar 2020",
+                "wrong_format"));
     }
 
     @Test
@@ -139,8 +203,32 @@ class bbDatabaseTest2 {
     }
 
     @Test
-    void insertNewSet() {
-        fail("Test not implemented yet");
+    void insertNewSet_alreadyIn() {
+        int currentSetIndex = 2;    //index of record found
+        assertEquals(currentSetIndex, bbDatabase.getInstance().insertNewSet(8, "Getting there!", "10 Mar 2020", "R_3_"));
+    }
+
+    @Test
+    void insertNewSet_missingEx() {
+        int errorCode = -2;
+        assertEquals(errorCode, bbDatabase.getInstance().insertNewSet(0, "Getting there!", "10 Mar 2020",
+                "R_3_"));
+    }
+
+    @Test
+    void insertNewSet_missingRepSeq() {
+        int errorCode = -3;
+        assertEquals(errorCode, bbDatabase.getInstance().insertNewSet(8, "Getting there!", "10 Mar 2020",
+                ""));
+    }
+
+    //currently, BodyBand does not allow the user to add new sets with a user-based setDate "xx MMM yyyy"; see
+    // updateSet()
+    @Test
+    void insertNewSet_nullDate() {
+        int errorCode = -4;
+        assertEquals(errorCode, bbDatabase.getInstance().insertNewSet(8, "Getting there!", "null",
+                "R_3_"));
     }
 
     @Test
@@ -154,8 +242,10 @@ class bbDatabaseTest2 {
     }
 
     @Test
-    void updateSet() {
-        fail("Test not implemented yet");
+    void updateSet_missingDate() {
+        int errorCode = -2;
+        assertEquals(errorCode, bbDatabase.getInstance().updateSet(2, 8, "Getting there!", "wrongDate",
+                "R_3_"));
     }
 
     @Test
@@ -232,5 +322,37 @@ class bbDatabaseTest2 {
         String oldRepIndex = "R_1_2_88_4_5_";
         String expected = "R_1_2_4_5_";
         assertEquals(expected, bbDatabase.getInstance().deleteRep(oldRepIndex, rowIndex));
+    }
+
+    @Test
+    void listAllExercisesByDate() {
+    }
+
+    @Test
+    void getSetDateRepSeqByExercise() {
+    }
+
+    @Test
+    void checkDateFormatOrIsEmpty() {
+        String correctDate = "25 Dec 1965";
+        assertTrue(bbDatabase.getInstance().checkDateFormatOrIsEmpty(correctDate));
+    }
+
+    @Test
+    void checkDateFormatOrIsEmpty_WRONG() {
+        //note that checkDate does not look out for 32 Dec 1965 for example
+        String correctDate = "ab 234 good";
+        assertFalse(bbDatabase.getInstance().checkDateFormatOrIsEmpty(correctDate));
+    }
+
+    @Test
+    void checkDateFormatOrIsEmpty_WRONG2() {
+        //note that checkDate does not look out for 32 Dec 1965 for example
+        String correctDate = "25Dec1965";
+        assertFalse(bbDatabase.getInstance().checkDateFormatOrIsEmpty(correctDate));
+    }
+
+    @Test
+    void insertNewSet() {
     }
 }
