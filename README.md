@@ -1,7 +1,7 @@
 # BodyBand
 [Java](https://www.linuxuprising.com/2019/06/new-oracle-java-11-installer-for-ubuntu.html) and SQL based workout recorder.
 
-The SQLite 3 libraries are included in this repo. The JavaFX 11 libraries reference to a folder elsewhere.
+The SQLite 3 and JavaFX 11 libraries will need to be referenced from project settings.
 
 ## Running BodyBand.jar from the command line ##
 
