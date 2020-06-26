@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,11 +9,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import sample.model.bbDatabase;
 import sample.model.bbExercise;
+import sample.sceneNavigation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class userPrevExControl2B {
+//this class handles userNewSet1A.fxml interfaces
+public class userNewSetControl1A {
 
     private static int currentExerciseID;
     private static String currentDateTime;
@@ -30,13 +34,13 @@ public class userPrevExControl2B {
     private TableColumn muscleColumn, exerciseColumn;
 
     @FXML
-    private void onClickedGoBack(){
-        sceneNavigation.getInstance().showUserPrevDate2A();
+    private void onClickedMainPage() {
+        sceneNavigation.getInstance().showMainPage();
     }
 
     @FXML
-    private void onClickedMainPage() {
-        sceneNavigation.getInstance().showMainPage();
+    private void onClickedEditExercises(){
+        sceneNavigation.getInstance().showAdminExPage();
     }
 
     @FXML
@@ -45,13 +49,13 @@ public class userPrevExControl2B {
         if (exerciseTable.getSelectionModel().getSelectedItem() != null) {
             currentExerciseID = exerciseTable.getSelectionModel().getSelectedItem().getExerciseId();
             setRepStringAndSet();
-            sceneNavigation.getInstance().showUserPrevRep2C();
+            sceneNavigation.getInstance().showUserNewRep1B();
         }
     }
 
     //called by sceneNavigation
     public void listMuscleGroupAndExercises() {
-        Task<ObservableList<bbExercise>> task = new GetAllPastExercisesTask();
+        Task<ObservableList<bbExercise>> task = new GetAllExercisesTask();
 
         //sync the FXML TableView with the data from GetAllExercisesTask
         exerciseTable.itemsProperty().bind(task.valueProperty());
@@ -61,7 +65,8 @@ public class userPrevExControl2B {
     }
 
     private void setRepStringAndSet(){
-        currentDateTime = userPrevDateControl2A.getSetDateTime();
+        LocalDateTime dateTime = LocalDateTime.now();
+        currentDateTime = dateTime.format(DateTimeFormatter.ofPattern("dd LLL yyyy"));
         try{
             ResultSet currentSet = bbDatabase.getInstance().getSetSetWithExerciseIDDate(currentExerciseID,
                     currentDateTime);
@@ -103,16 +108,20 @@ public class userPrevExControl2B {
     public static void setRepString(String newRepString){
         repString = newRepString;
     }
+
+    public static void setCurrentSetID(int newSetID){
+        currentSetID = newSetID;
+    }
 }
 
 //// this class may be used during startup or when the user specifically asks for the full list of bbExercise's
 //// and runs as a background thread independent of the UI thread
-class GetAllPastExercisesTask extends Task {
+class GetAllExercisesTask extends Task {
 
     @Override
     public ObservableList<bbExercise> call() {
         // listAllExercises returns a List<> which is then pass to and converted to an ObservableList for data binding
         // purposes (bbExercise variables are defined as Simple Properties to enable data binding)
-        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercisesByDate(userPrevDateControl2A.getSetDateTime()));
+        return FXCollections.observableArrayList(bbDatabase.getInstance().listAllExercises());
     }
 }
