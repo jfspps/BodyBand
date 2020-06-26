@@ -1,8 +1,6 @@
 # BodyBand
 [Java](https://www.linuxuprising.com/2019/06/new-oracle-java-11-installer-for-ubuntu.html) and SQL based workout recorder.
 
-The SQLite 3 libraries are included in this repo. The JavaFX 11 libraries reference to a folder elsewhere.
-
 ## Running BodyBand.jar from the command line ##
 
 A compiled copy of BodyBand can be found in /JAR, with instructions, for Linux and Windows users. Note that the video URL function does not work in Windows (BodyBand is developed in Linux).
@@ -11,7 +9,7 @@ A compiled copy of BodyBand can be found in /JAR, with instructions, for Linux a
 
 SQLite3 driver is [here](https://bitbucket.org/xerial/sqlite-jdbc/downloads/). The SQLite browser is [here](https://sqlitebrowser.org/) with installation instructions.
 
-For BodyBand, a copy is stored in /database. In IntelliJ, click File then Project Structure and then Project Settings/Libraries. Add the SQLite JAR file.
+In IntelliJ, click File then Project Structure and then Project Settings/Libraries. Add the SQLite JAR file.
 
 ## Setting up JavaFX11 for new projects
 
