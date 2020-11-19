@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import sample.model.bbDatabase;
 import sample.model.bbSet;
+import sample.sceneNavigation;
 
 
 public class userPrevDateControl2A {

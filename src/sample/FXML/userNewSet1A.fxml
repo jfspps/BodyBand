@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="335.0" style="-fx-background-color: #99c2ff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.userNewSetControl1A">
+<BorderPane prefHeight="600.0" prefWidth="335.0" style="-fx-background-color: #99c2ff;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.userNewSetControl1A">
     <top>
         <Label text="Choose an exercise" BorderPane.alignment="CENTER">
             <font>

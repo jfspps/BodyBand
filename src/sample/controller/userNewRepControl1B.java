@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import sample.model.bbDatabase;
 import sample.model.bbRepetition;
+import sample.sceneNavigation;
 
 import java.io.IOException;
 import java.net.URL;

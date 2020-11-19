@@ -1,10 +1,12 @@
-package sample;
+package sample.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import sample.Main;
 import sample.model.bbDatabase;
+import sample.sceneNavigation;
 
 import java.net.URL;
 import java.sql.ResultSet;

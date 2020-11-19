@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import sample.controller.*;
 
 import java.io.IOException;
 
@@ -32,7 +33,7 @@ public class sceneNavigation {
 
     public void showAdminExPage() {
         try {
-            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/adminExPage.fxml"));
+            Parent exercisePage = FXMLLoader.load(getClass().getResource("FXML/adminExercise.fxml"));
             Main.mainWindow.setTitle("BodyBand exercises");
             Main.mainWindow.setScene(new Scene(exercisePage));
         } catch (
@@ -43,7 +44,7 @@ public class sceneNavigation {
 
     public void showAdminSetPage() {
         try {
-            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/adminSetPage.fxml"));
+            Parent setPage = FXMLLoader.load(getClass().getResource("FXML/adminSet.fxml"));
             Main.mainWindow.setTitle("BodyBand sets");
             Main.mainWindow.setScene(new Scene(setPage));
         } catch (
@@ -54,7 +55,7 @@ public class sceneNavigation {
 
     public void showAdminRepPage() {
         try {
-            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/adminRepPage.fxml"));
+            Parent repPage = FXMLLoader.load(getClass().getResource("FXML/adminRepetition.fxml"));
             Main.mainWindow.setTitle("BodyBand reps");
             Main.mainWindow.setScene(new Scene(repPage));
         } catch (

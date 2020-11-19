@@ -7,6 +7,7 @@ module BodyBand {
 
     opens sample;
 
-    //required for JavaFX to access BodyBand DB methods
+    //required for JavaFX to access BodyBand DB methods and associated controllers
     opens sample.model;
+    opens sample.controller;
 }

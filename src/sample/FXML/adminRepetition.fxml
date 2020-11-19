@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.adminSetControl">
+<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.adminRepControl">
    <top>
       <MenuBar>
          <Menu text="Navigation">
@@ -16,42 +16,30 @@
          <Menu text="Database">
             <items>
                <MenuItem onAction="#exerciseScene" text="Exercise DB" />
-               <MenuItem fx:id="menuRep" onAction="#repScene" text="Repetition DB" />
-               <MenuItem fx:id="menuSet" text="Set DB" />
+               <MenuItem fx:id="menuRep" text="Repetition DB" />
+               <MenuItem fx:id="menuSet" onAction="#setScene" text="Set DB" />
             </items></Menu>
       </MenuBar>
    </top>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="325.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Set ID" />
-                  <TextArea fx:id="setIDText" editable="false" prefHeight="200.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="45.0" prefWidth="325.0">
-               <children>
-                  <Label minWidth="125.0" text="Exercise Id" />
-                  <TextArea fx:id="exerciseIDText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Rep ID" />
+                  <TextArea fx:id="repIDText" editable="false" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Repetition ID sequence (use R_x_y_z_ etc. where x, y, z are the rep IDs)" wrapText="true" />
-                  <TextArea fx:id="repIDText" prefHeight="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Tension" wrapText="true" />
+                  <TextArea fx:id="tensionText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="128.0" prefWidth="325.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label minWidth="125.0" text="Comments" />
-                  <TextArea fx:id="commentsText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="76.0" prefWidth="325.0">
-               <children>
-                  <Label minWidth="122.0" prefHeight="81.0" prefWidth="122.0" text="Set Date (format required is dd MMM yyyy)" wrapText="true" />
-                  <TextArea fx:id="setDateText" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+                  <Label minWidth="125.0" text="Repetitions" />
+                  <TextArea fx:id="repetitionsText" prefHeight="200.0" wrapText="true" />
                </children>
             </HBox>
          </children>
@@ -64,9 +52,9 @@
       <Pane prefHeight="200.0" prefWidth="5.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <VBox prefHeight="143.0" prefWidth="335.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="151.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="74.0" prefWidth="335.0">
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="335.0">
                <children>
                   <Button fx:id="buttonPrevious" mnemonicParsing="false" onAction="#onPreviousClicked" prefHeight="35.0" text="Previous">
                      <HBox.margin>
@@ -90,9 +78,9 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="335.0">
+            <HBox alignment="CENTER" prefHeight="91.0" prefWidth="335.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addSet" prefHeight="35.0" text="Add new workout" />
+                  <Button mnemonicParsing="false" onAction="#addRep" prefHeight="35.0" text="Add new rep" />
                </children>
             </HBox>
          </children>

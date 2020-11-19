@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import sample.model.bbDatabase;
+import sample.sceneNavigation;
 
 import java.net.URL;
 import java.time.LocalDateTime;
